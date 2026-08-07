@@ -22,7 +22,7 @@ type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
   render: () => (
-    <Card className="w-80">
+    <Card className="w-full max-w-80">
       <CardHeader>
         <CardTitle>
           <h2 className="text-base font-semibold">Riepilogo Agosto</h2>
@@ -43,7 +43,7 @@ export const Default: Story = {
 export const ConIcona: Story = {
   name: "Con icona",
   render: () => (
-    <Card className="w-80">
+    <Card className="w-full max-w-80">
       <CardHeader className="flex-row items-center gap-3 space-y-0">
         <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-md bg-primary/10 text-primary">
           <Wallet className="h-5 w-5" aria-hidden="true" />
@@ -65,7 +65,7 @@ export const ConIcona: Story = {
 export const ConFooterAzioni: Story = {
   name: "Con footer azioni",
   render: () => (
-    <Card className="w-80">
+    <Card className="w-full max-w-80">
       <CardHeader>
         <CardTitle>
           <h2 className="text-base font-semibold">Chiudi cassa del giorno</h2>
@@ -97,7 +97,7 @@ export const StatisticaKPI: Story = {
   },
   render: () => (
     <div className="flex flex-wrap gap-4">
-      <Card className="w-56">
+      <Card className="w-full max-w-56">
         <CardHeader className="space-y-0 pb-2">
           <CardDescription>Aggio del mese</CardDescription>
         </CardHeader>
@@ -112,7 +112,7 @@ export const StatisticaKPI: Story = {
           </p>
         </CardContent>
       </Card>
-      <Card className="w-56">
+      <Card className="w-full max-w-56">
         <CardHeader className="space-y-0 pb-2">
           <CardDescription>Spese del mese</CardDescription>
         </CardHeader>
@@ -141,7 +141,7 @@ export const Minimale: Story = {
     },
   },
   render: () => (
-    <Card className="w-80">
+    <Card className="w-full max-w-80">
       <CardContent className="pt-6 text-sm text-muted-foreground">
         Nessun movimento registrato oggi.
       </CardContent>
