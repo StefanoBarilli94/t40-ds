@@ -1,5 +1,5 @@
 import * as React from "react";
-import { useIsMobile } from "@/hooks/use-mobile";
+import { useIsMobile } from "../../hooks/use-mobile";
 import {
   Dialog,
   DialogContent,
@@ -7,7 +7,7 @@ import {
   DialogFooter,
   DialogTitle,
   DialogDescription,
-} from "@/components/ui/dialog";
+} from "./dialog";
 import {
   Drawer,
   DrawerContent,
@@ -15,8 +15,8 @@ import {
   DrawerFooter,
   DrawerTitle,
   DrawerDescription,
-} from "@/components/ui/drawer";
-import { cn } from "@/lib/utils";
+} from "./drawer";
+import { cn } from "../../lib/utils";
 
 interface ResponsiveDialogProps {
   open: boolean;
