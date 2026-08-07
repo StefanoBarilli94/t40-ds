@@ -1,7 +1,7 @@
 # Tabaccheria 4.0 — Design System
 
 Libreria di componenti UI per applicazioni web nel settore della vendita di tabacchi.
-49 componenti (shadcn/ui su Radix UI), documentati con Storybook, verificati WCAG 2.1 AA,
+50 componenti (shadcn/ui su Radix UI), documentati con Storybook, verificati WCAG 2.1 AA,
 con supporto multi-tema per brand diversi.
 
 ## Sviluppo

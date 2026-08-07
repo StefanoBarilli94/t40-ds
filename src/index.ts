@@ -20,6 +20,7 @@ export * from "./components/form/checkbox";
 export * from "./components/patterns/collapsible";
 export * from "./components/patterns/command";
 export * from "./components/patterns/context-menu";
+export * from "./components/patterns/data-table";
 export * from "./components/patterns/dialog";
 export * from "./components/patterns/drawer";
 export * from "./components/patterns/dropdown-menu";

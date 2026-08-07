@@ -21,9 +21,19 @@ TableHeader.displayName = "TableHeader";
 
 const TableBody = React.forwardRef<
   HTMLTableSectionElement,
-  React.HTMLAttributes<HTMLTableSectionElement>
->(({ className, ...props }, ref) => (
-  <tbody ref={ref} className={cn("[&_tr:last-child]:border-0", className)} {...props} />
+  React.HTMLAttributes<HTMLTableSectionElement> & { striped?: boolean }
+>(({ className, striped, ...props }, ref) => (
+  <tbody
+    ref={ref}
+    className={cn(
+      "[&_tr:last-child]:border-0",
+      // Zebra striping via nth-child sul tbody, non su ogni TableRow: il
+      // consumer non deve calcolare l'indice riga per applicare la classe.
+      striped && "[&>tr:nth-child(even)]:bg-muted/40",
+      className,
+    )}
+    {...props}
+  />
 ));
 TableBody.displayName = "TableBody";
 

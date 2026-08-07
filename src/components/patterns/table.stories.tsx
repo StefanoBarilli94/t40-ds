@@ -55,3 +55,45 @@ export const Default: Story = {
     </Table>
   ),
 };
+
+const righeLunghe = [
+  { voce: "Tabacchi", tipo: "Aggio", importo: "1.405,41 €" },
+  { voce: "Lotto", tipo: "Aggio", importo: "727,64 €" },
+  { voce: "Gratta e vinci", tipo: "Aggio", importo: "312,90 €" },
+  { voce: "Ricariche telefoniche", tipo: "Aggio", importo: "98,20 €" },
+  { voce: "Affitto", tipo: "Spesa", importo: "1.850,00 €" },
+  { voce: "Utenze", tipo: "Spesa", importo: "410,55 €" },
+];
+
+export const RigheZebra: Story = {
+  name: "Righe zebra",
+  parameters: {
+    docs: {
+      description: {
+        story:
+          "`TableBody striped` alterna lo sfondo delle righe (nth-child via CSS, non serve calcolare l'indice riga lato consumer) — utile per tabelle lunghe come lo storico movimenti.",
+      },
+    },
+  },
+  render: () => (
+    <Table>
+      <TableCaption>Movimenti di agosto 2026</TableCaption>
+      <TableHeader>
+        <TableRow>
+          <TableHead>Voce</TableHead>
+          <TableHead>Tipo</TableHead>
+          <TableHead className="text-right">Importo</TableHead>
+        </TableRow>
+      </TableHeader>
+      <TableBody striped>
+        {righeLunghe.map((r) => (
+          <TableRow key={r.voce}>
+            <TableCell>{r.voce}</TableCell>
+            <TableCell>{r.tipo}</TableCell>
+            <TableCell className="text-right">{r.importo}</TableCell>
+          </TableRow>
+        ))}
+      </TableBody>
+    </Table>
+  ),
+};
