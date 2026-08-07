@@ -129,6 +129,12 @@
   --sidebar-primary: oklch(0.55 0.22 25);
   --sidebar-primary-foreground: oklch(1 0 0);
   --sidebar-ring: oklch(0.55 0.22 25);
+  /* Il --destructive di default (hue 27.325) è troppo vicino al nuovo --primary
+     rosso (hue 25): a colpo d'occhio i bottoni "default" e "destructive"
+     diventavano indistinguibili. Spostato verso l'arancione (hue 45) per
+     restare leggibile come "azione pericolosa" senza clonare il brand. */
+  --destructive: oklch(0.581 0.2 45);
+  --destructive-foreground: oklch(1 0 0);
 }
 
 .dark {

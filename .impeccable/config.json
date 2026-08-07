@@ -1,0 +1,14 @@
+{
+  "detector": {
+    "ignoreRules": [],
+    "ignoreFiles": [],
+    "ignoreValues": [
+      {
+        "rule": "overused-font",
+        "value": "montserrat",
+        "createdAt": "2026-08-07T16:03:47.475Z",
+        "reason": "User confirmed montserrat is intentional"
+      }
+    ]
+  }
+}
