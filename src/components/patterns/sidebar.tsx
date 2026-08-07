@@ -506,8 +506,12 @@ const sidebarMenuButtonVariants = cva(
     variants: {
       variant: {
         default: "hover:bg-sidebar-accent hover:text-sidebar-accent-foreground",
+        // text-foreground: senza, il colore testo restava quello ereditato dal
+        // Sidebar padre (--sidebar-foreground, chiaro) su questo sfondo chiaro
+        // (--background) — contrasto insufficiente, mai notato perché questa
+        // variante non era mai stata mostrata in nessuna story (vedi issue #10).
         outline:
-          "bg-background shadow-[0_0_0_1px_var(--sidebar-border)] hover:bg-sidebar-accent hover:text-sidebar-accent-foreground hover:shadow-[0_0_0_1px_var(--sidebar-accent)]",
+          "bg-background text-foreground shadow-[0_0_0_1px_var(--sidebar-border)] hover:bg-sidebar-accent hover:text-sidebar-accent-foreground hover:shadow-[0_0_0_1px_var(--sidebar-accent)]",
       },
       size: {
         default: "h-8 text-sm",

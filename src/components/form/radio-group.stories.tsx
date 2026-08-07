@@ -33,3 +33,18 @@ export const Default: Story = {
     },
   },
 };
+
+export const Disabilitato: Story = {
+  render: () => (
+    <RadioGroup defaultValue="aggio" aria-label="Tipo movimento" disabled>
+      <div className="flex items-center gap-2">
+        <RadioGroupItem value="aggio" id="tipo-aggio-disabled-story" />
+        <Label htmlFor="tipo-aggio-disabled-story">Aggio</Label>
+      </div>
+      <div className="flex items-center gap-2">
+        <RadioGroupItem value="spesa" id="tipo-spesa-disabled-story" />
+        <Label htmlFor="tipo-spesa-disabled-story">Spesa</Label>
+      </div>
+    </RadioGroup>
+  ),
+};

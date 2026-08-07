@@ -90,3 +90,66 @@ export const Default: Story = {
     </SidebarProvider>
   ),
 };
+
+export const VariantiMenuButton: Story = {
+  name: "SidebarMenuButton: variant, size, isActive",
+  parameters: {
+    docs: {
+      description: {
+        story:
+          "`variant` (`default`/`outline`), `size` (`default`/`sm`/`lg`) e `isActive` sono prop di `SidebarMenuButton`, non di `Sidebar` — qui mostrate fianco a fianco.",
+      },
+    },
+  },
+  render: () => (
+    <SidebarProvider>
+      <Sidebar>
+        <SidebarContent>
+          <SidebarGroup>
+            <SidebarMenu>
+              <SidebarMenuItem>
+                <SidebarMenuButton size="sm">
+                  <LayoutDashboard />
+                  <span>size=&quot;sm&quot;</span>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+              <SidebarMenuItem>
+                <SidebarMenuButton size="default">
+                  <LayoutDashboard />
+                  <span>size=&quot;default&quot;</span>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+              <SidebarMenuItem>
+                <SidebarMenuButton size="lg">
+                  <LayoutDashboard />
+                  <span>size=&quot;lg&quot;</span>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+              <SidebarMenuItem>
+                <SidebarMenuButton variant="outline">
+                  <Settings />
+                  <span>variant=&quot;outline&quot;</span>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+              <SidebarMenuItem>
+                <SidebarMenuButton isActive>
+                  <FilePlus2 />
+                  <span>isActive=&#123;true&#125;</span>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+              <SidebarMenuItem>
+                <SidebarMenuButton disabled>
+                  <History />
+                  <span>disabled</span>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+            </SidebarMenu>
+          </SidebarGroup>
+        </SidebarContent>
+      </Sidebar>
+      <SidebarInset>
+        <div className="p-6 text-sm text-muted-foreground">Contenuto della pagina…</div>
+      </SidebarInset>
+    </SidebarProvider>
+  ),
+};

@@ -41,3 +41,18 @@ export const Range: Story = {
     </div>
   ),
 };
+
+export const Disabilitato: Story = {
+  render: () => (
+    <div className="grid w-64 gap-2">
+      <Label id="soglia-disabled-story-label">Soglia avviso spesa</Label>
+      <Slider
+        aria-labelledby="soglia-disabled-story-label"
+        defaultValue={[50]}
+        max={100}
+        step={1}
+        disabled
+      />
+    </div>
+  ),
+};

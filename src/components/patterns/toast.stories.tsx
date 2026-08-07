@@ -12,6 +12,9 @@ const meta = {
   title: "Patterns/Toast (Radix, legacy gt40)",
   component: Toast,
   tags: ["autodocs"],
+  argTypes: {
+    variant: { control: "select", options: ["default", "destructive"] },
+  },
   parameters: {
     docs: {
       description: {

@@ -35,3 +35,23 @@ export const SoloIcona: Story = {
 export const Premuto: Story = {
   args: { children: "Attivo", defaultPressed: true },
 };
+
+export const Variante: Story = {
+  name: "Variante outline",
+  args: { variant: "outline", children: "Outline" },
+};
+
+export const Dimensioni: Story = {
+  name: "Dimensioni",
+  render: () => (
+    <div className="flex items-center gap-2">
+      <Toggle size="sm">Sm</Toggle>
+      <Toggle size="default">Default</Toggle>
+      <Toggle size="lg">Lg</Toggle>
+    </div>
+  ),
+};
+
+export const Disabilitato: Story = {
+  args: { children: "Non disponibile", disabled: true },
+};

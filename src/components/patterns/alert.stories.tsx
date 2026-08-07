@@ -6,6 +6,9 @@ const meta = {
   title: "Patterns/Alert",
   component: Alert,
   tags: ["autodocs"],
+  argTypes: {
+    variant: { control: "select", options: ["default", "destructive"] },
+  },
   parameters: {
     docs: {
       description: {
