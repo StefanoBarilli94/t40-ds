@@ -174,22 +174,23 @@ const CarouselItem = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLD
 );
 CarouselItem.displayName = "CarouselItem";
 
+// Prev/Next NON sono più posizionati `absolute` con offset negativo fuori dal
+// contenitore (-left-12/-right-12): a container width variabile (es. il pannello
+// docs di Storybook, o una card stretta in ast40/gt40) quell'offset finiva
+// tagliato o sovrapposto al contenuto — bug reale, issue #8. Ora sono bottoni
+// normali nel flusso, pensati per stare in una barra sotto CarouselContent
+// (vedi CarouselControls) — mai overlay, quindi mai un problema a nessuna
+// larghezza di viewport.
 const CarouselPrevious = React.forwardRef<HTMLButtonElement, React.ComponentProps<typeof Button>>(
   ({ className, variant = "outline", size = "icon", ...props }, ref) => {
-    const { orientation, scrollPrev, canScrollPrev } = useCarousel();
+    const { scrollPrev, canScrollPrev } = useCarousel();
 
     return (
       <Button
         ref={ref}
         variant={variant}
         size={size}
-        className={cn(
-          "absolute  h-8 w-8 rounded-full",
-          orientation === "horizontal"
-            ? "-left-12 top-1/2 -translate-y-1/2"
-            : "-top-12 left-1/2 -translate-x-1/2 rotate-90",
-          className,
-        )}
+        className={cn("h-8 w-8 shrink-0 rounded-full", className)}
         disabled={!canScrollPrev}
         onClick={scrollPrev}
         {...props}
@@ -204,20 +205,14 @@ CarouselPrevious.displayName = "CarouselPrevious";
 
 const CarouselNext = React.forwardRef<HTMLButtonElement, React.ComponentProps<typeof Button>>(
   ({ className, variant = "outline", size = "icon", ...props }, ref) => {
-    const { orientation, scrollNext, canScrollNext } = useCarousel();
+    const { scrollNext, canScrollNext } = useCarousel();
 
     return (
       <Button
         ref={ref}
         variant={variant}
         size={size}
-        className={cn(
-          "absolute h-8 w-8 rounded-full",
-          orientation === "horizontal"
-            ? "-right-12 top-1/2 -translate-y-1/2"
-            : "-bottom-12 left-1/2 -translate-x-1/2 rotate-90",
-          className,
-        )}
+        className={cn("h-8 w-8 shrink-0 rounded-full", className)}
         disabled={!canScrollNext}
         onClick={scrollNext}
         {...props}
@@ -230,6 +225,17 @@ const CarouselNext = React.forwardRef<HTMLButtonElement, React.ComponentProps<ty
 );
 CarouselNext.displayName = "CarouselNext";
 
+// Barra di navigazione: centra Previous/Next sotto CarouselContent, mai
+// sovrapposta al contenuto a nessuna larghezza (issue #8).
+const CarouselControls = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivElement>>(
+  ({ className, children, ...props }, ref) => (
+    <div ref={ref} className={cn("mt-4 flex items-center justify-center gap-2", className)} {...props}>
+      {children}
+    </div>
+  ),
+);
+CarouselControls.displayName = "CarouselControls";
+
 export {
   type CarouselApi,
   Carousel,
@@ -237,4 +243,5 @@ export {
   CarouselItem,
   CarouselPrevious,
   CarouselNext,
+  CarouselControls,
 };
