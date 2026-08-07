@@ -12,6 +12,12 @@ const config: StorybookConfig = {
     "@storybook/addon-docs",
     "@storybook/addon-mcp"
   ],
-  "framework": "@storybook/react-vite"
+  "framework": "@storybook/react-vite",
+  "staticDirs": ["../public"],
+  "managerHead": (head) => `
+    ${head}
+    <link rel="icon" type="image/png" href="/brand/logo-dark.png" />
+    <title>T40 DS</title>
+  `
 };
 export default config;

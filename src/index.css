@@ -1,3 +1,4 @@
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap");
 @import "tailwindcss" source(none);
 @source "../src";
 @import "tw-animate-css";
@@ -19,6 +20,7 @@
  */
 
 @theme inline {
+  --font-sans: "Montserrat", ui-sans-serif, system-ui, sans-serif;
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
@@ -108,6 +110,27 @@
   --negative: oklch(0.58 0.22 25);
 }
 
+/*
+ * Tema GT40 (default): è il :root sopra, invariato — palette menta/teal
+ * originale di ast40 prima della separazione multi-brand.
+ *
+ * Tema AST40: colori estratti dal logo T40 (public/brand/logo-*.png), rosso
+ * al posto del teal come colore di brand. Attivato con `data-theme="ast40"`
+ * sull'elemento root (stesso pattern di `.dark`, combinabile con esso).
+ */
+[data-theme="ast40"] {
+  --primary: oklch(0.55 0.22 25);
+  --primary-foreground: oklch(1 0 0);
+  /* Rosso scurito per uso come testo (link, ecc.) su sfondo chiaro: 4.6:1+. */
+  --primary-text: oklch(0.58 0.22 25);
+  --accent: oklch(0.55 0.22 25);
+  --accent-foreground: oklch(1 0 0);
+  --ring: oklch(0.55 0.22 25);
+  --sidebar-primary: oklch(0.55 0.22 25);
+  --sidebar-primary-foreground: oklch(1 0 0);
+  --sidebar-ring: oklch(0.55 0.22 25);
+}
+
 .dark {
   --background: oklch(0.129 0.042 264.695);
   --foreground: oklch(0.984 0.003 247.858);
@@ -151,14 +174,19 @@
     box-shadow: none !important;
   }
 
-  /* Unica eccezione: i tag/badge restano con angoli arrotondati. */
+  /* Eccezioni alla regola "niente angoli arrotondati": tag/badge e avatar. */
   [data-slot="badge"] {
     border-radius: var(--radius-md) !important;
+  }
+  [data-slot="avatar"],
+  [data-slot="avatar"] * {
+    border-radius: 9999px !important;
   }
 
   body {
     background-color: var(--color-background);
     color: var(--color-foreground);
+    font-family: var(--font-sans);
   }
 
   button:not(:disabled),

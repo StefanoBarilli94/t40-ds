@@ -95,6 +95,27 @@ export const Loading: Story = {
   },
 };
 
+export const StatiHover: Story = {
+  name: "Stati hover",
+  render: (args) => (
+    <div className="flex flex-wrap gap-3">
+      {(["default", "secondary", "outline", "ghost", "destructive"] as const).map((variant) => (
+        <Button key={variant} {...args} variant={variant}>
+          {variant}
+        </Button>
+      ))}
+    </div>
+  ),
+  parameters: {
+    docs: {
+      description: {
+        story:
+          "Passa il mouse sopra i bottoni. `default`/`destructive`/`secondary` restano piene (solo leggermente più scure all'hover). `outline`/`ghost` prendono uno sfondo **neutro** (`bg-muted`) invece del colore primario/accent — prima usavano `bg-accent`, identico a `--primary`, e all'hover diventavano indistinguibili da un bottone `default`.",
+      },
+    },
+  },
+};
+
 export const IconOnlyAccessibile: Story = {
   name: "Icon-only (con aria-label)",
   render: () => (

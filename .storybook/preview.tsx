@@ -17,13 +17,31 @@ const preview: Preview = {
     },
     options: {
       storySort: {
-        order: ["Introduzione", "Fondamenta", "Componenti", "*"],
+        order: ["Introduzione", "Fondamenta", "Atoms", "Form", "Patterns", "Componenti", "*"],
+      },
+    },
+  },
+  globalTypes: {
+    theme: {
+      name: "Tema",
+      description: "Tema di brand (gt40 = default, ast40 = rosso)",
+      defaultValue: "gt40",
+      toolbar: {
+        icon: "paintbrush",
+        items: [
+          { value: "gt40", title: "GT40 (default)" },
+          { value: "ast40", title: "AST40 (rosso)" },
+        ],
+        dynamicTitle: true,
       },
     },
   },
   decorators: [
-    (Story) => (
-      <div className="bg-background p-6 text-foreground">
+    (Story, context) => (
+      <div
+        data-theme={context.globals.theme === "ast40" ? "ast40" : undefined}
+        className="bg-background p-6 text-foreground"
+      >
         <Story />
       </div>
     ),
