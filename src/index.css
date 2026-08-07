@@ -106,8 +106,13 @@
   --primary-700: oklch(0.44 0.133 185);
   --primary-800: oklch(0.36 0.115 185);
   --primary-900: oklch(0.26 0.091 185);
-  --secondary: oklch(0.968 0.007 247.896);
-  --secondary-foreground: oklch(0.208 0.042 265.755);
+  /* Scurito da L0.968 (quasi bianco, indistinguibile da --background/--outline
+     button) a L0.55: deve restare visivamente un bottone "pieno" a metà
+     prominenza tra default e outline, non un altro tono di bianco. Foreground
+     passato a bianco puro perché un grigio scuro come sfondo richiede testo
+     chiaro (4.84:1). Neutro, non tinto sul brand: condiviso tra i due temi. */
+  --secondary: oklch(0.55 0.02 250);
+  --secondary-foreground: oklch(1 0 0);
   --muted: oklch(0.96 0.008 250);
   /* Darkened from 0.55 (4.31:1 on --muted, fails AA) to 0.50 (5.3:1). */
   --muted-foreground: oklch(0.5 0.03 250);
@@ -116,7 +121,11 @@
   --destructive: oklch(0.577 0.245 27.325);
   --destructive-foreground: oklch(0.984 0.003 247.858);
   --border: oklch(0.92 0.01 250);
-  --input: oklch(0.94 0.01 250);
+  /* Scurito da L0.94 (2.1:1 su --background, sotto la soglia 3:1 per bordi
+     UI non testuali, WCAG 1.4.11) a L0.65 (3.1:1) — il bordo del bottone
+     outline e dei campi form (Input/Select/Textarea/Calendar/InputOTP/Toggle
+     lo condividono) era di fatto invisibile. */
+  --input: oklch(0.65 0.015 250);
   --ring: oklch(0.78 0.14 185);
   /* Palette chart: 8 tinte distinguibili, ognuna >=3:1 su --background (WCAG
      1.4.11, contrasto non testuale per elementi grafici). chart-4/5 scuriti
