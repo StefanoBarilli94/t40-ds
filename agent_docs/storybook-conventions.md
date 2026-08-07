@@ -20,6 +20,12 @@ dall'inizio — non serve più la vecchia convenzione `Componenti/*`.
 `Fondamenta/*` è riservato alle pagine `.mdx` non legate a un componente specifico
 (Colori, Typography, Introduzione) — non componenti UI.
 
+Ogni categoria (Atoms/Form/Patterns) ha una pagina indice `<Categoria>/Panoramica`
+(`src/docs/Atoms.mdx` ecc., issue #17) con una griglia di card (componente `Card` reale +
+icona lucide-react, non link testuali — vedi `src/docs/CategoryGrid.tsx`) che linkano a
+ogni componente della categoria. Un nuovo componente va aggiunto anche lì, non solo allo
+`storySort.order` (che mette "Panoramica" per prima nel gruppo, vedi `.storybook/preview.tsx`).
+
 ## Note nelle story
 
 Ogni scelta di accessibilità/design non ovvia va documentata in

@@ -36,3 +36,19 @@ Se un nuovo componente ha davvero bisogno di angoli arrotondati (es. un futuro
 componente "pill"), segui lo stesso pattern: `data-slot="<nome>"` sul componente +
 eccezione in `index.css`, non un override locale nel componente stesso — altrimenti la
 regola smette di essere una fonte di verità unica.
+
+## Preferire stato React a nuove dipendenze pesanti
+
+`DataTable` (paginazione + toggle colonne, issue #2) e `Chart` (Chart.js, issue #9) sono
+gli unici due componenti "composti" del pacchetto, entrambi costruiti su `useState`
+semplice invece di appoggiarsi a una libreria dedicata (es. TanStack Table) quando non
+strettamente necessario — coerente con la filosofia "nessuno step di build, distribuito
+come sorgente": ogni nuova dipendenza pesa su tutti i consumer, anche quelli che non
+usano quel componente. Valuta la stessa soglia prima di aggiungerne una nuova.
+
+## Story: larghezze responsive nelle demo
+
+Se una story usa una larghezza fissa solo per il demo (`w-80`, `w-96`...), preferisci
+`w-full max-w-80` invece di `w-80` da solo — altrimenti ispezionarla con l'addon
+Viewport di Storybook su un breakpoint mobile è inutile (la card non si restringe mai,
+vedi issue #12).

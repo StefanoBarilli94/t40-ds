@@ -36,3 +36,24 @@ funziona comunque per ispezione manuale — solo la pipeline CLI/CI è rotta a m
 Fixala nel componente sorgente, non nella story — se una story la nasconde (es. non
 mostra lo stato che la causa), la violazione resta per chi usa il componente in modo
 diverso in ast40/gt40.
+
+## Canvas (Chart.js) e a11y
+
+Un `<canvas>` Chart.js riceve `role="img"` di default ma **nessun nome accessibile** —
+axe lo segnala (`role-img-alt`) appena una story lo renderizza per davvero. Due livelli
+di rimedio, entrambi da usare insieme quando il grafico è l'unica fonte del dato:
+- `aria-label` sul componente `react-chartjs-2` (`<Bar aria-label="..." .../>`), minimo
+  indispensabile.
+- `ChartAccessibleTable` (`chart.tsx`) + `aria-hidden="true"` sul `ChartContainer`: un
+  canvas non espone NULLA a uno screen reader (a differenza dell'SVG di Recharts, che
+  almeno aveva nodi DOM ispezionabili) — l'unico modo per dare accesso ai dati veri è
+  una tabella parallela, non un'etichetta.
+
+## Falso positivo da non rincorrere: animazioni bloccate a metà
+
+Se stai testando un overlay animato (Sheet, Dialog, Drawer) in un browser/tab non
+visibile o non compositato (`document.hidden === true`), l'animazione CSS resta bloccata
+a metà — l'elemento sembra fuori schermo nonostante `data-state="open"`. Non è un bug:
+il browser rallenta le animazioni sui tab in background. Verifica forzando
+`document.getAnimations().forEach(a => a.finish())` e rimisurando la posizione prima di
+concludere che c'è un problema reale (trovato mentre si verificava la #12).
