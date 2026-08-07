@@ -52,3 +52,5 @@ installato altrove.
 - `accessibility.md` — requisito AA, come/perché `bun run a11y` esiste (bug upstream di
   `@storybook/addon-vitest`).
 - `storybook-conventions.md` — struttura delle story, tassonomia Atom/Form/Pattern.
+- `versioning.md` — schema di versionamento condiviso con ast40/gt40 (bug fixing /
+  migliorative / evolutive → PATCH/PATCH/MINOR, MAJOR se rompe compatibilità).
