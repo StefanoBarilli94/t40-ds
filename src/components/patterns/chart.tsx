@@ -1,7 +1,34 @@
 import * as React from "react";
-import * as RechartsPrimitive from "recharts";
+import {
+  Chart as ChartJSInstance,
+  CategoryScale,
+  LinearScale,
+  BarElement,
+  LineElement,
+  PointElement,
+  ArcElement,
+  Filler,
+  Legend as ChartJSLegendPlugin,
+  Tooltip as ChartJSTooltipPlugin,
+  type TooltipOptions,
+} from "chart.js";
 
 import { cn } from "../../lib/utils";
+
+// Registrati una volta sola: coprono bar/line/area/pie/doughnut, i tipi
+// richiesti dalle story (issue #9). Radar/polarArea richiederebbero anche
+// RadialLinearScale, non ancora usato in nessuna story.
+ChartJSInstance.register(
+  CategoryScale,
+  LinearScale,
+  BarElement,
+  LineElement,
+  PointElement,
+  ArcElement,
+  Filler,
+  ChartJSLegendPlugin,
+  ChartJSTooltipPlugin,
+);
 
 // Format: { THEME_NAME: CSS_SELECTOR }
 const THEMES = { light: "", dark: ".dark" } as const;
@@ -16,9 +43,7 @@ export type ChartConfig = {
   );
 };
 
-type ChartContextProps = {
-  config: ChartConfig;
-};
+type ChartContextProps = { config: ChartConfig; chartId: string };
 
 const ChartContext = React.createContext<ChartContextProps | null>(null);
 
@@ -34,27 +59,24 @@ function useChart() {
 
 const ChartContainer = React.forwardRef<
   HTMLDivElement,
-  React.ComponentProps<"div"> & {
-    config: ChartConfig;
-    children: React.ComponentProps<typeof RechartsPrimitive.ResponsiveContainer>["children"];
-  }
+  React.ComponentProps<"div"> & { config: ChartConfig }
 >(({ id, className, children, config, ...props }, ref) => {
   const uniqueId = React.useId();
   const chartId = `chart-${id || uniqueId.replace(/:/g, "")}`;
 
   return (
-    <ChartContext.Provider value={{ config }}>
+    <ChartContext.Provider value={{ config, chartId }}>
       <div
         data-chart={chartId}
+        data-slot="chart"
         ref={ref}
-        className={cn(
-          "flex aspect-video justify-center text-xs [&_.recharts-cartesian-axis-tick_text]:fill-muted-foreground [&_.recharts-cartesian-grid_line[stroke='#ccc']]:stroke-border/50 [&_.recharts-curve.recharts-tooltip-cursor]:stroke-border [&_.recharts-dot[stroke='#fff']]:stroke-transparent [&_.recharts-layer]:outline-none [&_.recharts-polar-grid_[stroke='#ccc']]:stroke-border [&_.recharts-radial-bar-background-sector]:fill-muted [&_.recharts-rectangle.recharts-tooltip-cursor]:fill-muted [&_.recharts-reference-line_[stroke='#ccc']]:stroke-border [&_.recharts-sector[stroke='#fff']]:stroke-transparent [&_.recharts-sector]:outline-none [&_.recharts-surface]:outline-none",
-          className,
-        )}
+        // relative: react-chartjs-2 con maintainAspectRatio:false fa
+        // riempire il canvas all'ancestor posizionato più vicino.
+        className={cn("relative aspect-video text-xs [&_canvas]:outline-none", className)}
         {...props}
       >
         <ChartStyle id={chartId} config={config} />
-        <RechartsPrimitive.ResponsiveContainer>{children}</RechartsPrimitive.ResponsiveContainer>
+        {children}
       </div>
     </ChartContext.Provider>
   );
@@ -62,7 +84,7 @@ const ChartContainer = React.forwardRef<
 ChartContainer.displayName = "Chart";
 
 const ChartStyle = ({ id, config }: { id: string; config: ChartConfig }) => {
-  const colorConfig = Object.entries(config).filter(([, config]) => config.theme || config.color);
+  const colorConfig = Object.entries(config).filter(([, itemConfig]) => itemConfig.theme || itemConfig.color);
 
   if (!colorConfig.length) {
     return null;
@@ -90,242 +112,253 @@ ${colorConfig
   );
 };
 
-const ChartTooltip = RechartsPrimitive.Tooltip;
+/**
+ * Chart.js disegna su <canvas>: a differenza di Recharts (SVG, stilizzabile
+ * via CSS a runtime dal browser stesso), un fillStyle canvas non capisce
+ * `var(...)` — i colori vanno risolti a stringhe concrete in JS. Legge le
+ * `--color-<key>` impostate da ChartStyle sul `[data-chart]` più vicino, e le
+ * ricalcola se il tema cambia (`data-theme`/`.dark` sull'elemento root, vedi
+ * agent_docs/theming.md) grazie a un MutationObserver su <html>.
+ */
+function useChartColors(): Record<string, string> {
+  const { config, chartId } = useChart();
+  const keys = React.useMemo(() => Object.keys(config), [config]);
+  const [colors, setColors] = React.useState<Record<string, string>>({});
 
-const ChartTooltipContent = React.forwardRef<
-  HTMLDivElement,
-  React.ComponentProps<typeof RechartsPrimitive.Tooltip> &
-    React.ComponentProps<"div"> & {
-      hideLabel?: boolean;
-      hideIndicator?: boolean;
-      indicator?: "line" | "dot" | "dashed";
-      nameKey?: string;
-      labelKey?: string;
+  React.useEffect(() => {
+    const el = document.querySelector<HTMLElement>(`[data-chart="${chartId}"]`);
+    if (!el) {
+      return;
     }
->(
-  (
-    {
-      active,
-      payload,
-      className,
-      indicator = "dot",
-      hideLabel = false,
-      hideIndicator = false,
-      label,
-      labelFormatter,
-      labelClassName,
-      formatter,
-      color,
-      nameKey,
-      labelKey,
-    },
-    ref,
-  ) => {
+
+    const resolve = () => {
+      const style = getComputedStyle(el);
+      const next: Record<string, string> = {};
+      for (const key of keys) {
+        const value = style.getPropertyValue(`--color-${key}`).trim();
+        if (value) {
+          next[key] = value;
+        }
+      }
+      setColors(next);
+    };
+
+    resolve();
+
+    const observer = new MutationObserver(resolve);
+    observer.observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: ["data-theme", "class"],
+    });
+    return () => observer.disconnect();
+  }, [chartId, keys]);
+
+  return colors;
+}
+
+/** Stessa logica di useChartColors, per i token strutturali (non di serie). */
+function useChartTheme() {
+  const { chartId } = useChart();
+  const [theme, setTheme] = React.useState({ border: "", mutedForeground: "", card: "", cardForeground: "" });
+
+  React.useEffect(() => {
+    const el = document.querySelector<HTMLElement>(`[data-chart="${chartId}"]`);
+    if (!el) {
+      return;
+    }
+
+    const resolve = () => {
+      const style = getComputedStyle(el);
+      setTheme({
+        border: style.getPropertyValue("--border").trim(),
+        mutedForeground: style.getPropertyValue("--muted-foreground").trim(),
+        card: style.getPropertyValue("--card").trim(),
+        cardForeground: style.getPropertyValue("--card-foreground").trim(),
+      });
+    };
+
+    resolve();
+
+    const observer = new MutationObserver(resolve);
+    observer.observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: ["data-theme", "class"],
+    });
+    return () => observer.disconnect();
+  }, [chartId]);
+
+  return theme;
+}
+
+/**
+ * Equivalente di `ChartTooltip` (Recharts): Chart.js non accetta un
+ * componente React come tooltip via children, il tooltip nativo si
+ * configura in `options.plugins.tooltip`. Questo hook restituisce
+ * quell'oggetto già tematizzato con i token del design system — va
+ * spalmato in `options` del componente `react-chartjs-2` (`<Bar>`/`<Line>`/…).
+ */
+function useChartTooltip(): Partial<TooltipOptions> {
+  const theme = useChartTheme();
+
+  return React.useMemo(
+    () => ({
+      enabled: true,
+      backgroundColor: theme.card || undefined,
+      titleColor: theme.cardForeground || undefined,
+      bodyColor: theme.cardForeground || undefined,
+      borderColor: theme.border || undefined,
+      borderWidth: 1,
+      padding: 10,
+      cornerRadius: 0,
+      boxPadding: 4,
+      usePointStyle: true,
+    }),
+    [theme],
+  );
+}
+
+/**
+ * Griglia/assi tematizzati con i token del design system. Ritorno non
+ * tipizzato contro `ScaleOptionsByType` di Chart.js: quel tipo non è
+ * ricorsivamente `Partial` sui campi annidati (es. `border`), mentre
+ * `options.scales` del componente react-chartjs-2 accetta una versione
+ * deep-partial — l'oggetto qui sotto va comunque bene a runtime.
+ */
+function useChartScales() {
+  const theme = useChartTheme();
+
+  return React.useMemo(
+    () => ({
+      x: {
+        grid: { display: false },
+        ticks: { color: theme.mutedForeground || undefined },
+        border: { color: theme.border || undefined },
+      },
+      y: {
+        grid: { color: theme.border || undefined },
+        ticks: { color: theme.mutedForeground || undefined },
+        border: { display: false },
+      },
+    }),
+    [theme],
+  );
+}
+
+/**
+ * Equivalente di `ChartLegend` (Recharts): elenca le serie da `ChartConfig`
+ * direttamente, non da un "payload" — Chart.js non inietta quale dato è
+ * effettivamente disegnato, la legenda qui riflette semplicemente la config.
+ */
+const ChartLegend = React.forwardRef<HTMLDivElement, React.ComponentProps<"div"> & { hideIcon?: boolean }>(
+  ({ className, hideIcon = false, ...props }, ref) => {
     const { config } = useChart();
-
-    const tooltipLabel = React.useMemo(() => {
-      if (hideLabel || !payload?.length) {
-        return null;
-      }
-
-      const [item] = payload;
-      const key = `${labelKey || item?.dataKey || item?.name || "value"}`;
-      const itemConfig = getPayloadConfigFromPayload(config, item, key);
-      const value =
-        !labelKey && typeof label === "string"
-          ? config[label as keyof typeof config]?.label || label
-          : itemConfig?.label;
-
-      if (labelFormatter) {
-        return (
-          <div className={cn("font-medium", labelClassName)}>{labelFormatter(value, payload)}</div>
-        );
-      }
-
-      if (!value) {
-        return null;
-      }
-
-      return <div className={cn("font-medium", labelClassName)}>{value}</div>;
-    }, [label, labelFormatter, payload, hideLabel, labelClassName, config, labelKey]);
-
-    if (!active || !payload?.length) {
-      return null;
-    }
-
-    const nestLabel = payload.length === 1 && indicator !== "dot";
+    const colors = useChartColors();
 
     return (
       <div
         ref={ref}
-        className={cn(
-          "grid min-w-[8rem] items-start gap-1.5 rounded-lg border border-border/50 bg-background px-2.5 py-1.5 text-xs shadow-xl",
-          className,
-        )}
+        className={cn("flex flex-wrap items-center justify-center gap-4 pt-3", className)}
+        {...props}
       >
-        {!nestLabel ? tooltipLabel : null}
-        <div className="grid gap-1.5">
-          {payload
-            .filter((item) => item.type !== "none")
-            .map((item, index) => {
-              const key = `${nameKey || item.name || item.dataKey || "value"}`;
-              const itemConfig = getPayloadConfigFromPayload(config, item, key);
-              const indicatorColor = color || item.payload.fill || item.color;
-
-              return (
-                <div
-                  key={item.dataKey}
-                  className={cn(
-                    "flex w-full flex-wrap items-stretch gap-2 [&>svg]:h-2.5 [&>svg]:w-2.5 [&>svg]:text-muted-foreground",
-                    indicator === "dot" && "items-center",
-                  )}
-                >
-                  {formatter && item?.value !== undefined && item.name ? (
-                    formatter(item.value, item.name, item, index, item.payload)
-                  ) : (
-                    <>
-                      {itemConfig?.icon ? (
-                        <itemConfig.icon />
-                      ) : (
-                        !hideIndicator && (
-                          <div
-                            className={cn(
-                              "shrink-0 rounded-[2px] border-(--color-border) bg-(--color-bg)",
-                              {
-                                "h-2.5 w-2.5": indicator === "dot",
-                                "w-1": indicator === "line",
-                                "w-0 border-[1.5px] border-dashed bg-transparent":
-                                  indicator === "dashed",
-                                "my-0.5": nestLabel && indicator === "dashed",
-                              },
-                            )}
-                            style={
-                              {
-                                "--color-bg": indicatorColor,
-                                "--color-border": indicatorColor,
-                              } as React.CSSProperties
-                            }
-                          />
-                        )
-                      )}
-                      <div
-                        className={cn(
-                          "flex flex-1 justify-between leading-none",
-                          nestLabel ? "items-end" : "items-center",
-                        )}
-                      >
-                        <div className="grid gap-1.5">
-                          {nestLabel ? tooltipLabel : null}
-                          <span className="text-muted-foreground">
-                            {itemConfig?.label || item.name}
-                          </span>
-                        </div>
-                        {item.value && (
-                          <span className="font-mono font-medium tabular-nums text-foreground">
-                            {item.value.toLocaleString()}
-                          </span>
-                        )}
-                      </div>
-                    </>
-                  )}
-                </div>
-              );
-            })}
-        </div>
+        {Object.entries(config).map(([key, itemConfig]) => (
+          <div
+            key={key}
+            className="flex items-center gap-1.5 text-muted-foreground [&>svg]:h-3 [&>svg]:w-3"
+          >
+            {itemConfig.icon && !hideIcon ? (
+              <itemConfig.icon />
+            ) : (
+              <div className="h-2 w-2 shrink-0 rounded-[2px]" style={{ backgroundColor: colors[key] }} />
+            )}
+            {itemConfig.label}
+          </div>
+        ))}
       </div>
     );
   },
 );
-ChartTooltipContent.displayName = "ChartTooltip";
+ChartLegend.displayName = "ChartLegend";
 
-const ChartLegend = RechartsPrimitive.Legend;
+export type ChartAccessibleTableColumn<T> = {
+  key: string;
+  header: React.ReactNode;
+  cell: (row: T) => React.ReactNode;
+  isRowHeader?: boolean;
+};
 
-const ChartLegendContent = React.forwardRef<
-  HTMLDivElement,
-  React.ComponentProps<"div"> &
-    Pick<RechartsPrimitive.LegendProps, "payload" | "verticalAlign"> & {
-      hideIcon?: boolean;
-      nameKey?: string;
-    }
->(({ className, hideIcon = false, payload, verticalAlign = "bottom", nameKey }, ref) => {
-  const { config } = useChart();
-
-  if (!payload?.length) {
-    return null;
-  }
+/**
+ * Un <canvas> Chart.js non espone NULLA a uno screen reader — ancora meno
+ * accessibile dell'SVG di Recharts, che almeno aveva nodi DOM ispezionabili.
+ * Questo componente è la versione "ufficiale" del pattern tabella dati
+ * sr-only già in uso prima della migrazione (issue #9): va sempre affiancato
+ * a un ChartContainer con `aria-hidden="true"`, non lasciato come markup da
+ * ricopiare a mano in ogni story/consumer.
+ */
+function ChartAccessibleTable<T>({
+  caption,
+  columns,
+  data,
+  className,
+}: {
+  caption: React.ReactNode;
+  columns: ChartAccessibleTableColumn<T>[];
+  data: T[];
+  className?: string;
+}) {
+  const rowHeaderKey = columns.find((column) => column.isRowHeader)?.key ?? columns[0]?.key;
 
   return (
-    <div
-      ref={ref}
-      className={cn(
-        "flex items-center justify-center gap-4",
-        verticalAlign === "top" ? "pb-3" : "pt-3",
-        className,
-      )}
-    >
-      {payload
-        .filter((item) => item.type !== "none")
-        .map((item) => {
-          const key = `${nameKey || item.dataKey || "value"}`;
-          const itemConfig = getPayloadConfigFromPayload(config, item, key);
-
-          return (
-            <div
-              key={item.value}
-              className={cn(
-                "flex items-center gap-1.5 [&>svg]:h-3 [&>svg]:w-3 [&>svg]:text-muted-foreground",
-              )}
-            >
-              {itemConfig?.icon && !hideIcon ? (
-                <itemConfig.icon />
+    <table className={cn("sr-only", className)}>
+      <caption>{caption}</caption>
+      <thead>
+        <tr>
+          {columns.map((column) => (
+            <th key={column.key} scope="col">
+              {column.header}
+            </th>
+          ))}
+        </tr>
+      </thead>
+      <tbody>
+        {data.map((row, index) => (
+          <tr key={index}>
+            {columns.map((column) =>
+              column.key === rowHeaderKey ? (
+                <th key={column.key} scope="row">
+                  {column.cell(row)}
+                </th>
               ) : (
-                <div
-                  className="h-2 w-2 shrink-0 rounded-[2px]"
-                  style={{
-                    backgroundColor: item.color,
-                  }}
-                />
-              )}
-              {itemConfig?.label}
-            </div>
-          );
-        })}
-    </div>
+                <td key={column.key}>{column.cell(row)}</td>
+              ),
+            )}
+          </tr>
+        ))}
+      </tbody>
+    </table>
   );
-});
-ChartLegendContent.displayName = "ChartLegend";
+}
 
-// Helper to extract item config from a payload.
-function getPayloadConfigFromPayload(config: ChartConfig, payload: unknown, key: string) {
-  if (typeof payload !== "object" || payload === null) {
-    return undefined;
+/**
+ * Aggiunge un canale alpha a un colore risolto (oklch/rgb/hsl) per un
+ * riempimento "area" traslucido — es. `withAlpha(colors.aggio, 0.25)`.
+ * Assume la sintassi moderna `colore(... / alpha)`, supportata dagli stessi
+ * browser che risolvono `oklch()` via getComputedStyle.
+ */
+function withAlpha(color: string, alpha: number): string {
+  if (!color || color.includes("/")) {
+    return color;
   }
-
-  const payloadPayload =
-    "payload" in payload && typeof payload.payload === "object" && payload.payload !== null
-      ? payload.payload
-      : undefined;
-
-  let configLabelKey: string = key;
-
-  if (key in payload && typeof payload[key as keyof typeof payload] === "string") {
-    configLabelKey = payload[key as keyof typeof payload] as string;
-  } else if (
-    payloadPayload &&
-    key in payloadPayload &&
-    typeof payloadPayload[key as keyof typeof payloadPayload] === "string"
-  ) {
-    configLabelKey = payloadPayload[key as keyof typeof payloadPayload] as string;
-  }
-
-  return configLabelKey in config ? config[configLabelKey] : config[key as keyof typeof config];
+  return color.replace(/\)\s*$/, ` / ${alpha})`);
 }
 
 export {
   ChartContainer,
-  ChartTooltip,
-  ChartTooltipContent,
-  ChartLegend,
-  ChartLegendContent,
   ChartStyle,
+  ChartLegend,
+  ChartAccessibleTable,
+  useChart,
+  useChartColors,
+  useChartTooltip,
+  useChartScales,
+  withAlpha,
 };

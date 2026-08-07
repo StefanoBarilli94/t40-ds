@@ -38,3 +38,22 @@ diversa, perché i requisiti di contrasto sono opposti nei due casi.
 `bun run a11y` verifica tutte le story con axe-core — coglie i problemi di contrasto reali
 (compreso il rendering effettivo dei componenti, non solo i token teorici). Vedi
 `agent_docs/accessibility.md`.
+
+## Trappola: `var(--primary)`, mai `var(--color-primary)`
+
+Tailwind (`@theme inline` in `index.css`) genera un alias `--color-<token>: var(--<token>)`
+per ogni token (es. `--color-primary: var(--primary)`), dichiarato **una sola volta su
+`:root`**. Un discendente con `[data-theme="ast40"]` che ridefinisce `--primary` NON fa
+ricalcolare `--color-primary`: l'inheritance passa il *computed value* del genitore, non
+lo *specified value* da rivalutare — `--color-primary` resta congelato al valore di
+`:root` (GT40) per chiunque legga `var(--color-primary)` in un discendente, anche dentro
+uno scope AST40. Solo il token raw (`--primary`) cascata correttamente sui temi annidati.
+
+Bug reale trovato due volte nello stesso modo: prima in `Fondamenta/Colori.mdx` (i due
+temi risultavano visivamente identici), poi in `ChartConfig` di `chart.tsx`
+(`color: "var(--color-primary)"` in una story — il grafico non seguiva il tema AST40).
+In entrambi i casi il fix è lo stesso: usare `var(--primary)` (o `var(--chart-1)`, ecc.),
+mai l'alias `--color-*`. Le utility class Tailwind generate (`bg-primary`, `text-primary`)
+NON hanno questo problema — `@theme inline` le fa compilare per riferire direttamente
+`var(--primary)`, saltando l'alias; il bug colpisce solo chi legge `var(--color-*)` a
+mano in CSS/JS (inline style, `ChartConfig`, markup MDX).
