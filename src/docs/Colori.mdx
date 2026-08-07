@@ -1,0 +1,86 @@
+import { Meta } from "@storybook/addon-docs/blocks";
+
+<Meta title="Fondamenta/Colori" />
+
+# Colori
+
+Tutti i colori sono definiti come variabili CSS in `src/index.css`, in formato `oklch`. Il
+componente sotto legge le variabili live, quindi riflette sempre il file sorgente.
+
+<div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(160px, 1fr))", gap: "0.75rem", margin: "1.5rem 0" }}>
+  {[
+    ["background", "foreground", "Sfondo pagina"],
+    ["card", "card-foreground", "Card"],
+    ["primary", "primary-foreground", "Primario"],
+    ["secondary", "secondary-foreground", "Secondario"],
+    ["muted", "muted-foreground", "Muted"],
+    ["accent", "accent-foreground", "Accent"],
+    ["destructive", "destructive-foreground", "Destructive"],
+    ["sidebar", "sidebar-foreground", "Sidebar"],
+    ["sidebar-primary", "sidebar-primary-foreground", "Sidebar primary"],
+  ].map(([bg, fg, label]) => (
+    <div
+      key={bg}
+      style={{
+        background: `var(--color-${bg})`,
+        color: `var(--color-${fg})`,
+        padding: "1rem",
+        border: "1px solid var(--color-border)",
+        fontSize: "0.8rem",
+      }}
+    >
+      <div style={{ fontWeight: 600 }}>{label}</div>
+      <div style={{ opacity: 0.8 }}>--{bg}</div>
+    </div>
+  ))}
+  <div
+    style={{
+      background: "var(--color-background)",
+      color: "var(--positive)",
+      padding: "1rem",
+      border: "1px solid var(--color-border)",
+      fontSize: "0.8rem",
+      fontWeight: 600,
+    }}
+  >
+    +15,2% <div style={{ opacity: 0.8, fontWeight: 400 }}>--positive</div>
+  </div>
+  <div
+    style={{
+      background: "var(--color-background)",
+      color: "var(--negative)",
+      padding: "1rem",
+      border: "1px solid var(--color-border)",
+      fontSize: "0.8rem",
+      fontWeight: 600,
+    }}
+  >
+    -77,0% <div style={{ opacity: 0.8, fontWeight: 400 }}>--negative</div>
+  </div>
+</div>
+
+## Verifica di contrasto (WCAG 2.1 AA)
+
+Calcolato convertendo `oklch` → sRGB lineare → luminanza relativa, soglia 4.5:1 per testo
+normale. Tutte le coppie usate per testo rispettano AA.
+
+| Coppia | Contrasto | Esito |
+| --- | --- | --- |
+| foreground su background | 18.0:1 | ✅ |
+| primary-foreground su primary | 10.0:1 | ✅ |
+| secondary-foreground su secondary | 16.3:1 | ✅ |
+| muted-foreground su background | 4.6:1 | ✅ |
+| destructive-foreground su destructive | 4.6:1 | ✅ |
+| sidebar-foreground su sidebar | 16.3:1 | ✅ |
+| **positive** su background/card | 4.65:1 / 4.85:1 | ✅ |
+| **negative** su background/card | 4.59:1 / 4.79:1 | ✅ |
+
+<div style={{ background: "var(--color-muted)", border: "1px solid var(--color-border)", padding: "1rem", marginTop: "1rem", fontSize: "0.875rem" }}>
+  <strong>Nota:</strong> i token <code>--positive</code>/<code>--negative</code> qui sopra sono
+  stati scuriti rispetto ai valori originali di ast40 (<code>oklch(0.7 0.16 160)</code> e{" "}
+  <code>oklch(0.62 0.22 25)</code>), che risultavano rispettivamente a <strong>2.4:1</strong> e{" "}
+  <strong>~3.9:1</strong> — sotto la soglia AA. ast40 in produzione oggi usa inoltre colori
+  Tailwind hardcoded (<code>text-emerald-600</code>/<code>text-rose-600</code>) invece di questi
+  token, con lo stesso problema (<strong>3.77:1</strong> per il verde) — vedi la issue
+  corrispondente sul repo ast40.
+</div>

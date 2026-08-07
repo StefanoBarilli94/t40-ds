@@ -1,0 +1,22 @@
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+
+export function App() {
+  return (
+    <div className="min-h-screen bg-background p-8 text-foreground">
+      <Card className="max-w-md">
+        <CardHeader>
+          <CardTitle>Tabaccheria 4.0 — Design System</CardTitle>
+        </CardHeader>
+        <CardContent className="flex flex-wrap items-center gap-3">
+          <Button>Primario</Button>
+          <Button variant="secondary">Secondario</Button>
+          <Button variant="outline">Outline</Button>
+          <Badge>Aggio</Badge>
+          <Badge variant="destructive">Spesa</Badge>
+        </CardContent>
+      </Card>
+    </div>
+  );
+}

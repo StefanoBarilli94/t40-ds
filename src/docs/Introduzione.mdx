@@ -1,0 +1,38 @@
+import { Meta } from "@storybook/addon-docs/blocks";
+
+<Meta title="Introduzione" />
+
+# Tabaccheria 4.0 — Design System
+
+Libreria di componenti condivisa tra **ast40** (dashboard contabile) e **gt40** (gestionale
+giornaliero). Nasce copiando i componenti shadcn/ui già in uso in ast40 (più tre componenti
+esclusivi di gt40: `ResponsiveDialog`, il pattern `Toast`/`Toaster` legacy), per poi diventare
+l'unica fonte di verità: entrambe le app la installano come dipendenza Git invece di mantenere
+copie duplicate che divergono nel tempo.
+
+## Principi
+
+- **Basato su Radix UI**: ogni componente interattivo eredita gestione del focus, ruoli ARIA e
+  supporto da tastiera dal primitivo Radix sottostante — non li reimplementiamo a mano.
+- **Accessibile per default, non per eccezione**: l'obiettivo è WCAG 2.1 **AA**. L'addon
+  Accessibility di Storybook (in basso in ogni story) verifica ogni componente con axe-core in
+  tempo reale. Per un audit completo da riga di comando su tutte le story: `bun run a11y`
+  (richiede `bun run storybook` avviato). *Nota: l'integrazione ufficiale
+  `@storybook/addon-vitest` ha un bug upstream (crash all'import per un problema di interop
+  ESM/CJS di `aria-query` con Vite, riprodotto su più versioni del pacchetto) — `bun run a11y`
+  esegue lo stesso controllo (axe-core + Chromium via Playwright) bypassando quella pipeline.*
+- **Angoli squadrati, nessuna ombra**: l'unica eccezione sono i tag/badge, che restano
+  arrotondati. Vedi `src/index.css`.
+- **Niente colore come unico veicolo d'informazione**: badge Aggio/Spesa hanno sempre testo,
+  non solo colore (WCAG 1.4.1).
+
+## Come contribuire
+
+1. I file sorgente dei componenti vivono in `src/components/ui/*.tsx` — stesso layout della
+   cartella `ui/` di ast40/gt40, per rendere banale il confronto/porting.
+2. Ogni componente ha una story `*.stories.tsx` nello stesso folder, con tag `autodocs`: la
+   pagina di documentazione (props, esempi, note di accessibilità) si genera da lì.
+3. Prima di aggiungere un componente nuovo, controlla la sezione **Fondamenta** per i token di
+   colore/tipografia disponibili invece di introdurne di nuovi.
+
+Vedi anche la sezione **Fondamenta → Colori** per la palette e le verifiche di contrasto.
