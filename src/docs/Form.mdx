@@ -1,0 +1,43 @@
+import { Meta } from "@storybook/addon-docs/blocks";
+import { CategoryGrid } from "./CategoryGrid";
+import {
+  CalendarDays,
+  SquareCheck,
+  ClipboardList,
+  TextCursorInput,
+  KeyRound,
+  Tag,
+  CircleDot,
+  ChevronsUpDown,
+  SlidersHorizontal,
+  ToggleRight,
+  AlignLeft,
+  ToggleLeft,
+  Rows2,
+} from "lucide-react";
+
+<Meta title="Form/Panoramica" />
+
+# Form
+
+Componenti per la raccolta di input dall'utente: campi, controlli di selezione e il
+wrapper `Form` che li orchestra con `react-hook-form` (validazione, label, messaggi di
+errore accessibili).
+
+export const items = [
+  { id: "form-calendar--docs", name: "Calendar", description: "Selezione di una data singola, un intervallo o più date.", icon: CalendarDays },
+  { id: "form-checkbox--docs", name: "Checkbox", description: "Selezione booleana, singola o in gruppo.", icon: SquareCheck },
+  { id: "form-form--docs", name: "Form", description: "Wrapper react-hook-form con validazione, label ed errori accessibili.", icon: ClipboardList },
+  { id: "form-input--docs", name: "Input", description: "Campo di testo a riga singola.", icon: TextCursorInput },
+  { id: "form-inputotp--docs", name: "InputOTP", description: "Inserimento di un codice one-time-password a caselle singole.", icon: KeyRound },
+  { id: "form-label--docs", name: "Label", description: "Etichetta associata a un campo del form.", icon: Tag },
+  { id: "form-radiogroup--docs", name: "RadioGroup", description: "Selezione singola tra opzioni mutuamente esclusive.", icon: CircleDot },
+  { id: "form-select--docs", name: "Select", description: "Menu a tendina per una selezione singola.", icon: ChevronsUpDown },
+  { id: "form-slider--docs", name: "Slider", description: "Selezione di un valore numerico su un intervallo.", icon: SlidersHorizontal },
+  { id: "form-switch--docs", name: "Switch", description: "Interruttore on/off per impostazioni booleane.", icon: ToggleRight },
+  { id: "form-textarea--docs", name: "Textarea", description: "Campo di testo multilinea.", icon: AlignLeft },
+  { id: "form-toggle--docs", name: "Toggle", description: "Bottone a due stati, premuto o non premuto.", icon: ToggleLeft },
+  { id: "form-togglegroup--docs", name: "ToggleGroup", description: "Gruppo di toggle a selezione singola o multipla.", icon: Rows2 },
+];
+
+<CategoryGrid items={items} />

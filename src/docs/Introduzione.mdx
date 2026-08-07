@@ -1,4 +1,6 @@
 import { Meta } from "@storybook/addon-docs/blocks";
+import { CategoryGrid } from "./CategoryGrid";
+import { Blocks, FormInput, Boxes } from "lucide-react";
 
 <Meta title="Introduzione" />
 
@@ -8,6 +10,19 @@ Libreria di componenti UI (shadcn/ui su Radix UI) per applicazioni web nel setto
 vendita di tabacchi, con supporto multi-tema per brand diversi (vedi **Fondamenta → Colori**).
 Distribuita come dipendenza Git — le app consumer la installano invece di mantenere copie
 duplicate dei componenti che divergono nel tempo.
+
+## Componenti, per categoria
+
+I 49 componenti sono organizzati secondo atomic design in tre categorie (vedi anche la
+sidebar). Ogni categoria ha una pagina indice con la lista completa.
+
+export const categories = [
+  { id: "atoms-panoramica--docs", name: "Atoms", description: "Componenti base indivisibili: Button, Badge, Avatar, Tooltip…", icon: Blocks },
+  { id: "form-panoramica--docs", name: "Form", description: "Campi e controlli di raccolta input: Input, Select, Checkbox…", icon: FormInput },
+  { id: "patterns-panoramica--docs", name: "Patterns", description: "Composizioni e comportamenti applicativi: Dialog, Table, Sidebar…", icon: Boxes },
+];
+
+<CategoryGrid items={categories} />
 
 ## Principi
 

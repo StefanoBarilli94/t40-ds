@@ -1,0 +1,32 @@
+import { Meta } from "@storybook/addon-docs/blocks";
+import { CategoryGrid } from "./CategoryGrid";
+import {
+  RectangleHorizontal,
+  CircleUser,
+  Tag,
+  MousePointerClick,
+  Gauge,
+  Minus,
+  Rows3,
+  MessageCircleQuestion,
+} from "lucide-react";
+
+<Meta title="Atoms/Panoramica" />
+
+# Atoms
+
+Componenti base, indivisibili: non compongono altri componenti del design system, solo
+primitivi HTML/Radix. Sono i mattoni con cui si costruiscono i componenti Form e Patterns.
+
+export const items = [
+  { id: "atoms-aspectratio--docs", name: "AspectRatio", description: "Mantiene un rapporto larghezza/altezza fisso per un contenuto.", icon: RectangleHorizontal },
+  { id: "atoms-avatar--docs", name: "Avatar", description: "Immagine utente circolare, con fallback a iniziali.", icon: CircleUser },
+  { id: "atoms-badge--docs", name: "Badge", description: "Etichetta compatta per stati, categorie o conteggi.", icon: Tag },
+  { id: "atoms-button--docs", name: "Button", description: "Azione primaria, secondaria, outline, ghost, link o destructive.", icon: MousePointerClick },
+  { id: "atoms-progress--docs", name: "Progress", description: "Barra di avanzamento per operazioni o caricamenti.", icon: Gauge },
+  { id: "atoms-separator--docs", name: "Separator", description: "Linea divisoria orizzontale o verticale tra sezioni.", icon: Minus },
+  { id: "atoms-skeleton--docs", name: "Skeleton", description: "Placeholder animato mentre il contenuto reale carica.", icon: Rows3 },
+  { id: "atoms-tooltip--docs", name: "Tooltip", description: "Suggerimento contestuale al passaggio del mouse o al focus.", icon: MessageCircleQuestion },
+];
+
+<CategoryGrid items={items} />

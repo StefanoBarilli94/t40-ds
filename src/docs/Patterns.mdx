@@ -1,0 +1,72 @@
+import { Meta } from "@storybook/addon-docs/blocks";
+import { CategoryGrid } from "./CategoryGrid";
+import {
+  ChevronDown,
+  TriangleAlert,
+  ShieldAlert,
+  ChevronRight,
+  LayoutPanelTop,
+  GalleryHorizontal,
+  ChartColumn,
+  ChevronsUpDown,
+  Command,
+  MousePointer2,
+  AppWindow,
+  PanelBottom,
+  Menu,
+  Eye,
+  PanelTop,
+  Compass,
+  ListOrdered,
+  MessageSquare,
+  Columns2,
+  Smartphone,
+  ScrollText,
+  PanelRight,
+  PanelLeft,
+  Table,
+  SquareStack,
+  BellRing,
+  Bell,
+  BellDot,
+} from "lucide-react";
+
+<Meta title="Patterns/Panoramica" />
+
+# Patterns
+
+Composizioni di più Atom/Form, o comportamenti applicativi completi (navigazione,
+overlay, feedback). Tutto ciò che non è un primitivo indivisibile o un controllo form.
+
+export const items = [
+  { id: "patterns-accordion--docs", name: "Accordion", description: "Sezioni espandibili e collassabili, una o più alla volta.", icon: ChevronDown },
+  { id: "patterns-alert--docs", name: "Alert", description: "Messaggio in linea per informazioni, avvisi o errori.", icon: TriangleAlert },
+  { id: "patterns-alertdialog--docs", name: "AlertDialog", description: "Dialog modale per conferme distruttive o irreversibili.", icon: ShieldAlert },
+  { id: "patterns-breadcrumb--docs", name: "Breadcrumb", description: "Traccia di navigazione gerarchica.", icon: ChevronRight },
+  { id: "patterns-card--docs", name: "Card", description: "Contenitore per contenuto raggruppato, con header e footer opzionali.", icon: LayoutPanelTop },
+  { id: "patterns-carousel--docs", name: "Carousel", description: "Scorrimento orizzontale di slide o card.", icon: GalleryHorizontal },
+  { id: "patterns-chart--docs", name: "Chart", description: "Wrapper di theming per grafici Recharts.", icon: ChartColumn },
+  { id: "patterns-collapsible--docs", name: "Collapsible", description: "Contenuto espandibile e collassabile, singolo.", icon: ChevronsUpDown },
+  { id: "patterns-command--docs", name: "Command", description: "Palette comandi con ricerca e scorciatoie da tastiera.", icon: Command },
+  { id: "patterns-contextmenu--docs", name: "ContextMenu", description: "Menu contestuale al click destro.", icon: MousePointer2 },
+  { id: "patterns-dialog--docs", name: "Dialog", description: "Finestra modale centrata sopra il contenuto.", icon: AppWindow },
+  { id: "patterns-drawer--docs", name: "Drawer", description: "Pannello che scorre dal basso, pensato per mobile.", icon: PanelBottom },
+  { id: "patterns-dropdownmenu--docs", name: "DropdownMenu", description: "Menu a comparsa ancorato a un trigger.", icon: Menu },
+  { id: "patterns-hovercard--docs", name: "HoverCard", description: "Anteprima contestuale al passaggio del mouse.", icon: Eye },
+  { id: "patterns-menubar--docs", name: "Menubar", description: "Barra menu orizzontale in stile applicazione desktop.", icon: PanelTop },
+  { id: "patterns-navigationmenu--docs", name: "NavigationMenu", description: "Navigazione principale con sotto-menu a comparsa.", icon: Compass },
+  { id: "patterns-pagination--docs", name: "Pagination", description: "Navigazione tra pagine di risultati.", icon: ListOrdered },
+  { id: "patterns-popover--docs", name: "Popover", description: "Contenuto flottante ancorato a un trigger, non modale.", icon: MessageSquare },
+  { id: "patterns-resizable--docs", name: "Resizable", description: "Pannelli ridimensionabili trascinando il divisore.", icon: Columns2 },
+  { id: "patterns-responsivedialog--docs", name: "ResponsiveDialog", description: "Drawer su mobile, Dialog su desktop — stesso contenuto.", icon: Smartphone },
+  { id: "patterns-scrollarea--docs", name: "ScrollArea", description: "Area di scroll personalizzata, raggiungibile da tastiera.", icon: ScrollText },
+  { id: "patterns-sheet--docs", name: "Sheet", description: "Pannello laterale che scorre da un bordo dello schermo.", icon: PanelRight },
+  { id: "patterns-sidebar--docs", name: "Sidebar", description: "Navigazione laterale principale dell'applicazione.", icon: PanelLeft },
+  { id: "patterns-table--docs", name: "Table", description: "Tabella dati con intestazioni, righe e celle semantiche.", icon: Table },
+  { id: "patterns-tabs--docs", name: "Tabs", description: "Contenuto organizzato in schede selezionabili.", icon: SquareStack },
+  { id: "patterns-toast-radix-legacy-gt40--docs", name: "Toast (legacy)", description: "Notifica Radix, pattern legacy — preferire Toaster (sonner).", icon: BellRing },
+  { id: "patterns-toaster-radix-legacy-gt40--docs", name: "Toaster (legacy)", description: "Provider/viewport per il pattern Toast Radix legacy.", icon: Bell },
+  { id: "patterns-toaster-sonner--docs", name: "Toaster (sonner)", description: "Notifiche toast basate su sonner — pattern consigliato.", icon: BellDot },
+];
+
+<CategoryGrid items={items} />
