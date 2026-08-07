@@ -17,7 +17,7 @@ const preview: Preview = {
     },
     options: {
       storySort: {
-        order: ["Introduzione", "Fondamenta", "Atoms", "Form", "Patterns", "Componenti", "*"],
+        order: ["Introduzione", "Fondamenta", "Atoms", "Form", "Patterns", "*"],
       },
     },
   },

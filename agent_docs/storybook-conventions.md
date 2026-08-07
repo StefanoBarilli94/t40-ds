@@ -12,10 +12,10 @@ richieste "innaturali" da riempire solo per soddisfare TypeScript (es. `Form`,
 
 ## Tassonomia (`title` nel meta)
 
-In transizione verso atomic design: `Atom/*`, `Form/*`, `Pattern/*` (vedi issue #1 su
-GitHub). Finché la riorganizzazione non è completa, i `title` esistenti usano ancora
-`Componenti/*` — non mescolare le due convenzioni nello stesso PR, converti un file alla
-volta o tutti insieme, non a metà.
+Atomic design: `Atoms/*`, `Form/*`, `Patterns/*` (issue #1, GitHub — completata). I
+componenti vivono in `src/components/{atoms,form,patterns}/` e il `title` della story
+riflette la cartella. Un nuovo componente va nella cartella/categoria giusta fin
+dall'inizio — non serve più la vecchia convenzione `Componenti/*`.
 
 `Fondamenta/*` è riservato alle pagine `.mdx` non legate a un componente specifico
 (Colori, Typography, Introduzione) — non componenti UI.

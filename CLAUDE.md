@@ -8,7 +8,8 @@ Tabaccheria 4.0. React 19 + TypeScript + Tailwind v4 + Vite. Documentata con Sto
 con il proprio bundler.
 
 Struttura:
-- `src/components/ui/*.tsx` — componenti, uno per file, con `*.stories.tsx` a fianco.
+- `src/components/{atoms,form,patterns}/*.tsx` — componenti organizzati per atomic
+  design, uno per file, con `*.stories.tsx` a fianco.
 - `src/index.css` — unica fonte dei design token (colori, radius, font).
 - `src/index.ts` — barrel export pubblico del pacchetto.
 - `src/docs/*.mdx` — pagine Storybook non legate a un componente (Introduzione, Fondamenta).

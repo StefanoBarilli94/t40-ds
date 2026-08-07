@@ -17,8 +17,9 @@ un componente, è quasi sempre questo.
 
 ## Pattern di un componente
 
-- Un file per componente in `src/components/ui/`, `React.forwardRef` + `cva` per le
-  varianti (vedi `button.tsx` come riferimento canonico).
+- Un file per componente in `src/components/{atoms,form,patterns}/` (vedi
+  `agent_docs/storybook-conventions.md` per la tassonomia), `React.forwardRef` + `cva`
+  per le varianti (vedi `button.tsx` come riferimento canonico).
 - Story a fianco, stesso nome, `*.stories.tsx`, tag `autodocs`.
 - Ogni componente Radix-based eredita ruoli ARIA/focus dal primitivo — non
   reimplementarli a mano.
