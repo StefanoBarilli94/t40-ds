@@ -1,8 +1,8 @@
 # Tabaccheria 4.0 — Design System
 
-Libreria di componenti condivisa tra [ast40](https://github.com/StefanoBarilli94/ast40)
-(dashboard contabile) e gt40 (gestionale giornaliero). 49 componenti (shadcn/ui su Radix UI),
-documentati con Storybook, verificati WCAG 2.1 AA.
+Libreria di componenti UI per applicazioni web nel settore della vendita di tabacchi.
+49 componenti (shadcn/ui su Radix UI), documentati con Storybook, verificati WCAG 2.1 AA,
+con supporto multi-tema per brand diversi.
 
 ## Sviluppo
 
@@ -14,7 +14,7 @@ bun run a11y         # audit accessibilità su tutte le story (storybook deve es
 bun run build         # build della demo app (sanity check)
 ```
 
-## Usarlo in ast40 / gt40
+## Usarlo in un'app consumer
 
 Installato come dipendenza Git (nessun registro npm da gestire), puntata a un tag di versione:
 
