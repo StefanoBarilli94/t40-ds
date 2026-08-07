@@ -37,6 +37,16 @@
   --color-primary: var(--primary);
   --color-primary-foreground: var(--primary-foreground);
   --color-primary-text: var(--primary-text);
+  --color-primary-50: var(--primary-50);
+  --color-primary-100: var(--primary-100);
+  --color-primary-200: var(--primary-200);
+  --color-primary-300: var(--primary-300);
+  --color-primary-400: var(--primary-400);
+  --color-primary-500: var(--primary-500);
+  --color-primary-600: var(--primary-600);
+  --color-primary-700: var(--primary-700);
+  --color-primary-800: var(--primary-800);
+  --color-primary-900: var(--primary-900);
   --color-secondary: var(--secondary);
   --color-secondary-foreground: var(--secondary-foreground);
   --color-muted: var(--muted);
@@ -54,6 +64,9 @@
   --color-chart-3: var(--chart-3);
   --color-chart-4: var(--chart-4);
   --color-chart-5: var(--chart-5);
+  --color-chart-6: var(--chart-6);
+  --color-chart-7: var(--chart-7);
+  --color-chart-8: var(--chart-8);
   --color-sidebar: var(--sidebar);
   --color-sidebar-foreground: var(--sidebar-foreground);
   --color-sidebar-primary: var(--sidebar-primary);
@@ -79,6 +92,20 @@
      dei bottoni) scende a 1.8:1: --primary-text è la stessa tinta scurita
      per restare leggibile (4.6:1+) quando serve come foreground. */
   --primary-text: oklch(0.52 0.14 185);
+  /* Scala tint/shade del brand (issue #4). Non sostituisce --primary (resta il
+     token semantico usato dai componenti): serve per sfondi tenui, grafici,
+     illustrazioni. 50-300 sono pensati come SFONDO con --foreground sopra
+     (>15:1); 600-900 come TESTO su --background (>=4.5:1, verificato). */
+  --primary-50: oklch(0.97 0.008 185);
+  --primary-100: oklch(0.93 0.017 185);
+  --primary-200: oklch(0.86 0.049 185);
+  --primary-300: oklch(0.77 0.077 185);
+  --primary-400: oklch(0.68 0.105 185);
+  --primary-500: oklch(0.6 0.126 185);
+  --primary-600: oklch(0.52 0.14 185);
+  --primary-700: oklch(0.44 0.133 185);
+  --primary-800: oklch(0.36 0.115 185);
+  --primary-900: oklch(0.26 0.091 185);
   --secondary: oklch(0.968 0.007 247.896);
   --secondary-foreground: oklch(0.208 0.042 265.755);
   --muted: oklch(0.96 0.008 250);
@@ -91,11 +118,17 @@
   --border: oklch(0.92 0.01 250);
   --input: oklch(0.94 0.01 250);
   --ring: oklch(0.78 0.14 185);
+  /* Palette chart: 8 tinte distinguibili, ognuna >=3:1 su --background (WCAG
+     1.4.11, contrasto non testuale per elementi grafici). chart-4/5 scuriti
+     rispetto all'originale shadcn (1.65:1 / 2.06:1, sotto soglia). */
   --chart-1: oklch(0.646 0.222 41.116);
   --chart-2: oklch(0.6 0.118 184.704);
   --chart-3: oklch(0.398 0.07 227.392);
-  --chart-4: oklch(0.828 0.189 84.429);
-  --chart-5: oklch(0.769 0.188 70.08);
+  --chart-4: oklch(0.65 0.189 84.429);
+  --chart-5: oklch(0.62 0.188 70.08);
+  --chart-6: oklch(0.58 0.19 300);
+  --chart-7: oklch(0.6 0.2 350);
+  --chart-8: oklch(0.62 0.15 140);
   --sidebar: oklch(0.18 0.025 250);
   --sidebar-foreground: oklch(0.95 0.005 250);
   --sidebar-primary: oklch(0.78 0.14 185);
@@ -135,6 +168,32 @@
      restare leggibile come "azione pericolosa" senza clonare il brand. */
   --destructive: oklch(0.581 0.2 45);
   --destructive-foreground: oklch(1 0 0);
+
+  /* Scala tint/shade del rosso di brand, stessa logica di --primary-* in
+     :root (50-300 sfondo, 600-900 testo verificato >=4.5:1 su --background). */
+  --primary-50: oklch(0.97 0.013 25);
+  --primary-100: oklch(0.93 0.026 25);
+  --primary-200: oklch(0.86 0.077 25);
+  --primary-300: oklch(0.77 0.121 25);
+  --primary-400: oklch(0.68 0.165 25);
+  --primary-500: oklch(0.6 0.198 25);
+  --primary-600: oklch(0.52 0.22 25);
+  --primary-700: oklch(0.44 0.209 25);
+  --primary-800: oklch(0.36 0.18 25);
+  --primary-900: oklch(0.26 0.143 25);
+
+  /* Palette chart dedicata: quella di default (GT40) usa hue 184.7 vicina al
+     teal di brand e non stona, ma qui clasherebbe con poco senso col rosso.
+     8 hue scelte evitando un raggio di ~40° attorno a --primary (25) e
+     --destructive (45), tutte >=3:1 su --background. */
+  --chart-1: oklch(0.62 0.16 84);
+  --chart-2: oklch(0.55 0.19 122);
+  --chart-3: oklch(0.6 0.15 159);
+  --chart-4: oklch(0.58 0.18 197);
+  --chart-5: oklch(0.62 0.15 234);
+  --chart-6: oklch(0.55 0.2 272);
+  --chart-7: oklch(0.65 0.14 309);
+  --chart-8: oklch(0.58 0.19 347);
 }
 
 .dark {
@@ -163,6 +222,9 @@
   --chart-3: oklch(0.769 0.188 70.08);
   --chart-4: oklch(0.627 0.265 303.9);
   --chart-5: oklch(0.645 0.246 16.439);
+  --chart-6: oklch(0.65 0.2 200);
+  --chart-7: oklch(0.65 0.24 340);
+  --chart-8: oklch(0.7 0.19 130);
   --sidebar: oklch(0.208 0.042 265.755);
   --sidebar-foreground: oklch(0.984 0.003 247.858);
   --sidebar-primary: oklch(0.488 0.243 264.376);
