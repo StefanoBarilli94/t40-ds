@@ -251,6 +251,36 @@
     box-shadow: none !important;
   }
 
+  /*
+   * Focus visibile, reso con `outline` e non con `ring` (issue #23).
+   *
+   * `ring-*` di Tailwind è implementato come box-shadow: la regola qui sopra lo
+   * azzera con !important, quindi ogni focus costruito con un ring resta
+   * invisibile. Siccome i componenti toglievano anche l'outline nativa per
+   * fargli spazio, navigando da tastiera non si vedeva più nulla — su tutta la
+   * libreria, non su un componente (WCAG 2.4.7 Focus Visible).
+   *
+   * Sta qui e non nei singoli componenti per la stessa ragione per cui ci sta
+   * il reset: una fonte di verità sola. Così vale anche per gli elementi nativi
+   * che le app consumer usano senza passare da un componente del DS.
+   *
+   * Chi deve sopprimerlo usa la utility `outline-none`, che stando nel layer
+   * utilities vince su questa regola: è il caso delle voci di menu, dove il
+   * focus è già reso dallo sfondo (`focus:bg-accent`), e dei contenitori che
+   * ricevono focus programmatico all'apertura (Popover, HoverCard).
+   */
+  :focus-visible {
+    outline: 2px solid var(--color-ring);
+    outline-offset: 2px;
+  }
+
+  /* Sulla superficie scura della sidebar il ring di brand non stacca: lì il
+     token dedicato è --sidebar-ring. */
+  [data-sidebar]:focus-visible,
+  [data-sidebar] :focus-visible {
+    outline-color: var(--color-sidebar-ring);
+  }
+
   /* Eccezioni alla regola "niente angoli arrotondati": tag/badge e avatar. */
   [data-slot="badge"] {
     border-radius: var(--radius-md) !important;

@@ -2,6 +2,41 @@
 
 Schema descritto in [agent_docs/versioning.md](agent_docs/versioning.md).
 
+## v0.3.0 — 2026-08-08
+
+Tutti i difetti qui sotto sono emersi migrando ast40 al design system (ast40 #7–#14):
+si vedono usando i componenti in un'app vera, non nelle story.
+
+### 🚀 Evolutive
+
+- `DialogContent`: nuova prop `dismissOnOutsideClick` (#25). **Cambio di
+  comportamento**: il click fuori dalla modale ora **non** la chiude più per default,
+  perché su una modale con un form significava perdere quanto digitato per un click di
+  troppo. Chi mostra contenuto di sola lettura passa `dismissOnOutsideClick`. Esc resta
+  sempre attivo.
+
+### 🐛 Bug fixing
+
+- **Focus invisibile su tutta la libreria** (#23): i componenti rimuovevano l'outline
+  nativa e la sostituivano con `ring-*`, che Tailwind rende come `box-shadow` — cioè
+  proprio quello che il reset azzera con `box-shadow: none !important`. Risultato:
+  navigando da tastiera non si vedeva dove si era, su 17 componenti. Il focus ora è un
+  `outline` dichiarato una volta sola in `index.css`, che nessuna regola sulle ombre può
+  spegnere, e vale anche per gli elementi nativi delle app consumer (WCAG 2.4.7 AA)
+- `Alert`: icona 5px sotto il centro del testo quando c'è solo `AlertDescription`, cioè
+  nel caso tipico di un errore di form — il posizionamento assoluto con `top-4` era
+  tarato sul caso "titolo + descrizione". Ora è una griglia a due colonne (#20)
+- Campi form di dimensioni diverse tra loro e dalle etichette sotto i 768px (#21):
+  `Input`/`Textarea`/`CurrencyInput` erano a 16px, `Select`/`InputOTP`/`Label` a 14px.
+  Ora tutti seguono la stessa coppia `text-base md:text-sm`, quindi etichetta e campo
+  hanno sempre la stessa dimensione
+- `Sidebar` su mobile: bordo destro chiaro sul pannello scuro, perché ereditava
+  `--border` invece di `--sidebar-border` (#22)
+- `Input type="date"`: icona del calendario appiccicata al testo invece che sul bordo
+  destro — `display: flex` sull'input rompe il layout interno di Chrome (#24)
+- Ring decorativi morti per la stessa ragione del focus: separatore degli avatar
+  sovrapposti e slot attivo di `InputOTP`, entrambi passati a `outline`
+
 ## v0.2.0 — 2026-08-08
 
 ### 🚀 Evolutive

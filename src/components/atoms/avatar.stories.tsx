@@ -40,13 +40,13 @@ export const SoloFallback: Story = {
 export const Gruppo: Story = {
   render: () => (
     <div className="flex -space-x-2">
-      <Avatar className="ring-2 ring-background">
+      <Avatar className="outline-2 outline-background">
         <AvatarFallback>MO</AvatarFallback>
       </Avatar>
-      <Avatar className="ring-2 ring-background">
+      <Avatar className="outline-2 outline-background">
         <AvatarFallback>PA</AvatarFallback>
       </Avatar>
-      <Avatar className="ring-2 ring-background">
+      <Avatar className="outline-2 outline-background">
         <AvatarFallback>IL</AvatarFallback>
       </Avatar>
     </div>

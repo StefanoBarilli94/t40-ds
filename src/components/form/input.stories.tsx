@@ -65,7 +65,7 @@ export const ConErrore: Story = {
         id="errore-story"
         aria-invalid="true"
         aria-describedby="errore-story-msg"
-        className="border-destructive focus-visible:ring-destructive"
+        className="border-destructive focus-visible:outline-destructive"
         defaultValue="-10"
       />
       <p id="errore-story-msg" className="text-sm text-destructive">

@@ -4,7 +4,12 @@ import { cva, type VariantProps } from "class-variance-authority";
 import { cn } from "../../lib/utils";
 
 const alertVariants = cva(
-  "relative w-full rounded-lg border px-4 py-3 text-sm [&>svg+div]:translate-y-[-3px] [&>svg]:absolute [&>svg]:left-4 [&>svg]:top-4 [&>svg]:text-foreground [&>svg~*]:pl-7",
+  // Griglia a due colonne invece di icona in posizione assoluta con offset
+  // fissi (issue #20). Il vecchio `[&>svg]:top-4` era tarato sul caso "titolo +
+  // descrizione": con la sola descrizione su una riga — il caso tipico di un
+  // errore di form — l'icona finiva 5px sotto il centro del testo.
+  // `grid-cols-[0_1fr]` quando non c'è icona, così il contenuto resta a filo.
+  "grid w-full grid-cols-[0_1fr] items-start gap-y-0.5 rounded-lg border px-4 py-3 text-sm has-[>svg]:grid-cols-[1rem_1fr] has-[>svg]:gap-x-3 [&>svg]:size-4 [&>svg]:translate-y-0.5 [&>svg]:text-foreground",
   {
     variants: {
       variant: {
@@ -31,7 +36,7 @@ const AlertTitle = React.forwardRef<HTMLParagraphElement, React.HTMLAttributes<H
   ({ className, ...props }, ref) => (
     <h5
       ref={ref}
-      className={cn("mb-1 font-medium leading-none tracking-tight", className)}
+      className={cn("col-start-2 font-medium leading-none tracking-tight", className)}
       {...props}
     />
   ),
@@ -42,7 +47,11 @@ const AlertDescription = React.forwardRef<
   HTMLParagraphElement,
   React.HTMLAttributes<HTMLParagraphElement>
 >(({ className, ...props }, ref) => (
-  <div ref={ref} className={cn("text-sm [&_p]:leading-relaxed", className)} {...props} />
+  <div
+    ref={ref}
+    className={cn("col-start-2 text-sm [&_p]:leading-relaxed", className)}
+    {...props}
+  />
 ));
 AlertDescription.displayName = "AlertDescription";
 
