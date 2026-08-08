@@ -2,6 +2,20 @@
 
 Schema descritto in [agent_docs/versioning.md](agent_docs/versioning.md).
 
+## v0.5.0 — 2026-08-08
+
+### 🚀 Evolutive
+
+- `PageLoader`: nuova prop `inverted`, per un genitore con sfondo scuro/fotografico
+  (una hero image, non `bg-background`). Misurato su un caso reale (ast40, il flash
+  vuoto sulla pagina di login): il testo di default (`text-muted-foreground`) era a
+  1.6:1 di contrasto contro la foto, la barra rossa a ~1.8:1 — entrambi ben sotto
+  soglia AA (4.5:1 testo, 3:1 componenti non testuali). `inverted` porta testo e
+  barra al bianco, il massimo di luminanza possibile
+- `Progress`: nuova prop `indicatorClassName`, per ricolorare la parte riempita
+  separatamente dal track (`className` governa solo quest'ultimo) — usata da
+  `PageLoader` per `inverted`
+
 ## v0.4.0 — 2026-08-08
 
 ### 🚀 Evolutive

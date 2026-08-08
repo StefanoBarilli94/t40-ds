@@ -48,3 +48,25 @@ export const SenzaLogo: Story = {
 export const MessaggioPersonalizzato: Story = {
   render: () => <PageLoader logo={<PlaceholderLogo />} message="Verifica della sessione…" />,
 };
+
+export const SuSfondoScuro: Story = {
+  parameters: {
+    docs: {
+      description: {
+        story:
+          "`inverted`, per un genitore con sfondo scuro/fotografico (una hero image, non `bg-background`): testo e barra passano al bianco. Misurato su un caso reale (ast40, pagina di login): i token neutri di default erano a 1.6:1 di contrasto contro la foto, ben sotto soglia AA — non una scelta estetica, una correzione.",
+      },
+    },
+  },
+  render: () => (
+    <div
+      className="absolute inset-0"
+      style={{
+        background:
+          "radial-gradient(circle at 30% 20%, #3a4a5c 0%, #1a1a1a 60%, #0a0a0a 100%)",
+      }}
+    >
+      <PageLoader logo={<PlaceholderLogo />} inverted className="bg-transparent" />
+    </div>
+  ),
+};
