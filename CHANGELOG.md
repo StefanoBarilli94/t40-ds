@@ -2,6 +2,22 @@
 
 Schema descritto in [agent_docs/versioning.md](agent_docs/versioning.md).
 
+## v0.4.0 — 2026-08-08
+
+### 🚀 Evolutive
+
+- `PageLoader` (`Patterns/PageLoader`): schermata di caricamento a pagina intera —
+  logo (slot, il DS non possiede i loghi delle app), barra di `Progress`
+  indeterminata e messaggio, centrati sia in verticale che in orizzontale. Nasce
+  dalla issue ast40 #17: la label "Caricamento…" su sfondo bianco che ast40 mostrava
+  durante la verifica della sessione
+- `Progress`: supporta lo stato indeterminato (`value` assente o `null`, il caso
+  ARIA corretto per un'attesa di durata sconosciuta — Radix marca
+  `data-state="indeterminate"` e omette `aria-valuenow`). Prima `value || 0`
+  trattava l'assenza di value come 0%, cioè un indicatore invisibile invece che in
+  corso. Ora riempie in loop (`--animate-progress-fill`, nuovo token in
+  `index.css`) invece di stare fermo
+
 ## v0.3.1 — 2026-08-08
 
 Due difetti nel fix del focus di v0.3.0, trovati installando davvero il tag in ast40

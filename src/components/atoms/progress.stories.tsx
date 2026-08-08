@@ -25,3 +25,15 @@ export const Default: Story = {
 export const Completo: Story = {
   render: () => <Progress value={100} aria-label="Avanzamento importazione dati" className="w-72" />,
 };
+
+export const Indeterminato: Story = {
+  parameters: {
+    docs: {
+      description: {
+        story:
+          "Nessun `value` (o `value={null}`): durata sconosciuta, niente percentuale da annunciare. Radix marca `data-state=\"indeterminate\"` e omette `aria-valuenow` — lo screen reader sa che è in corso, non finge una quantità che non esiste.",
+      },
+    },
+  },
+  render: () => <Progress aria-label="Caricamento in corso" className="w-72" />,
+};

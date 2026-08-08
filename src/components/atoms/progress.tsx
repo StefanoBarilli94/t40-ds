@@ -11,12 +11,23 @@ const Progress = React.forwardRef<
 >(({ className, value, ...props }, ref) => (
   <ProgressPrimitive.Root
     ref={ref}
+    value={value}
     className={cn("relative h-2 w-full overflow-hidden rounded-full bg-primary/20", className)}
     {...props}
   >
     <ProgressPrimitive.Indicator
-      className="h-full w-full flex-1 bg-primary transition-all"
-      style={{ transform: `translateX(-${100 - (value || 0)}%)` }}
+      className={cn(
+        "h-full w-full flex-1 bg-primary",
+        // value=null/undefined -> Radix marca data-state="indeterminate":
+        // niente percentuale nota, quindi niente translateX proporzionale —
+        // la barra riempie in loop invece di restare ferma o sparire dietro
+        // translateX(-100%) (che succedeva prima: `value || 0` trattava
+        // l'assenza di value come 0%, cioe' indicatore invisibile).
+        value == null
+          ? "origin-left animate-progress-fill"
+          : "origin-left transition-transform",
+      )}
+      style={value == null ? undefined : { transform: `translateX(-${100 - value}%)` }}
     />
   </ProgressPrimitive.Root>
 ));

@@ -32,6 +32,7 @@ export * from "./components/form/input-otp";
 export * from "./components/form/label";
 export * from "./components/patterns/menubar";
 export * from "./components/patterns/navigation-menu";
+export * from "./components/patterns/page-loader";
 export * from "./components/patterns/pagination";
 export * from "./components/patterns/popover";
 export * from "./components/atoms/progress";
