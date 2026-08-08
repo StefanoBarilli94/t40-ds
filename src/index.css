@@ -174,9 +174,21 @@
   --sidebar-border: oklch(0.28 0.025 250);
   --sidebar-ring: oklch(0.78 0.14 185);
   /* Darkened from the original ast40 tokens (0.7 / 0.62) to reach WCAG AA
-     4.5:1 text contrast on light backgrounds — see a11y notes in stories. */
+     4.5:1 text contrast on light backgrounds — see a11y notes in stories.
+     NOTA: verificati solo su --card chiaro (4.84:1 / 4.79:1). Contro il
+     --card scuro di .dark scendono a 3.68:1 / 3.72:1, sotto soglia — .dark
+     non li ridefinisce con un valore proprio come fa per --destructive. Non
+     toccato qui, fuori scope per il Toaster — tracciato in #28: nessuna
+     delle due app attiva .dark oggi, quindi non è un difetto raggiungibile,
+     ma resta un token da correggere prima che lo diventi. */
   --positive: oklch(0.52 0.16 160);
   --negative: oklch(0.58 0.22 25);
+  /* Ambra, non condiviso con --destructive (che in [data-theme="ast40"] è già
+     spostato all'arancione, hue 45, per non confondersi col primary rosso):
+     hue 68 resta distinguibile da entrambi. Non toccato da nessun tema — a
+     differenza dei brand color, gli stati semantici (successo/avviso/errore)
+     restano coerenti tra i temi. Verificato 6.19:1 su --card chiaro. */
+  --warning: oklch(0.5 0.16 68);
 }
 
 /*
@@ -253,6 +265,10 @@
   --border: oklch(1 0 0 / 10%);
   --input: oklch(1 0 0 / 15%);
   --ring: oklch(0.551 0.027 264.364);
+  /* Stessa hue di :root (68), schiarito per il --card scuro: verificato
+     8.76:1. --positive/--negative non hanno ancora questo trattamento (vedi
+     la nota su :root) — --warning nasce già corretto sui due temi. */
+  --warning: oklch(0.78 0.15 75);
   --chart-1: oklch(0.488 0.243 264.376);
   --chart-2: oklch(0.696 0.17 162.48);
   --chart-3: oklch(0.769 0.188 70.08);
@@ -331,6 +347,35 @@
   [data-slot="avatar"],
   [data-slot="avatar"] * {
     border-radius: 9999px !important;
+  }
+
+  /*
+   * toast.success/.warning/.error (Toaster, sonner) sui token del DS invece
+   * della palette hardcoded di sonner (verde/ambra/rosso fissi, non teal-vs-
+   * rosso di brand). sonner inietta a runtime [data-sonner-toaster][data-
+   * sonner-theme=light|dark] { --success-bg: ...; ... } — due selettori,
+   * specificità (0,2,0). Un semplice `:root [data-sonner-toaster]` pareggia
+   * a (0,2,0) (:root e l'attributo contano un punto ciascuno) e su un
+   * pareggio vince chi arriva dopo nel documento — cioè sonner, iniettato al
+   * mount del Toaster, dopo il nostro <link rel="stylesheet">. Il terzo
+   * selettore ([data-sonner-theme], presenza non valore) porta a (0,3,0):
+   * vince sempre, a prescindere dall'ordine di inserimento.
+   *
+   * Bordo tinto, sfondo neutro: stesso stile di Alert variant="destructive",
+   * non un riempimento pieno. --positive/--negative sono verificati 4.8:1 su
+   * --card chiaro (non ancora su --card scuro, vedi nota su :root più sopra);
+   * --warning è verificato su entrambi.
+   */
+  :root [data-sonner-toaster][data-sonner-theme] {
+    --success-bg: var(--card);
+    --success-text: var(--positive);
+    --success-border: color-mix(in oklab, var(--positive) 50%, transparent);
+    --warning-bg: var(--card);
+    --warning-text: var(--warning);
+    --warning-border: color-mix(in oklab, var(--warning) 50%, transparent);
+    --error-bg: var(--card);
+    --error-text: var(--negative);
+    --error-border: color-mix(in oklab, var(--negative) 50%, transparent);
   }
 
   body {

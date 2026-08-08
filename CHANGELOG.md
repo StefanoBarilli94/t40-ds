@@ -2,6 +2,27 @@
 
 Schema descritto in [agent_docs/versioning.md](agent_docs/versioning.md).
 
+## v0.6.0 — 2026-08-08
+
+### 🚀 Evolutive
+
+- Nuovo token `--warning` (verificato 6.19:1 su `--card` chiaro, 8.76:1 su `--card` scuro),
+  non condiviso con `--destructive` — che in `[data-theme="ast40"]` è già spostato
+  all'arancione per non confondersi col `--primary` rosso, mentre `--warning` resta
+  coerente tra i temi come gli altri stati semantici
+
+### 🐛 Bug fixing
+
+- `Toaster` (sonner): `toast.success`/`.warning`/`.error` mostravano l'icona in
+  `currentColor` (quasi nera) invece che verde/ambra/rosso — mancava `richColors`, e senza
+  quello sonner non applica affatto la sua colorazione semantica. Aggiunto di default, con
+  i colori mappati ai token del DS (`--positive`/`--warning`/`--negative`) invece della
+  palette hardcoded di sonner, via una regola in `index.css` — non uno `style` prop su
+  `Toaster`: sonner inietta la propria regola a runtime sullo stesso selettore, e uno style
+  prop non ha garanzia di vincere quella cascata, una regola con specificità più alta sì.
+  Bordo tinto, sfondo neutro (`--card`), stesso stile di `Alert variant="destructive"`.
+  Nuova story `Avviso` accanto a `Successo`/`Errore`
+
 ## v0.5.0 — 2026-08-08
 
 ### 🚀 Evolutive

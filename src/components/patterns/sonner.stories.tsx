@@ -11,7 +11,7 @@ const meta = {
     docs: {
       description: {
         component:
-          "Notifiche non bloccanti. Sonner annuncia i toast tramite una regione `aria-live` dedicata: appaiono anche per chi usa uno screen reader, senza rubare il focus.",
+          'Notifiche non bloccanti. Sonner annuncia i toast tramite una regione `aria-live` dedicata: appaiono anche per chi usa uno screen reader, senza rubare il focus. `richColors` è attivo di default: `toast.success`/`.error`/`.warning` colorano icona, testo e bordo sui token semantici del DS (`--positive`/`--negative`/`--warning`), non sulla palette di sonner — bordo tinto e sfondo neutro, stesso stile di `Alert variant="destructive"`, non un riempimento pieno.',
       },
     },
   },
@@ -34,6 +34,20 @@ export const Successo: Story = {
     <div>
       <Toaster />
       <Button onClick={() => toast.success("Importazione completata.")}>Mostra successo</Button>
+    </div>
+  ),
+};
+
+export const Avviso: Story = {
+  render: () => (
+    <div>
+      <Toaster />
+      <Button
+        variant="outline"
+        onClick={() => toast.warning("La categoria selezionata non è più attiva.")}
+      >
+        Mostra avviso
+      </Button>
     </div>
   ),
 };
