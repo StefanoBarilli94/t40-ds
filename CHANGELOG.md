@@ -2,6 +2,22 @@
 
 Schema descritto in [agent_docs/versioning.md](agent_docs/versioning.md).
 
+## v0.3.1 — 2026-08-08
+
+Due difetti nel fix del focus di v0.3.0, trovati installando davvero il tag in ast40
+(non con una copia manuale in `node_modules`, che aveva nascosto entrambi dietro la
+cache dei moduli di Vite).
+
+### 🐛 Bug fixing
+
+- Il colore del focus ricadeva su `currentColor` invece che sul token di brand: la
+  scorciatoia `outline: 2px solid var(--color-ring)` risolve il colore rispetto al
+  contesto in cui è scritta la dichiarazione, non a quello dell'elemento a fuoco. Ora
+  sono proprietà longhand (`outline-color` separata) sul token `--ring` corretto
+- (#24) La classe `[&::-webkit-calendar-picker-indicator]:ml-auto` non viene generata
+  da Tailwind — pseudo-elementi `::-webkit-*` non sono un target supportato dai
+  varianti arbitrari. Sostituita con una regola CSS diretta in `index.css`
+
 ## v0.3.0 — 2026-08-08
 
 Tutti i difetti qui sotto sono emersi migrando ast40 al design system (ast40 #7–#14):

@@ -269,8 +269,14 @@
    * focus è già reso dallo sfondo (`focus:bg-accent`), e dei contenitori che
    * ricevono focus programmatico all'apertura (Popover, HoverCard).
    */
+   * Longhand e non la scorciatoia `outline:`, e `--ring` invece di
+   * `--color-ring`: con la scorciatoia il colore ricadeva su `currentColor`,
+   * quindi il focus si vedeva ma del colore del testo invece che del brand.
+   */
   :focus-visible {
-    outline: 2px solid var(--color-ring);
+    outline-width: 2px;
+    outline-style: solid;
+    outline-color: var(--ring);
     outline-offset: 2px;
   }
 
@@ -278,7 +284,17 @@
      token dedicato è --sidebar-ring. */
   [data-sidebar]:focus-visible,
   [data-sidebar] :focus-visible {
-    outline-color: var(--color-sidebar-ring);
+    outline-color: var(--sidebar-ring);
+  }
+
+  /* L'indicatore del calendario di Chrome segue il testo invece di andare a
+     destra, perché `display: flex` su Input rompe il layout interno del campo
+     data (issue #24). Regola CSS e non una utility `[&::-webkit-...]`: quella
+     Tailwind non la genera. */
+  input[type="date"]::-webkit-calendar-picker-indicator,
+  input[type="time"]::-webkit-calendar-picker-indicator,
+  input[type="datetime-local"]::-webkit-calendar-picker-indicator {
+    margin-inline-start: auto;
   }
 
   /* Eccezioni alla regola "niente angoli arrotondati": tag/badge e avatar. */
