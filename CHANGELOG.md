@@ -2,6 +2,18 @@
 
 Schema descritto in [agent_docs/versioning.md](agent_docs/versioning.md).
 
+## v0.6.1 — 2026-08-08
+
+### 🐛 Bug fixing
+
+- Il mapping colori del `Toaster` aggiunto in v0.6.0 non funzionava: la regola viveva
+  dentro `@layer base`, e in CSS un layer perde **sempre** contro una regola non in nessun
+  layer, qualunque sia la specificità — l'ordine dei layer viene prima della specificità
+  nella cascata. sonner inietta la propria colorazione come `<style>` non layerizzato, quindi
+  vinceva comunque nonostante la mia regola avesse specificità più alta (0,3,0 contro 0,2,0).
+  Spostata fuori da `@layer base`: verificato dal vivo, `toast.success`/`.error` ora
+  risolvono davvero su `--positive`/`--negative`, non sulla palette di sonner
+
 ## v0.6.0 — 2026-08-08
 
 ### 🚀 Evolutive

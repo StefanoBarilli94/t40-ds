@@ -349,35 +349,6 @@
     border-radius: 9999px !important;
   }
 
-  /*
-   * toast.success/.warning/.error (Toaster, sonner) sui token del DS invece
-   * della palette hardcoded di sonner (verde/ambra/rosso fissi, non teal-vs-
-   * rosso di brand). sonner inietta a runtime [data-sonner-toaster][data-
-   * sonner-theme=light|dark] { --success-bg: ...; ... } — due selettori,
-   * specificità (0,2,0). Un semplice `:root [data-sonner-toaster]` pareggia
-   * a (0,2,0) (:root e l'attributo contano un punto ciascuno) e su un
-   * pareggio vince chi arriva dopo nel documento — cioè sonner, iniettato al
-   * mount del Toaster, dopo il nostro <link rel="stylesheet">. Il terzo
-   * selettore ([data-sonner-theme], presenza non valore) porta a (0,3,0):
-   * vince sempre, a prescindere dall'ordine di inserimento.
-   *
-   * Bordo tinto, sfondo neutro: stesso stile di Alert variant="destructive",
-   * non un riempimento pieno. --positive/--negative sono verificati 4.8:1 su
-   * --card chiaro (non ancora su --card scuro, vedi nota su :root più sopra);
-   * --warning è verificato su entrambi.
-   */
-  :root [data-sonner-toaster][data-sonner-theme] {
-    --success-bg: var(--card);
-    --success-text: var(--positive);
-    --success-border: color-mix(in oklab, var(--positive) 50%, transparent);
-    --warning-bg: var(--card);
-    --warning-text: var(--warning);
-    --warning-border: color-mix(in oklab, var(--warning) 50%, transparent);
-    --error-bg: var(--card);
-    --error-text: var(--negative);
-    --error-border: color-mix(in oklab, var(--negative) 50%, transparent);
-  }
-
   body {
     background-color: var(--color-background);
     color: var(--color-foreground);
@@ -393,4 +364,32 @@
   [data-slot="trigger"] {
     cursor: pointer;
   }
+}
+
+/*
+ * toast.success/.warning/.error (Toaster, sonner) sui token del DS invece
+ * della palette hardcoded di sonner (verde/ambra/rosso fissi, non teal-vs-
+ * rosso di brand). Deliberatamente FUORI da @layer base: sonner inietta la
+ * propria regola a runtime come <style> non "layerizzato", e nella cascata
+ * CSS un layer perde SEMPRE contro una regola non in nessun layer, qualunque
+ * sia la specificità — un tentativo dentro @layer base con selettore a
+ * specificità più alta (0,3,0) contro il (0,2,0) di sonner perdeva comunque,
+ * proprio perché l'ordine dei layer viene prima della specificità nella
+ * cascata. Qui, non annidata, la specificità (0,3,0) vince per davvero.
+ *
+ * Bordo tinto, sfondo neutro: stesso stile di Alert variant="destructive",
+ * non un riempimento pieno. --positive/--negative sono verificati 4.8:1 su
+ * --card chiaro (non ancora su --card scuro, vedi nota su :root più sopra,
+ * issue #28); --warning è verificato su entrambi.
+ */
+:root [data-sonner-toaster][data-sonner-theme] {
+  --success-bg: var(--card);
+  --success-text: var(--positive);
+  --success-border: color-mix(in oklab, var(--positive) 50%, transparent);
+  --warning-bg: var(--card);
+  --warning-text: var(--warning);
+  --warning-border: color-mix(in oklab, var(--warning) 50%, transparent);
+  --error-bg: var(--card);
+  --error-text: var(--negative);
+  --error-border: color-mix(in oklab, var(--negative) 50%, transparent);
 }
