@@ -23,7 +23,7 @@ const meta = {
     docs: {
       description: {
         component:
-          "Navigazione principale dell'app (replica la sidebar scura di ast40/gt40). `SidebarTrigger` ha già `aria-label=\"Toggle Sidebar\"`; ogni voce attiva usa `data-active` per lo stato visivo, non solo il colore, e resta un `<a>`/`<button>` reale navigabile da tastiera. Il logo in `SidebarHeader` (issue #13) usa `/brand/logo-dark.png`: il suo sfondo quasi nero si fonde con `--sidebar` (`oklch(0.18 0.025 250)`, condiviso tra i due temi — `--sidebar` non viene mai sovrascritto da AST40, vedi theming.md) in entrambi i temi. **Limite noto**: `logo-light.png` (marchio rosso, usato per il branding AST40 altrove) ha uno sfondo chiaro cotto nell'immagine — mostrarlo qui creerebbe un riquadro chiaro stonato su uno sfondo sempre scuro. Per uno swap del logo per-tema in Sidebar serve una variante del marchio rosso con sfondo trasparente (o `oklch(0.18 0.025 250)`), non ancora disponibile come asset.",
+          "Navigazione principale dell'app (replica la sidebar scura di ast40/gt40). `SidebarTrigger` ha già `aria-label=\"Toggle Sidebar\"`; ogni voce attiva usa `data-active` per lo stato visivo, non solo il colore, e resta un `<a>`/`<button>` reale navigabile da tastiera. Il logo in `SidebarHeader` (issue #13) cambia per tema via CSS (selettore `[data-theme=ast40]`, stesso meccanismo del resto del theming — non serve leggere il tema a runtime): `logo-dark.png` (marchio ciano/bianco) di default, `logo-light.png` (marchio rosso, sfondo trasparente) sotto `data-theme=\"ast40\"`.",
       },
     },
   },
@@ -37,7 +37,21 @@ export const Default: Story = {
     <SidebarProvider>
       <Sidebar>
         <SidebarHeader className="flex-row items-center gap-2 p-4 text-sm font-semibold text-sidebar-foreground">
-          <img src="/brand/logo-dark.png" alt="" className="h-8 w-8 shrink-0 object-cover" />
+          {/* Swap via CSS, non JS: stesso pattern data-theme del resto del
+              theming (vedi agent_docs/theming.md), non serve leggere il tema
+              a runtime. logo-light.png ora ha sfondo trasparente (issue #13,
+              versione precedente aveva uno sfondo chiaro cotto nell'immagine
+              — stonava su una sidebar sempre scura). */}
+          <img
+            src="/brand/logo-dark.png"
+            alt=""
+            className="block h-8 w-8 shrink-0 object-contain [[data-theme=ast40]_&]:hidden"
+          />
+          <img
+            src="/brand/logo-light.png"
+            alt=""
+            className="hidden h-8 w-8 shrink-0 object-contain [[data-theme=ast40]_&]:block"
+          />
           AST4.0
         </SidebarHeader>
         <SidebarContent>
