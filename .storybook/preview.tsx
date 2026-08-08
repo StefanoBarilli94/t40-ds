@@ -20,7 +20,7 @@ const preview: Preview = {
         order: [
           "Introduzione",
           "Fondamenta",
-          ["Colori"],
+          ["Colori", "Typography"],
           "Atoms",
           ["Panoramica"],
           "Form",

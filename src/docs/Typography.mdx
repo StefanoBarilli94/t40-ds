@@ -1,0 +1,54 @@
+import { Meta } from "@storybook/addon-docs/blocks";
+
+<Meta title="Fondamenta/Typography" />
+
+# Typography
+
+## Font
+
+**Montserrat** (Google Fonts, importato in `src/index.css`), unico `--font-sans`
+registrato in `@theme inline` — applicato globalmente via `body { font-family:
+var(--font-sans) }`, non serve impostarlo componente per componente.
+
+<p style={{ fontFamily: "var(--font-sans)", fontSize: "1.5rem", margin: "1rem 0" }}>
+  Aa Bb Cc Dd — 0123456789
+</p>
+
+## Scala dei titoli
+
+Non esiste un componente `Heading` dedicato nel design system (`CardTitle`,
+`SheetTitle` ecc. sono `<div>`/elementi semantici Radix stilizzati dal consumer, vedi
+`agent_docs/component-conventions.md`) — questa è la scala di riferimento per titoli di
+pagina e sezione, da applicare via classi Tailwind dove serve un tag semantico
+(`<h1>`…`<h6>`).
+
+<div style={{ display: "grid", gap: "0.75rem", margin: "1.5rem 0" }}>
+  <div><span className="text-4xl font-bold">Titolo H1</span> <code style={{ marginLeft: "0.75rem", fontSize: "0.75rem", color: "var(--muted-foreground)" }}>text-4xl font-bold — titolo di pagina</code></div>
+  <div><span className="text-2xl font-semibold">Titolo H2</span> <code style={{ marginLeft: "0.75rem", fontSize: "0.75rem", color: "var(--muted-foreground)" }}>text-2xl font-semibold — sezione principale</code></div>
+  <div><span className="text-xl font-semibold">Titolo H3</span> <code style={{ marginLeft: "0.75rem", fontSize: "0.75rem", color: "var(--muted-foreground)" }}>text-xl font-semibold — sottosezione</code></div>
+  <div><span className="text-lg font-semibold">Titolo H4</span> <code style={{ marginLeft: "0.75rem", fontSize: "0.75rem", color: "var(--muted-foreground)" }}>text-lg font-semibold — blocco/card importante</code></div>
+  <div><span className="text-base font-semibold">Titolo H5</span> <code style={{ marginLeft: "0.75rem", fontSize: "0.75rem", color: "var(--muted-foreground)" }}>text-base font-semibold — titolo di card/dialog (vedi CardTitle)</code></div>
+  <div><span className="text-sm font-semibold uppercase tracking-wider text-muted-foreground">Titolo H6</span> <code style={{ marginLeft: "0.75rem", fontSize: "0.75rem", color: "var(--muted-foreground)" }}>text-sm font-semibold uppercase tracking-wider text-muted-foreground — eyebrow/label di gruppo</code></div>
+</div>
+
+## Testo UI
+
+Non un'invenzione a parte: è il risultato di quanto già usato nei 51 componenti
+(112 occorrenze di `text-sm`, il default per bottoni/campi/contenuto — vedi
+`grep -rhoE` sui sorgenti). Nuovi componenti dovrebbero attingere da qui, non
+introdurre una dimensione ad hoc.
+
+<div style={{ display: "grid", gap: "0.75rem", margin: "1.5rem 0" }}>
+  <div><span className="text-2xl font-semibold">3.845,85 €</span> <code style={{ marginLeft: "0.75rem", fontSize: "0.75rem", color: "var(--muted-foreground)" }}>text-2xl font-semibold — valore grande (KPI, vedi Card "Statistica/KPI")</code></div>
+  <div><span className="text-base">Testo corpo, dimensione base</span> <code style={{ marginLeft: "0.75rem", fontSize: "0.75rem", color: "var(--muted-foreground)" }}>text-base — corpo, contesto non compatto</code></div>
+  <div><span className="text-sm">Testo corpo, dimensione compatta — il più usato del pacchetto</span> <code style={{ marginLeft: "0.75rem", fontSize: "0.75rem", color: "var(--muted-foreground)" }}>text-sm — default di bottoni, campi form, contenuto card</code></div>
+  <div><span className="text-xs text-muted-foreground">Didascalia, nota secondaria, timestamp</span> <code style={{ marginLeft: "0.75rem", fontSize: "0.75rem", color: "var(--muted-foreground)" }}>text-xs text-muted-foreground — mai come unico veicolo di un'informazione importante</code></div>
+</div>
+
+## Perché non un token `--font-size-*`
+
+I token in `index.css` coprono colori/radius (valori che cambiano per tema/brand) —
+le dimensioni testo no: sono le utility Tailwind standard (`text-sm`, `text-2xl`…),
+già coerenti in tutto il pacchetto senza bisogno di un livello di indirezione in più.
+Questa pagina è la fonte di verità su *quale* dimensione usare in un dato contesto,
+non un nuovo sistema di token da mantenere.
