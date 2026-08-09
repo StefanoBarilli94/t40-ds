@@ -175,12 +175,9 @@
   --sidebar-ring: oklch(0.78 0.14 185);
   /* Darkened from the original ast40 tokens (0.7 / 0.62) to reach WCAG AA
      4.5:1 text contrast on light backgrounds — see a11y notes in stories.
-     NOTA: verificati solo su --card chiaro (4.84:1 / 4.79:1). Contro il
-     --card scuro di .dark scendono a 3.68:1 / 3.72:1, sotto soglia — .dark
-     non li ridefinisce con un valore proprio come fa per --destructive. Non
-     toccato qui, fuori scope per il Toaster — tracciato in #28: nessuna
-     delle due app attiva .dark oggi, quindi non è un difetto raggiungibile,
-     ma resta un token da correggere prima che lo diventi. */
+     Verificati su --card chiaro: 4.85:1 / 4.79:1. Questi valori valgono solo
+     per il tema chiaro — .dark li ridefinisce con una coppia propria, vedi
+     più sotto (issue #28). */
   --positive: oklch(0.52 0.16 160);
   --negative: oklch(0.58 0.22 25);
   /* Ambra, non condiviso con --destructive (che in [data-theme="ast40"] è già
@@ -266,9 +263,21 @@
   --input: oklch(1 0 0 / 15%);
   --ring: oklch(0.551 0.027 264.364);
   /* Stessa hue di :root (68), schiarito per il --card scuro: verificato
-     8.76:1. --positive/--negative non hanno ancora questo trattamento (vedi
-     la nota su :root) — --warning nasce già corretto sui due temi. */
+     8.76:1. --warning nasce già corretto sui due temi. */
   --warning: oklch(0.78 0.15 75);
+  /* Hue invariate rispetto a :root (160 e 25), schiarite per le superfici
+     scure sullo stesso pattern di --warning (issue #28). Senza queste righe
+     .dark ereditava i valori chiari e scendeva sotto AA: 3.68:1 e 3.73:1 sul
+     --card scuro.
+     Verificato con la formula WCAG su tutte le superfici scure, non solo su
+     --card: --positive 8.09 / 7.15 / 5.88 e --negative 7.55 / 6.68 / 5.49
+     rispettivamente su --background, --card/--popover e --muted.
+     Il chroma di --negative scende da 0.22 a 0.17 perché un rosso insieme
+     chiaro e saturo non esiste in sRGB: tenendo 0.22 il colore uscirebbe dal
+     gamut e il browser lo taglierebbe, cioè il token dichiarerebbe un colore
+     diverso da quello mostrato. */
+  --positive: oklch(0.7 0.155 160);
+  --negative: oklch(0.72 0.17 25);
   --chart-1: oklch(0.488 0.243 264.376);
   --chart-2: oklch(0.696 0.17 162.48);
   --chart-3: oklch(0.769 0.188 70.08);
