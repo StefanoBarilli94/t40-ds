@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import { Label } from "./label";
 import { Input } from "./input";
-import { Checkbox } from "./checkbox";
+import { Switch } from "./switch";
 
 const meta = {
   title: "Form/Label",
@@ -29,7 +29,7 @@ export const AbbinataAControllo: Story = {
   name: "Abbinata a un controllo (peer)",
   render: () => (
     <div className="flex items-center gap-2">
-      <Checkbox id="fissa-story" />
+      <Switch id="fissa-story" />
       <Label htmlFor="fissa-story">Voce fissa</Label>
     </div>
   ),
