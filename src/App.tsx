@@ -1,6 +1,5 @@
 import { Button } from "./components/atoms/button";
 import { Card, CardContent, CardHeader, CardTitle } from "./components/patterns/card";
-import { Badge } from "./components/atoms/badge";
 
 export function App() {
   return (
@@ -13,8 +12,6 @@ export function App() {
           <Button>Primario</Button>
           <Button variant="secondary">Secondario</Button>
           <Button variant="outline">Outline</Button>
-          <Badge>Aggio</Badge>
-          <Badge variant="destructive">Spesa</Badge>
         </CardContent>
       </Card>
     </div>
