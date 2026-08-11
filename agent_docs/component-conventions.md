@@ -26,25 +26,55 @@ un componente, è quasi sempre questo.
 
 ## Eccezioni al reset globale (`src/index.css`, `@layer base`)
 
-La regola globale è "niente `border-radius`, niente `box-shadow`, ovunque". Le uniche
-eccezioni sono marcate con `data-slot` + regola CSS dedicata:
-
-- `[data-slot="badge"]` — badge/tag restano arrotondati.
-- `[data-slot="avatar"]` — avatar resta circolare.
+La regola globale è "niente `border-radius`, niente `box-shadow`, ovunque", e al momento
+non ha eccezioni: quelle che c'erano (`[data-slot="badge"]`, `[data-slot="avatar"]`) sono
+state rimosse con la #27 insieme ai componenti che le usavano.
 
 Se un nuovo componente ha davvero bisogno di angoli arrotondati (es. un futuro
-componente "pill"), segui lo stesso pattern: `data-slot="<nome>"` sul componente +
-eccezione in `index.css`, non un override locale nel componente stesso — altrimenti la
-regola smette di essere una fonte di verità unica.
+componente "pill"), segui il pattern che usavano: `data-slot="<nome>"` sul componente +
+eccezione in `index.css`, **non** un override locale nel componente stesso — altrimenti
+la regola smette di essere una fonte di verità unica.
+
+Nota per chi lavora sulle app consumer: il reset usa `!important`, quindi un'eccezione
+lato app deve stare **nello stesso `@layer base`** e vincere per specificità. Una regola
+in `@layer utilities` senza `!important` perde sempre, a prescindere dall'ordine dei
+layer (gt40 #41 ci è passata: `.card-shadow` spariva in silenzio).
 
 ## Preferire stato React a nuove dipendenze pesanti
 
-`DataTable` (paginazione + toggle colonne, issue #2) e `Chart` (Chart.js, issue #9) sono
-gli unici due componenti "composti" del pacchetto, entrambi costruiti su `useState`
-semplice invece di appoggiarsi a una libreria dedicata (es. TanStack Table) quando non
-strettamente necessario — coerente con la filosofia "nessuno step di build, distribuito
-come sorgente": ogni nuova dipendenza pesa su tutti i consumer, anche quelli che non
-usano quel componente. Valuta la stessa soglia prima di aggiungerne una nuova.
+Ogni nuova dipendenza pesa su tutti i consumer: il pacchetto e' distribuito come
+sorgente, senza step di build. Prima di aggiungerne una, verifica se `useState` e un
+po' di codice bastano.
+
+Vale anche al contrario: **non aggiungere componenti "per completezza"**. La #27 ne ha
+rimossi 24 che nessuna delle due app importava, e con loro 21 dipendenze npm — fra cui
+`react-hook-form`, `zod`, `chart.js` e `cmdk`, tirate dentro da componenti che nessuno
+usava. Un componente entra nel DS quando una delle app ne ha bisogno davvero.
+
+## Tipografia: sentence case, mai maiuscolo
+
+Etichette, titoli, bottoni e voci di menu vanno in **sentence case** ("Fondo cassa",
+non "FONDO CASSA" ne "Fondo Cassa").
+
+Il maiuscolo integrale rallenta la lettura: elimina il profilo variabile delle parole,
+su cui si appoggia il riconoscimento rapido, e costringe a leggere lettera per lettera.
+Su un gestionale che si usa tutti i giorni, dove l'utente scorre le stesse schermate
+centinaia di volte, e' il tipo di attrito che si paga a ogni interazione. Vale anche il
+title case, meno grave ma comunque piu' lento del sentence case.
+
+Vale per il DS e per le app consumer (gt40 #54). Se serve dare peso a un'etichetta,
+usare colore o `font-medium`, non `uppercase` + `tracking-wider`.
+
+## Form: la label e' secondaria rispetto al valore
+
+I campi stanno a `text-base md:text-sm` (16px mobile / 14px desktop): i **16px su
+mobile non sono estetica**, sotto quella soglia Safari iOS zooma la pagina quando
+l'utente mette a fuoco il campo. Non scendere.
+
+Le **label** invece stanno a `text-sm md:text-xs` (14/12): non sono focusabili, quindi
+lo zoom di iOS non le riguarda, e un gradino sotto il valore rende leggibile a colpo
+d'occhio qual e' il dato e qual e' l'etichetta (issue #29). La #21 le aveva uniformate
+ai campi, ma quel vincolo tecnico non le riguardava.
 
 ## Story: larghezze responsive nelle demo
 

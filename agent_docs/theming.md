@@ -50,10 +50,11 @@ lo *specified value* da rivalutare — `--color-primary` resta congelato al valo
 uno scope AST40. Solo il token raw (`--primary`) cascata correttamente sui temi annidati.
 
 Bug reale trovato due volte nello stesso modo: prima in `Fondamenta/Colori.mdx` (i due
-temi risultavano visivamente identici), poi in `ChartConfig` di `chart.tsx`
-(`color: "var(--color-primary)"` in una story — il grafico non seguiva il tema AST40).
+temi risultavano visivamente identici), poi nella configurazione di un grafico
+(`color: "var(--color-primary)"` in una story — il grafico non seguiva il tema AST40;
+quel componente è poi stato rimosso con la #27, ma il bug non dipendeva da lui).
 In entrambi i casi il fix è lo stesso: usare `var(--primary)` (o `var(--chart-1)`, ecc.),
 mai l'alias `--color-*`. Le utility class Tailwind generate (`bg-primary`, `text-primary`)
 NON hanno questo problema — `@theme inline` le fa compilare per riferire direttamente
 `var(--primary)`, saltando l'alias; il bug colpisce solo chi legge `var(--color-*)` a
-mano in CSS/JS (inline style, `ChartConfig`, markup MDX).
+mano in CSS/JS (inline style, markup MDX).
