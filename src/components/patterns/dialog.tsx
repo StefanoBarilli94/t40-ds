@@ -72,13 +72,29 @@ const DialogContent = React.forwardRef<
         onInteractOutside?.(event);
       }}
       className={cn(
-        "fixed left-[50%] top-[50%] z-50 grid w-full max-w-lg translate-x-[-50%] translate-y-[-50%] gap-4 border bg-background p-6 shadow-lg duration-200 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[state=closed]:slide-out-to-left-1/2 data-[state=closed]:slide-out-to-top-[48%] data-[state=open]:slide-in-from-left-1/2 data-[state=open]:slide-in-from-top-[48%] sm:rounded-lg",
-        // Tetto d'altezza e scroll interno (issue #48). Senza, una modale piu'
-        // alta della finestra sfora da ENTRAMBI i lati — e' centrata con
-        // translate-y(-50%) — e quello che esce non si raggiunge: Radix blocca
-        // lo scroll della pagina sotto, e la modale non ne aveva uno proprio.
-        // Misurato su un caso reale: 4 elementi su 12 irraggiungibili a 720px
-        // di viewport, e il bordo superiore a -285px (ast40#64).
+        // Solo dissolvenza, niente scorrimento ne' zoom (issue #42).
+        //
+        // Prima c'erano `zoom-in-95`, `slide-in-from-left-1/2` e
+        // `slide-in-from-top-[48%]`, ereditati da shadcn. In Tailwind v3
+        // servivano a compensare il centraggio: `translate-x-[-50%]` finiva
+        // dentro `transform`, e lo scarto d'ingresso lo annullava.
+        //
+        // In Tailwind v4 `translate-x-[-50%]` compila nella proprieta'
+        // **`translate`**, che e' separata da `transform`. Le due si
+        // COMPONGONO invece di sostituirsi, quindi durante l'ingresso la
+        // modale partiva da circa -100%/-98% — l'angolo in alto a sinistra —
+        // per arrivare a -50%/-50%. Verificato sul CSS compilato: sulla modale
+        // aperta coesistono `translate: -50% -50%` e una `transform` con lo
+        // stesso scarto. Una dissolvenza non tocca la posizione, quindi il
+        // problema non puo' ripresentarsi al prossimo giro di Tailwind.
+        "fixed left-[50%] top-[50%] z-50 grid w-full max-w-lg translate-x-[-50%] translate-y-[-50%] gap-4 border bg-background p-6 shadow-lg duration-200 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 sm:rounded-lg",
+        // Tetto d'altezza e scroll interno (issue #48). Senza, `max-height` era
+        // `none` e `overflow-y` `visible`: una modale piu' alta della finestra
+        // sfora da entrambi i lati — e' centrata con translate-y(-50%) — e
+        // quello che esce non si raggiunge, perche' Radix blocca lo scroll
+        // della pagina sotto e la modale non ne aveva uno proprio.
+        // Verificato con 30 righe: 1454px di contenuto, altezza limitata a
+        // 687px, scroll interno attivo e ultima riga raggiungibile.
         //
         // `dvh` e non `vh`: su mobile la barra degli indirizzi che si ritrae
         // cambia `vh` e lascerebbe la modale piu' alta della finestra utile.
