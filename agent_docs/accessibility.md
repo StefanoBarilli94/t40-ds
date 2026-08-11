@@ -23,13 +23,13 @@ funziona comunque per ispezione manuale — solo la pipeline CLI/CI è rotta a m
 ## Pattern già stabiliti (non reinventare)
 
 - Icon-only button/toggle → `aria-label` obbligatorio.
-- Radix `Slider`: l'`aria-label` sul `Root` non arriva al `Thumb` (l'elemento con
-  `role="slider"`) — va passato esplicitamente a ogni Thumb (vedi `slider.tsx`).
 - `ScrollArea`: il viewport ha `tabIndex={0}` così è raggiungibile da tastiera quando il
   contenuto overflow-a.
 - Form field con errore: `aria-invalid` + `aria-describedby` verso il messaggio, non solo
   colore rosso.
-- Colore mai unico veicolo d'informazione (badge Aggio/Spesa hanno sempre testo).
+- Colore mai unico veicolo d'informazione: sempre affiancato da testo o icona.
+- Testi in sentence case, mai maiuscolo integrale: il maiuscolo elimina il profilo
+  variabile delle parole e rallenta la lettura (vedi `component-conventions.md`).
 
 ## Quando trovi una violazione
 
@@ -37,17 +37,14 @@ Fixala nel componente sorgente, non nella story — se una story la nasconde (es
 mostra lo stato che la causa), la violazione resta per chi usa il componente in modo
 diverso in ast40/gt40.
 
-## Canvas (Chart.js) e a11y
+## Se un giorno tornasse un grafico
 
-Un `<canvas>` Chart.js riceve `role="img"` di default ma **nessun nome accessibile** —
-axe lo segnala (`role-img-alt`) appena una story lo renderizza per davvero. Due livelli
-di rimedio, entrambi da usare insieme quando il grafico è l'unica fonte del dato:
-- `aria-label` sul componente `react-chartjs-2` (`<Bar aria-label="..." .../>`), minimo
-  indispensabile.
-- `ChartAccessibleTable` (`chart.tsx`) + `aria-hidden="true"` sul `ChartContainer`: un
-  canvas non espone NULLA a uno screen reader (a differenza dell'SVG di Recharts, che
-  almeno aveva nodi DOM ispezionabili) — l'unico modo per dare accesso ai dati veri è
-  una tabella parallela, non un'etichetta.
+`Chart` (Chart.js) è stato rimosso con la #27 perché nessuna app lo usava, ma la lezione
+va tenuta: un `<canvas>` riceve `role="img"` di default e **nessun nome accessibile**, e
+soprattutto non espone NULLA del proprio contenuto a uno screen reader. Un `aria-label`
+è il minimo indispensabile ma non basta quando il grafico è l'unica fonte del dato:
+serve una **tabella parallela** con gli stessi numeri, più `aria-hidden="true"` sul
+canvas. Non è un dettaglio da aggiungere dopo: cambia la struttura del componente.
 
 ## Falso positivo da non rincorrere: animazioni bloccate a metà
 

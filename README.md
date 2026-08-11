@@ -19,11 +19,11 @@ bun run build         # build della demo app (sanity check)
 Installato come dipendenza Git (nessun registro npm da gestire), puntata a un tag di versione:
 
 ```bash
-bun add github:StefanoBarilli94/tabaccheria-design-system#v0.1.0
+bun add github:StefanoBarilli94/t40-ds#v0.7.0
 ```
 
 ```ts
-import { Button, Card, Badge } from "@tabaccheria/design-system";
+import { Button, Card, Input } from "@tabaccheria/design-system";
 import "@tabaccheria/design-system/src/index.css"; // token colore/radius — una volta in main.tsx
 ```
 
@@ -38,15 +38,16 @@ generate, aggiungi il pacchetto allo scan di Tailwind nel tuo `index.css`:
 ## Aggiornare la versione
 
 ```bash
-git tag v0.1.1 && git push origin v0.1.1
+git tag v0.7.1 && git push origin v0.7.1
 ```
 
-Poi negli app consumer: `bun add github:StefanoBarilli94/tabaccheria-design-system#v0.1.1`.
+Poi negli app consumer: `bun add github:StefanoBarilli94/t40-ds#v0.7.1`.
 
 ## Note
 
-- Angoli squadrati e nessuna ombra ovunque, eccetto i tag/badge (restano arrotondati) — vedi
-  `src/index.css`.
+- Angoli squadrati e nessuna ombra ovunque — vedi `src/index.css`.
+- Testi in **sentence case**, mai maiuscolo integrale: vedi
+  `agent_docs/component-conventions.md`.
 - `bun run a11y` è un sostituto funzionante dell'integrazione ufficiale
   `@storybook/addon-vitest`, che ha un bug upstream irrisolto (crash import per
   un'incompatibilità ESM/CJS di `aria-query` con Vite, riprodotta su più versioni del pacchetto).

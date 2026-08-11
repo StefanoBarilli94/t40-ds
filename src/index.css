@@ -349,15 +349,6 @@
     margin-inline-start: auto;
   }
 
-  /* Eccezioni alla regola "niente angoli arrotondati": tag/badge e avatar. */
-  [data-slot="badge"] {
-    border-radius: var(--radius-md) !important;
-  }
-  [data-slot="avatar"],
-  [data-slot="avatar"] * {
-    border-radius: 9999px !important;
-  }
-
   body {
     background-color: var(--color-background);
     color: var(--color-foreground);
