@@ -153,7 +153,21 @@
      outline e dei campi form (Input/Select/Textarea/Calendar/InputOTP/Toggle
      lo condividono) era di fatto invisibile. */
   --input: oklch(0.65 0.015 250);
-  --ring: oklch(0.78 0.14 185);
+  /* Scurito da L0.78 — lo stesso valore di --primary — a L0.52 (issue #41).
+     L'outline di focus del DS usa questo token, e su superficie chiara era a
+     1.87:1 su --card e 1.79:1 su --background: sotto la soglia 3:1 per gli
+     indicatori non testuali (WCAG 1.4.11 / 2.4.11). Il focus si vedeva, ma
+     appena. Ora 4.79:1 su --card, 4.58:1 su --background, 4.26:1 su --muted.
+
+     Stesso valore di --primary-text e --primary-600, non una quarta tinta: è
+     la risposta che il sistema dà già quando il teal di brand deve stare su
+     chiaro e restare leggibile. --primary NON cambia — resta
+     oklch(0.78 0.14 185), che come SFONDO funziona (10:1 col suo foreground).
+
+     Misurati anche gli altri temi, che restano come sono perché passavano
+     già: ast40 5.43:1 su --card, tema scuro 3.69:1, --sidebar-ring 10.05:1
+     sulla sidebar. Il difetto era solo qui. */
+  --ring: oklch(0.52 0.14 185);
   /* Palette chart: 8 tinte distinguibili, ognuna >=3:1 su --background (WCAG
      1.4.11, contrasto non testuale per elementi grafici). chart-4/5 scuriti
      rispetto all'originale shadcn (1.65:1 / 2.06:1, sotto soglia). */
