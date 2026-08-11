@@ -2,6 +2,55 @@
 
 Schema descritto in [agent_docs/versioning.md](agent_docs/versioning.md).
 
+## v0.7.0 — 2026-08-11
+
+Giro di consolidamento fatto dopo che entrambe le app sono passate al DS: con ast40 e
+gt40 finalmente allineate si vede cosa serve davvero e cosa no.
+
+### ⚠️ Breaking
+
+- **Rimossi 24 componenti** che nessuna delle due app importava (#27): `aspect-ratio`,
+  `avatar`, `badge`, `checkbox`, `form`, `input-otp`, `radio-group`, `slider`,
+  `toggle-group`, `breadcrumb`, `carousel`, `chart`, `collapsible`, `command`,
+  `context-menu`, `data-table`, `menubar`, `navigation-menu`, `pagination`, `resizable`,
+  `responsive-dialog`, più lo stack Toast legacy di Radix (`toast`, `toaster`,
+  `useToast`, `legacyToast`). Elenco ricalcolato sul codice attuale seguendo gli import
+  in modo transitivo, non a occhio: restano `progress`, `separator`, `skeleton` e
+  `tooltip`, che sembrano inutilizzati ma sono dipendenze interne di `page-loader` e
+  `sidebar`.
+- Con loro **21 dipendenze npm in meno** (da 45 a 24): `react-hook-form`, `zod`,
+  `chart.js`, `react-chartjs-2`, `cmdk`, `embla-carousel-react`, `input-otp`,
+  `react-resizable-panels`, `@hookform/resolvers`, `date-fns` (resta transitiva di
+  react-day-picker) e 11 pacchetti `@radix-ui`.
+- Rimosse le eccezioni CSS `[data-slot="badge"]` e `[data-slot="avatar"]`, morte insieme
+  ai componenti che le usavano.
+
+### 🚀 Evolutive
+
+- **`sideEffects` dichiarato** (#31): senza quel campo Rollup non poteva scartare i
+  moduli del barrel non importati, e nei consumer finivano librerie mai usate. Misurato
+  su gt40: bundle da **2.293 kB a 1.932 kB** (−360 kB, −115 kB gzip), con `cmdk`,
+  `input-otp`, `embla`, `react-resizable`, `chart.js`, `zod` e `react-hook-form` passati
+  da presenti a zero occorrenze. Vale `["**/*.css"]` e non `false`: `src/index.css` è un
+  side-effect vero e non deve sparire.
+- **Label dei form più leggere su desktop** (#29): da `text-base md:text-sm` a
+  `text-sm md:text-xs` (16/14 → 14/12). I campi restano a 16/14: la soglia dei 16px
+  serve a non far zoomare Safari iOS al focus, ma una label non è focusabile e quel
+  vincolo non la riguardava — la #21 le aveva uniformate ai campi per coerenza visiva,
+  qui si corregge.
+- **Regola tipografica: sentence case, mai maiuscolo integrale** (gt40 #54). Il DS non
+  usava `uppercase` da nessuna parte, la regola serve alle app consumer. Documentata in
+  `agent_docs/component-conventions.md`.
+
+### 📝 Documentazione
+
+- README: i comandi di installazione puntavano ancora al vecchio nome del repo
+  (`tabaccheria-design-system`) — copiati e incollati oggi fallivano.
+- `accessibility.md`, `theming.md`, `component-conventions.md`: rimossi i riferimenti ai
+  componenti eliminati. La nota su a11y dei grafici è stata riscritta come lezione da
+  riusare, non buttata: il problema del `<canvas>` senza nome accessibile non dipendeva
+  da quel componente.
+
 ## v0.6.1 — 2026-08-08
 
 ### 🐛 Bug fixing
