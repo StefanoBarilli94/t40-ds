@@ -2,6 +2,27 @@
 
 Schema descritto in [agent_docs/versioning.md](agent_docs/versioning.md).
 
+## Non rilasciato
+
+### 📝 Documentazione
+
+- Pagina `Fondamenta/Typography` rifatta (#39). Il difetto vero non erano i valori: i
+  campioni erano avvolti in `<div>`, e il CSS della pagina docs di Storybook colpisce
+  **ogni div interno** (`.css-… :where(div:not(.sb-unstyled, …))`) sovrascrivendo
+  `font-size` e `font-family`. Risultato misurato: tutti i campioni resi a **16px in Nunito
+  Sans** — una scala tipografica che non mostrava né la scala né il font. Con
+  `className="sb-unstyled"`, che è l'escape hatch previsto da Storybook, ora si leggono
+  24/20/16/14/12px in Montserrat.
+- Nel merito, la scala è stata riallineata a quella che ast40 e gt40 usano davvero, contata
+  sui loro `<h1>`–`<h6>`: l'`H1` documentato era `text-4xl`, misura che nelle due app
+  esiste solo sul numero delle pagine 404; il titolo di pagina vero è
+  `text-lg font-bold sm:text-xl lg:text-2xl` — **responsive**, identico nei due
+  `AppLayout` — e non era documentato affatto. Aggiunto il livello `text-xs`, il titolo più
+  diffuso in gt40 (25 occorrenze) e prima assente.
+- Rimosso il livello "eyebrow" con `uppercase tracking-wider`: contraddiceva la regola
+  sentence case che il DS stesso ha introdotto in `v0.7.0` (gt40 #54). Documentare un
+  pattern vietato è peggio che non documentarlo.
+
 ## v0.8.0 — 2026-08-11
 
 Solo Storybook: **niente cambia in `src/`**, quindi ast40 e gt40 non hanno motivo di
