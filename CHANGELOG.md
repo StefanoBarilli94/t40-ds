@@ -2,7 +2,11 @@
 
 Schema descritto in [agent_docs/versioning.md](agent_docs/versioning.md).
 
-## Non rilasciato
+## v0.8.0 — 2026-08-11
+
+Solo Storybook: **niente cambia in `src/`**, quindi ast40 e gt40 non hanno motivo di
+spostare il loro tag da `v0.7.0`. Le due cose divergono di proposito, ed è esattamente
+l'informazione che questa release rende leggibile.
 
 ### 🚀 Evolutive
 
