@@ -2,6 +2,54 @@
 
 Schema descritto in [agent_docs/versioning.md](agent_docs/versioning.md).
 
+## Non rilasciato
+
+### ⚠️ Breaking
+
+- **Palette dei grafici rifatta da zero** (#49). La precedente era verificata solo per
+  contrasto sullo sfondo — vero, ma insufficiente: due serie possono essere entrambe
+  leggibili sul fondo e indistinguibili tra loro. Non lo erano. `--chart-4` (hue 84) e
+  `--chart-5` (hue 70) erano due arancioni a 14 gradi di distanza, **ΔE 5,5 anche a vista
+  piena**, e `--chart-3` aveva croma 0,07, quindi si leggeva grigio. Gli otto token
+  restano otto e mantengono i nomi — nessun consumer si rompe — ma **cambiano tutti
+  colore**: un grafico esistente cambia aspetto. Le nuove passano banda di luminosità,
+  soglia di croma, separazione per protanopia/deuteranopia/tritanopia, distinguibilità a
+  vista normale e contrasto, in tema chiaro e scuro. **L'ordine è parte della correzione**:
+  il criterio guarda le coppie adiacenti, quindi le tinte sono intrecciate calda/fredda, e
+  invertendo la 7ª con l'8ª la palette non passa più
+
+### 🐛 Bug fixing
+
+- L'animazione di apertura delle modali non parte più dall'angolo in alto a sinistra
+  (#42): ora è solo una dissolvenza. `Dialog` e `AlertDialog` avevano `zoom-in-95` e
+  `slide-in-from-*` ereditati da shadcn, che in Tailwind v3 servivano a compensare il
+  centraggio — `translate-x-[-50%]` finiva dentro `transform` e i due scarti si
+  annullavano. **In Tailwind v4 `translate-x-[-50%]` compila nella proprietà `translate`**,
+  che è separata da `transform`: le due si compongono invece di sostituirsi, e la modale
+  partiva da circa −100%/−98% per arrivare a −50%/−50%. Verificato sul CSS compilato, dove
+  sulla modale aperta coesistevano `translate: -50% -50%` e una `transform` con lo stesso
+  scarto. Una dissolvenza non tocca la posizione, quindi non può ripresentarsi al prossimo
+  giro di Tailwind
+- `DialogContent` e `AlertDialogContent` hanno un tetto d'altezza e scorrono al proprio
+  interno (#48). Prima `max-height` era `none` e `overflow-y` `visible`: una modale più
+  alta della finestra sforava da entrambi i lati, e quello che usciva non si raggiungeva —
+  Radix blocca lo scroll della pagina sotto e la modale non ne aveva uno proprio.
+  Verificato con 30 righe: 1454px di contenuto, altezza limitata a 687px, ultima riga
+  raggiungibile. `dvh` e non `vh`, perché su mobile la barra degli indirizzi che si ritrae
+  cambia `vh`
+
+### 📝 Documentazione
+
+- Chiusa **#43 senza modifiche al codice**: non era un difetto. Sostenevo che
+  `transition-colors` bloccasse l'outline di focus su `currentColor`, ma la misura era
+  presa in un ambiente dove il pannello del browser è nascosto e **non vengono composti
+  fotogrammi** — verificato con tre prove: `requestAnimationFrame` non scatta, un'animazione
+  di opacità resta a 0, una transizione da nero a bianco resta nera. Con le transizioni
+  congelate ogni proprietà transizionata resta sul valore di partenza, e `outline-color`
+  parte da `currentColor`. In un browser vero la transizione si completa. La lezione è
+  nella issue: prima di incolpare un'animazione, verificare che in quell'ambiente le
+  animazioni girino
+
 ## v0.8.1 — 2026-08-11
 
 Giro di accessibilità nato da una segnalazione su gt40: "da tastiera non vedo dove sono".

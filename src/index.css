@@ -168,17 +168,38 @@
      già: ast40 5.43:1 su --card, tema scuro 3.69:1, --sidebar-ring 10.05:1
      sulla sidebar. Il difetto era solo qui. */
   --ring: oklch(0.52 0.14 185);
-  /* Palette chart: 8 tinte distinguibili, ognuna >=3:1 su --background (WCAG
-     1.4.11, contrasto non testuale per elementi grafici). chart-4/5 scuriti
-     rispetto all'originale shadcn (1.65:1 / 2.06:1, sotto soglia). */
-  --chart-1: oklch(0.646 0.222 41.116);
-  --chart-2: oklch(0.6 0.118 184.704);
-  --chart-3: oklch(0.398 0.07 227.392);
-  --chart-4: oklch(0.65 0.189 84.429);
-  --chart-5: oklch(0.62 0.188 70.08);
-  --chart-6: oklch(0.58 0.19 300);
-  --chart-7: oklch(0.6 0.2 350);
-  --chart-8: oklch(0.62 0.15 140);
+  /* Palette chart, rifatta da zero (issue #49).
+   *
+   * La precedente era verificata solo per contrasto sullo sfondo — vero, ma
+   * non basta: due serie possono essere entrambe leggibili sul fondo e
+   * indistinguibili tra loro. Non lo erano: `--chart-4` (hue 84) e `--chart-5`
+   * (hue 70) erano due arancioni a 14 gradi, ΔE 5.5 anche a vista piena, e
+   * `--chart-3` aveva croma 0.07, quindi si leggeva grigio.
+   *
+   * Queste otto passano tutti i controlli — banda di luminosità, soglia di
+   * croma, separazione per protanopia/deuteranopia/tritanopia, distinguibilità
+   * a vista normale, contrasto >=3:1 — sia in tema chiaro sia in scuro.
+   *
+   * **L'ordine è parte della correzione, non estetica.** Il criterio guarda le
+   * coppie *adiacenti*, perché sono quelle che finiscono vicine in una legenda
+   * o in una barra impilata: le tinte sono quindi intrecciate calda/fredda. Con
+   * la 7ª e l'8ª invertite la palette non passa (ΔE 3.2 in protanopia tra
+   * prugna e blu). Se se ne aggiunge o riordina una, va rivalidata.
+   *
+   * Oltre l'ottava non si aggiungono tinte: si accorpa in "Altro". A quel punto
+   * il colore smette di essere un modo per distinguere.
+   *
+   * La coppia peggiore resta a ΔE 7.9 in tritanopia (prugna/oliva), che sta
+   * nella fascia in cui il colore da solo non basta: i grafici devono avere
+   * legenda o etichette dirette, non affidarsi solo alla tinta. */
+  --chart-1: oklch(0.55 0.2 25);
+  --chart-2: oklch(0.6 0.13 205);
+  --chart-3: oklch(0.66 0.15 70);
+  --chart-4: oklch(0.55 0.145 268);
+  --chart-5: oklch(0.6 0.13 135);
+  --chart-6: oklch(0.57 0.175 340);
+  --chart-7: oklch(0.63 0.13 100);
+  --chart-8: oklch(0.5 0.12 230);
   --sidebar: oklch(0.18 0.025 250);
   --sidebar-foreground: oklch(0.95 0.005 250);
   --sidebar-primary: oklch(0.78 0.14 185);
