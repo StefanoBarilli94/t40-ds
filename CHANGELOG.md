@@ -23,6 +23,25 @@ Schema descritto in [agent_docs/versioning.md](agent_docs/versioning.md).
   sentence case che il DS stesso ha introdotto in `v0.7.0` (gt40 #54). Documentare un
   pattern vietato è peggio che non documentarlo.
 
+### 🐛 Bug fixing
+
+- `--ring` del tema di default scurito da `oklch(0.78 0.14 185)` a `oklch(0.52 0.14 185)`
+  (#41). L'outline di focus che il DS mette in `@layer base` usa questo token, e su
+  superficie chiara era a **1,87:1** su `--card` e **1,79:1** su `--background` — sotto la
+  soglia 3:1 per gli indicatori non testuali (WCAG 1.4.11 / 2.4.11). Ora 4,79:1, 4,58:1 e
+  4,26:1 su `--muted`, verificati sul rendering con un Tab vero da tastiera. È lo stesso
+  valore di `--primary-text` / `--primary-600`, non una quarta tinta: è la risposta che il
+  sistema dà già quando il teal di brand deve stare su chiaro. **`--primary` non cambia**,
+  resta `oklch(0.78 0.14 185)` — come sfondo funziona (10:1 col suo foreground). Misurati
+  anche gli altri temi, che restano come sono perché passavano già: ast40 5,43:1, tema
+  scuro 3,69:1, `--sidebar-ring` 10,05:1 sulla sidebar. Emerso da
+  [gt40#72](https://github.com/StefanoBarilli94/gt40/issues/72)
+- Resta aperto #43, trovato durante lo stesso lavoro: sui componenti con
+  `transition-colors` — quasi tutta la libreria, `Button` compreso — l'outline di focus
+  resta bloccata su `currentColor` e `--ring` non arriva mai. Tailwind v4 include
+  `outline-color` in quella lista. Riproduzione e misure nella issue; nessun rimedio
+  proposto perché nessuno dei due tentati regge alla verifica
+
 ## v0.8.0 — 2026-08-11
 
 Solo Storybook: **niente cambia in `src/`**, quindi ast40 e gt40 non hanno motivo di
