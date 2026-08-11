@@ -16,20 +16,77 @@ var(--font-sans) }`, non serve impostarlo componente per componente.
 
 ## Scala dei titoli
 
-Non esiste un componente `Heading` dedicato nel design system (`CardTitle`,
-`SheetTitle` ecc. sono `<div>`/elementi semantici Radix stilizzati dal consumer, vedi
-`agent_docs/component-conventions.md`) — questa è la scala di riferimento per titoli di
-pagina e sezione, da applicare via classi Tailwind dove serve un tag semantico
-(`<h1>`…`<h6>`).
+Non esiste un componente `Heading` nel design system (`CardTitle`, `SheetTitle` ecc. sono
+`<div>`/elementi semantici Radix stilizzati dal consumer, vedi
+`agent_docs/component-conventions.md`): questa è la scala di riferimento, da applicare con
+classi Tailwind sul tag semantico giusto.
 
-<div style={{ display: "grid", gap: "0.75rem", margin: "1.5rem 0" }}>
-  <div><span className="text-4xl font-bold">Titolo H1</span> <code style={{ marginLeft: "0.75rem", fontSize: "0.75rem", color: "var(--muted-foreground)" }}>text-4xl font-bold — titolo di pagina</code></div>
-  <div><span className="text-2xl font-semibold">Titolo H2</span> <code style={{ marginLeft: "0.75rem", fontSize: "0.75rem", color: "var(--muted-foreground)" }}>text-2xl font-semibold — sezione principale</code></div>
-  <div><span className="text-xl font-semibold">Titolo H3</span> <code style={{ marginLeft: "0.75rem", fontSize: "0.75rem", color: "var(--muted-foreground)" }}>text-xl font-semibold — sottosezione</code></div>
-  <div><span className="text-lg font-semibold">Titolo H4</span> <code style={{ marginLeft: "0.75rem", fontSize: "0.75rem", color: "var(--muted-foreground)" }}>text-lg font-semibold — blocco/card importante</code></div>
-  <div><span className="text-base font-semibold">Titolo H5</span> <code style={{ marginLeft: "0.75rem", fontSize: "0.75rem", color: "var(--muted-foreground)" }}>text-base font-semibold — titolo di card/dialog (vedi CardTitle)</code></div>
-  <div><span className="text-sm font-semibold uppercase tracking-wider text-muted-foreground">Titolo H6</span> <code style={{ marginLeft: "0.75rem", fontSize: "0.75rem", color: "var(--muted-foreground)" }}>text-sm font-semibold uppercase tracking-wider text-muted-foreground — eyebrow/label di gruppo</code></div>
+**Ricavata dai titoli che ast40 e gt40 usano davvero**, non decisa a tavolino — è il
+motivo per cui parte da `text-2xl` e non da `text-4xl`. In queste applicazioni la pagina è
+una schermata di lavoro dentro una sidebar, non una landing: il titolo più grande che
+esiste è il nome della pagina, e sta a 24px.
+
+{/* sb-unstyled: senza, il CSS della pagina docs di Storybook colpisce OGNI div
+    interno (`.css-… :where(div:not(.sb-unstyled, …))`) e sovrascrive sia
+    font-family sia font-size. Effetto: tutti i campioni resi a 16px in Nunito
+    Sans, cioè una scala tipografica che non mostrava né la scala né il font.
+    È il motivo per cui questa pagina sembrava sbagliata (issue #39). */}
+<div className="sb-unstyled" style={{ display: "grid", gap: "2rem", margin: "2rem 0" }}>
+  <div>
+    <div className="text-lg font-bold sm:text-xl lg:text-2xl">Riepilogo giornata</div>
+    <div style={{ marginTop: "0.5rem", fontSize: "0.75rem", color: "var(--muted-foreground)", lineHeight: 1.6 }}>
+      <code>text-lg font-bold sm:text-xl lg:text-2xl</code><br />
+      Titolo di pagina, <code>&lt;h1&gt;</code>. <strong>È responsive</strong>: 18 → 20 → 24px.
+      Stessa identica riga in ast40 e gt40, nell'header di <code>AppLayout</code> — se ne serve
+      un altro, si copia questa.
+    </div>
+  </div>
+  <div>
+    <div className="text-xl font-semibold">Inizio giornata</div>
+    <div style={{ marginTop: "0.5rem", fontSize: "0.75rem", color: "var(--muted-foreground)", lineHeight: 1.6 }}>
+      <code>text-xl font-semibold</code><br />
+      Sezione o titolo di dialog a piena pagina, <code>&lt;h2&gt;</code>. Il gradino sotto al
+      titolo di pagina su schermo largo.
+    </div>
+  </div>
+  <div>
+    <div className="text-base font-semibold">Titolo di card</div>
+    <div style={{ marginTop: "0.5rem", fontSize: "0.75rem", color: "var(--muted-foreground)", lineHeight: 1.6 }}>
+      <code>text-base font-semibold</code><br />
+      Intestazione di card o di dialog, <code>&lt;h3&gt;</code>. È quello che <code>CardTitle</code>
+      già applica da sé: dentro una <code>Card</code> non serve rimetterlo a mano.
+    </div>
+  </div>
+  <div>
+    <div className="text-sm font-semibold">Sottogruppo dentro una card</div>
+    <div style={{ marginTop: "0.5rem", fontSize: "0.75rem", color: "var(--muted-foreground)", lineHeight: 1.6 }}>
+      <code>text-sm font-semibold</code><br />
+      Divide il contenuto di una card già intitolata. Stessa dimensione del testo attorno:
+      a distinguerlo è il peso, non la misura.
+    </div>
+  </div>
+  <div>
+    <div className="text-xs text-muted-foreground">Etichetta di gruppo</div>
+    <div style={{ marginTop: "0.5rem", fontSize: "0.75rem", color: "var(--muted-foreground)", lineHeight: 1.6 }}>
+      <code>text-xs text-muted-foreground</code><br />
+      Il gradino più basso: nomina un blocco di dati senza pesare. È il titolo più diffuso in
+      gt40 (25 occorrenze nell'area contabile). <strong>Niente <code>uppercase</code></strong> —
+      vedi più sotto.
+    </div>
+  </div>
 </div>
+
+### Due cose da non sbagliare
+
+**Sentence case, mai maiuscolo integrale.** Fino alla `v0.8.0` questa pagina documentava
+un livello "eyebrow" con `uppercase tracking-wider`, in contraddizione con la regola
+introdotta nella `v0.7.0` (gt40 #54). Se un'etichetta deve staccare, la si stacca con il
+colore o con `font-medium`, non allargandone le lettere.
+
+**`text-4xl` e sopra non sono titoli.** In queste due applicazioni compaiono in un posto
+solo: il numero delle pagine 404 (`text-4xl` in gt40, `text-7xl` in ast40). Quella è una
+cifra da guardare, non una gerarchia da seguire — non è un livello della scala e non va
+usata per intitolare qualcosa.
 
 ## Testo UI
 
@@ -38,11 +95,39 @@ Non un'invenzione a parte: è il risultato di quanto già usato nei 51 component
 `grep -rhoE` sui sorgenti). Nuovi componenti dovrebbero attingere da qui, non
 introdurre una dimensione ad hoc.
 
-<div style={{ display: "grid", gap: "0.75rem", margin: "1.5rem 0" }}>
-  <div><span className="text-2xl font-semibold">3.845,85 €</span> <code style={{ marginLeft: "0.75rem", fontSize: "0.75rem", color: "var(--muted-foreground)" }}>text-2xl font-semibold — valore grande (KPI, vedi Card "Statistica/KPI")</code></div>
-  <div><span className="text-base">Testo corpo, dimensione base</span> <code style={{ marginLeft: "0.75rem", fontSize: "0.75rem", color: "var(--muted-foreground)" }}>text-base — corpo, contesto non compatto</code></div>
-  <div><span className="text-sm">Testo corpo, dimensione compatta — il più usato del pacchetto</span> <code style={{ marginLeft: "0.75rem", fontSize: "0.75rem", color: "var(--muted-foreground)" }}>text-sm — default di bottoni, campi form, contenuto card</code></div>
-  <div><span className="text-xs text-muted-foreground">Didascalia, nota secondaria, timestamp</span> <code style={{ marginLeft: "0.75rem", fontSize: "0.75rem", color: "var(--muted-foreground)" }}>text-xs text-muted-foreground — mai come unico veicolo di un'informazione importante</code></div>
+<div className="sb-unstyled" style={{ display: "grid", gap: "2rem", margin: "2rem 0" }}>
+  <div>
+    <div className="text-2xl font-semibold">3.845,85 €</div>
+    <div style={{ marginTop: "0.5rem", fontSize: "0.75rem", color: "var(--muted-foreground)", lineHeight: 1.6 }}>
+      <code>text-2xl font-semibold</code><br />
+      Valore grande, il numero che si legge per primo in una card KPI (vedi Card,
+      "Statistica/KPI"). Alla stessa misura del titolo di pagina su schermo largo: in una
+      dashboard il dato pesa quanto la pagina che lo contiene.
+    </div>
+  </div>
+  <div>
+    <div className="text-base">Testo corpo, dimensione base</div>
+    <div style={{ marginTop: "0.5rem", fontSize: "0.75rem", color: "var(--muted-foreground)", lineHeight: 1.6 }}>
+      <code>text-base</code><br />
+      Corpo in un contesto non compatto — pagine di testo, dialog con una spiegazione lunga.
+    </div>
+  </div>
+  <div>
+    <div className="text-sm">Testo corpo, dimensione compatta</div>
+    <div style={{ marginTop: "0.5rem", fontSize: "0.75rem", color: "var(--muted-foreground)", lineHeight: 1.6 }}>
+      <code>text-sm</code><br />
+      <strong>Il più usato del pacchetto</strong> (112 occorrenze nei componenti): default di
+      bottoni, campi form, contenuto delle card. Nel dubbio è questo.
+    </div>
+  </div>
+  <div>
+    <div className="text-xs text-muted-foreground">Didascalia, nota secondaria, timestamp</div>
+    <div style={{ marginTop: "0.5rem", fontSize: "0.75rem", color: "var(--muted-foreground)", lineHeight: 1.6 }}>
+      <code>text-xs text-muted-foreground</code><br />
+      Mai come unico veicolo di un'informazione importante: piccolo <em>e</em> attenuato
+      insieme sono due riduzioni di leggibilità sovrapposte.
+    </div>
+  </div>
 </div>
 
 ## Perché non un token `--font-size-*`
