@@ -2,6 +2,19 @@
 
 Schema descritto in [agent_docs/versioning.md](agent_docs/versioning.md).
 
+## Non rilasciato
+
+### 🚀 Evolutive
+
+- La versione del DS è stampata nella sidebar di Storybook, sotto al nome, in piccolo
+  (#37): le app consumer puntano a un tag fisso, e senza il numero qui il confronto con
+  quello che hanno in `package.json` non si poteva fare a occhio. Letta da `package.json`,
+  non scritta a mano. Storybook 10 ha rimosso dall'enum dei tipi gli slot
+  `experimental_SIDEBAR_TOP` / `SIDEBAR_BOTTOM`, quindi niente addon di manager: con
+  `brandImage` assente Storybook renderizza `brandTitle` come HTML dentro il link del
+  logo, e logo, nome e versione stanno lì. Gli stili sono in `managerHead` — il manager
+  non carica il CSS del DS. Contrasto misurato sul rendering vero, non presunto: 5.22:1
+
 ## v0.7.0 — 2026-08-11
 
 Giro di consolidamento fatto dopo che entrambe le app sono passate al DS: con ast40 e
