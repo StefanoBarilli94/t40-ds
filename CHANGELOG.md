@@ -2,7 +2,13 @@
 
 Schema descritto in [agent_docs/versioning.md](agent_docs/versioning.md).
 
-## Non rilasciato
+## v0.9.0 — 2026-08-12
+
+Tre difetti che avevano in comune il modo in cui erano sfuggiti: erano stati verificati
+solo per quello che si guardava, non per quello che serviva. Il contrasto dei grafici era
+stato misurato sullo sfondo ma non tra le serie; l'animazione delle modali funzionava
+quando il centraggio stava dentro `transform`, e nessuno l'ha rivista al cambio di
+Tailwind; l'altezza delle modali non era mai stata provata con contenuto lungo.
 
 ### ⚠️ Breaking
 
