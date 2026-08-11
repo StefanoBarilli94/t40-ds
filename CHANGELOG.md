@@ -2,7 +2,15 @@
 
 Schema descritto in [agent_docs/versioning.md](agent_docs/versioning.md).
 
-## Non rilasciato
+## v0.8.1 — 2026-08-11
+
+Giro di accessibilità nato da una segnalazione su gt40: "da tastiera non vedo dove sono".
+Tirando il filo sono venuti fuori tre difetti sovrapposti, uno per livello — l'app, il
+token, la libreria. Qui ci sono i due che appartengono al design system.
+
+**Le app dovrebbero salire a questo tag**: `--ring` cambia, e con esso il colore del focus
+su tutto il tema di default (gt40). Su ast40, che usa `[data-theme="ast40"]`, non cambia
+niente — il suo `--ring` passava già.
 
 ### 📝 Documentazione
 
