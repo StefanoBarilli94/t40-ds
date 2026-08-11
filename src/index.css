@@ -262,18 +262,27 @@
   --primary-800: oklch(0.36 0.18 25);
   --primary-900: oklch(0.26 0.143 25);
 
-  /* Palette chart dedicata: quella di default (GT40) usa hue 184.7 vicina al
-     teal di brand e non stona, ma qui clasherebbe con poco senso col rosso.
-     8 hue scelte evitando un raggio di ~40° attorno a --primary (25) e
-     --destructive (45), tutte >=3:1 su --background. */
-  --chart-1: oklch(0.62 0.16 84);
-  --chart-2: oklch(0.55 0.19 122);
-  --chart-3: oklch(0.6 0.15 159);
-  --chart-4: oklch(0.58 0.18 197);
-  --chart-5: oklch(0.62 0.15 234);
-  --chart-6: oklch(0.55 0.2 272);
-  --chart-7: oklch(0.65 0.14 309);
-  --chart-8: oklch(0.58 0.19 347);
+  /* Palette chart dedicata, rifatta con lo stesso criterio di quella di
+     default (issue #49, secondo giro).
+
+     Resta il vincolo che l'aveva motivata: le tinte stanno lontane da un
+     raggio di ~40° attorno a --primary (25) e --destructive (45), altrimenti
+     una serie si confonde col brand o con "azione pericolosa".
+
+     Ma la vecchia aveva lo stesso difetto di quella di :root — hue ordinate in
+     sequenza, quindi vicine tra loro proprio dove finiscono adiacenti in una
+     legenda. Fallivano due controlli: oliva/ambra a ΔE 2.4 in protanopia, e
+     blu/teal a ΔE 8.5 perfino a vista piena. Ora le tinte sono intrecciate
+     caldo/freddo e la luminosità alternata, e passa tutto in chiaro e in
+     scuro. Vale l'avvertenza di :root: riordinarle vuol dire rivalidarle. */
+  --chart-1: oklch(0.66 0.15 90);
+  --chart-2: oklch(0.55 0.17 250);
+  --chart-3: oklch(0.6 0.15 150);
+  --chart-4: oklch(0.57 0.18 320);
+  --chart-5: oklch(0.62 0.13 205);
+  --chart-6: oklch(0.52 0.16 120);
+  --chart-7: oklch(0.64 0.14 285);
+  --chart-8: oklch(0.58 0.15 175);
 }
 
 .dark {
@@ -313,14 +322,16 @@
      diverso da quello mostrato. */
   --positive: oklch(0.7 0.155 160);
   --negative: oklch(0.72 0.17 25);
-  --chart-1: oklch(0.488 0.243 264.376);
-  --chart-2: oklch(0.696 0.17 162.48);
-  --chart-3: oklch(0.769 0.188 70.08);
-  --chart-4: oklch(0.627 0.265 303.9);
-  --chart-5: oklch(0.645 0.246 16.439);
-  --chart-6: oklch(0.65 0.2 200);
-  --chart-7: oklch(0.65 0.24 340);
-  --chart-8: oklch(0.7 0.19 130);
+  /* Nessuna palette chart dedicata al tema scuro (issue #49, secondo giro).
+     Ce n'era una, e falliva peggio delle altre due: quattro tinte fuori dalla
+     banda di luminosità utile su fondo scuro, e rosa/teal a ΔE 2.9 in
+     deuteranopia.
+
+     Le due palette di :root e di [data-theme="ast40"] sono state validate
+     anche contro la superficie scura e passano entrambe, quindi qui non serve
+     ridefinire niente: si eredita. Una palette in meno da tenere allineata, e
+     un tema scuro che non può più divergere da quello chiaro senza che se ne
+     accorga nessuno. */
   --sidebar: oklch(0.208 0.042 265.755);
   --sidebar-foreground: oklch(0.984 0.003 247.858);
   --sidebar-primary: oklch(0.488 0.243 264.376);

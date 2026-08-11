@@ -2,6 +2,25 @@
 
 Schema descritto in [agent_docs/versioning.md](agent_docs/versioning.md).
 
+## v0.9.1 — 2026-08-12
+
+Correzione della `v0.9.0`: avevo sistemato **una** palette dei grafici su **tre**.
+
+### 🐛 Bug fixing
+
+- Palette dei grafici corretta anche per `[data-theme="ast40"]` e per il tema scuro (#49,
+  secondo giro). La `v0.9.0` aveva rifatto solo quella di `:root`, cioè il tema di gt40:
+  **ast40 non aveva ricevuto niente**, perché usa `data-theme="ast40"`, che ne definisce
+  una propria. Aveva lo stesso difetto — hue in sequenza, quindi simili proprio dove
+  finiscono adiacenti: oliva/ambra a **ΔE 2,4** in protanopia e blu/teal a **ΔE 8,5**
+  perfino a vista piena. Rifatta con lo stesso criterio, mantenendo il vincolo che le
+  tinte stiano lontane dal rosso di brand e dal `--destructive`
+- **Rimossa la palette dedicata al tema scuro.** Era la peggiore delle tre: quattro tinte
+  fuori dalla banda di luminosità utile su fondo scuro, e rosa/teal a **ΔE 2,9** in
+  deuteranopia. Non è stata sostituita, è stata tolta: `:root` e `[data-theme="ast40"]`
+  sono validate anche contro la superficie scura, quindi il tema scuro eredita. Una
+  palette in meno da tenere allineata, e una che non può più divergere in silenzio
+
 ## v0.9.0 — 2026-08-12
 
 Tre difetti che avevano in comune il modo in cui erano sfuggiti: erano stati verificati
