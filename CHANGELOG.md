@@ -2,7 +2,7 @@
 
 Schema descritto in [agent_docs/versioning.md](agent_docs/versioning.md).
 
-## Non rilasciato
+## v0.9.2 — 2026-08-12
 
 ### 🐛 Bug fixing
 
