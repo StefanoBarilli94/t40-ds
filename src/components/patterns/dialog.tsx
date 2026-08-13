@@ -115,14 +115,23 @@ const DialogContent = React.forwardRef<
 ));
 DialogContent.displayName = DialogPrimitive.Content.displayName;
 
+// Allineato a sinistra sempre, non centrato sotto `sm` (issue #54). Il
+// `text-center sm:text-left` arrivava da shadcn: su mobile centrava titolo e
+// descrizione mentre tutto il resto della modale — campi, etichette, contenuto
+// — resta a sinistra, quindi la testata era l'unico blocco disallineato.
 const DialogHeader = ({ className, ...props }: React.HTMLAttributes<HTMLDivElement>) => (
-  <div className={cn("flex flex-col space-y-1.5 text-center sm:text-left", className)} {...props} />
+  <div className={cn("flex flex-col space-y-1.5 text-left", className)} {...props} />
 );
 DialogHeader.displayName = "DialogHeader";
 
+// `gap-2` invece di `sm:space-x-2` (issue #56). Lo spazio era dichiarato solo
+// da `sm` in su e solo in orizzontale: sotto quella soglia i bottoni si
+// impilano in colonna e restavano **attaccati**, senza un pixel fra loro. Con
+// `gap` la distanza vale in entrambe le direzioni e a ogni larghezza, quindi
+// non c'è una soglia sotto la quale sparisce.
 const DialogFooter = ({ className, ...props }: React.HTMLAttributes<HTMLDivElement>) => (
   <div
-    className={cn("flex flex-col-reverse sm:flex-row sm:justify-end sm:space-x-2", className)}
+    className={cn("flex flex-col-reverse gap-2 sm:flex-row sm:justify-end", className)}
     {...props}
   />
 );
