@@ -2,6 +2,39 @@
 
 Schema descritto in [agent_docs/versioning.md](agent_docs/versioning.md).
 
+## Non rilasciato
+
+### 🐛 Bug fixing
+
+- **Aree di tap della sidebar a 44px su mobile** (#53). Le voci di menu erano `h-8`, cioè
+  32px: passano il minimo di WCAG 2.5.8 (24px) ma stanno sotto i 44 raccomandati da Apple
+  e i 48 di Material — in un menu con le voci una sopra l'altra, un dito sbaglia bersaglio.
+  Alzate a 44 sotto `md`, invariate sopra: col mouse 32px sono un bersaglio ampio e
+  allungare tutto avrebbe fatto crescere la sidebar sul desktop senza motivo. Alzato anche
+  il **trigger** che apre il menu, da 28×28 a 44×44: era il bersaglio più piccolo di tutta
+  la navigazione ed è il primo che si deve centrare. Misurato: 5 voci su 5 a 44px, zero
+  sotto soglia, e desktop invariato a 32/28
+- **Titolo e descrizione delle modali allineati a sinistra** anche su mobile (#54). Il
+  `text-center sm:text-left` veniva da shadcn: sotto `sm` centrava la testata mentre campi,
+  etichette e contenuto restavano a sinistra, quindi era l'unico blocco disallineato della
+  modale. Corretto in **quattro componenti** — `Dialog`, `AlertDialog`, `Sheet`, `Drawer` —
+  perché lo schema era replicato identico in tutti
+- **Bottoni delle modali non più attaccati su mobile** (#56). Il footer dichiarava lo
+  spazio con `sm:space-x-2`: solo da `sm` in su e solo in orizzontale. Sotto quella soglia
+  i bottoni si impilano in colonna e restavano senza un pixel fra loro. Sostituito con
+  `gap-2`, che vale in entrambe le direzioni e a ogni larghezza — non c'è più una soglia
+  sotto la quale lo spazio sparisce. Misurato a 375px: 8px reali fra i due bottoni
+- **Campi data alla stessa altezza degli altri e dentro il pannello** (#55, #57). Su Safari
+  iOS il campo data riceve un `appearance` proprio, che porta padding e altezza suoi e
+  scavalca l'`h-9` del componente, e una larghezza intrinseca calcolata sul testo che in un
+  contenitore flex fa da pavimento — `w-full` non basta a farlo rimpicciolire e il campo
+  sborda dalla modale. Aggiunti `appearance: none` e `min-width: 0`: si toglie la
+  vestizione nativa, non il comportamento — il tocco apre ancora il selettore di sistema.
+  **Questa correzione non è verificabile in emulazione**: con l'emulazione di Chrome i tre
+  campi misurano identici, perché cambia il viewport e non il motore che disegna i
+  controlli nativi. Verificato solo che nulla regredisca su Chrome; **serve una prova su
+  dispositivo vero**
+
 ## v0.9.1 — 2026-08-12
 
 Correzione della `v0.9.0`: avevo sistemato **una** palette dei grafici su **tre**.

@@ -395,6 +395,35 @@
     margin-inline-start: auto;
   }
 
+  /*
+   * Campi data alla stessa altezza degli altri e dentro il contenitore, su
+   * mobile (issue #55 e #57).
+   *
+   * Su Safari iOS il campo data non si comporta come un input qualsiasi: il
+   * motore gli applica un proprio `appearance`, che porta padding e altezza
+   * suoi e scavalca l'`h-9` del componente, e gli dà una larghezza intrinseca
+   * calcolata sul testo della data. Dentro un contenitore flex quella
+   * larghezza intrinseca fa da pavimento — `w-full` non basta a farlo
+   * rimpicciolire — e il campo sborda dal pannello della modale.
+   *
+   * `appearance: none` toglie la vestizione nativa e lascia valere quella del
+   * componente; `min-width: 0` rimuove il pavimento e permette al campo di
+   * restringersi come gli altri. Il tocco continua ad aprire il selettore
+   * nativo di sistema: si toglie l'aspetto, non il comportamento.
+   *
+   * ATTENZIONE per chi ci tornerà: **questo non è verificabile in emulazione
+   * mobile**. Con l'emulazione di Chrome i tre campi misurano identici — 36px
+   * di altezza, stessa larghezza — perché cambia il viewport, non il motore
+   * che disegna i controlli nativi. Serve un dispositivo vero.
+   */
+  input[type="date"],
+  input[type="time"],
+  input[type="datetime-local"] {
+    appearance: none;
+    -webkit-appearance: none;
+    min-width: 0;
+  }
+
   body {
     background-color: var(--color-background);
     color: var(--color-foreground);

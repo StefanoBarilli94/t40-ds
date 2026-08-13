@@ -269,7 +269,11 @@ const SidebarTrigger = React.forwardRef<
       data-sidebar="trigger"
       variant="ghost"
       size="icon"
-      className={cn("h-7 w-7", className)}
+      // 44px su mobile, 28 da `md` in su (issue #53). Questo è il bersaglio
+      // che *apre* il menu: era il più piccolo di tutta la navigazione (28px),
+      // ed è il primo che un dito deve centrare. Allargare le voci lasciando
+      // il trigger com'era avrebbe risolto metà del percorso.
+      className={cn("size-11 md:size-7", className)}
       onClick={(event) => {
         onClick?.(event);
         toggleSidebar();
@@ -513,9 +517,18 @@ const sidebarMenuButtonVariants = cva(
         outline:
           "bg-background text-foreground shadow-[0_0_0_1px_var(--sidebar-border)] hover:bg-sidebar-accent hover:text-sidebar-accent-foreground hover:shadow-[0_0_0_1px_var(--sidebar-accent)]",
       },
+      // Su mobile 44px, da `md` in su gli 8 di prima (issue #53).
+      //
+      // `h-8` sono 32px: passano il minimo di WCAG 2.5.8 (24px) ma stanno ben
+      // sotto i 44 raccomandati da Apple e i 48 di Material — su un dito, in
+      // un menu dove le voci sono una sopra l'altra, si sbaglia bersaglio.
+      // 44 è la soglia riconosciuta, non un numero scelto a occhio.
+      //
+      // Solo sotto `md`: col mouse 32px sono un bersaglio ampio, e allungare
+      // tutto avrebbe fatto crescere la sidebar sul desktop senza motivo.
       size: {
-        default: "h-8 text-sm",
-        sm: "h-7 text-xs",
+        default: "h-11 text-sm md:h-8",
+        sm: "h-10 text-xs md:h-7",
         lg: "h-12 text-sm group-data-[collapsible=icon]:!p-0",
       },
     },
