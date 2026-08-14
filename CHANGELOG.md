@@ -2,6 +2,14 @@
 
 Schema descritto in [agent_docs/versioning.md](agent_docs/versioning.md).
 
+## v0.10.2 — 2026-08-14
+
+### ✨ Migliorative
+
+- **`variant="accent"` da `border-l-4` a `border-l-2`**. Un bordo laterale spesso
+  legge come una fascia decorativa invece che come un accento — l'accento resta
+  leggibile anche più sottile.
+
 ## v0.10.1 — 2026-08-14
 
 ### 🐛 Bug fixing
