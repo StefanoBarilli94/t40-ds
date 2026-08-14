@@ -33,7 +33,9 @@ const cardVariants = cva("border bg-card text-card-foreground", {
       // Superficie neutra.
       default: "",
       // Bordo sinistro colorato: segna appartenenza (ciclo, sezione), non esito.
-      accent: "border-l-4",
+      // 2px, non di più: un bordo spesso legge come una fascia decorativa
+      // invece che come un accento.
+      accent: "border-l-2",
       // Sfondo tinto: per gli esiti (differenziali, saldi, confronti).
       state: "",
     },
