@@ -4,14 +4,51 @@ import { cn } from "../../lib/utils";
 import { Input } from "./input";
 
 /**
- * Converte il testo digitato (formato it-IT: punto per le migliaia, virgola
- * per i decimali) nel numero corrispondente. `null` se non è un numero valido
- * o il campo è vuoto — non 0, per distinguere "vuoto" da "zero" nel form.
+ * Converte il testo digitato nel numero corrispondente. `null` se non è un
+ * numero valido o il campo è vuoto — non 0, per distinguere "vuoto" da "zero"
+ * nel form.
+ *
+ * Il formato it-IT vuole il punto per le migliaia e la virgola per i decimali,
+ * ma chi digita in fretta usa spesso il punto come separatore decimale (è
+ * quello del tastierino numerico). Prima il punto veniva tolto sempre, quindi
+ * `1.30` diventava **130 euro** invece di uno e trenta (issue #64).
+ *
+ * L'unico segnale per distinguere i due casi è **quante cifre seguono il
+ * punto**: un gruppo di migliaia ne ha sempre esattamente tre.
+ *
+ * | Digitato | Letto come | Perché |
+ * |---|---|---|
+ * | `1.234,56` | 1234.56 | ci sono entrambi: punto = migliaia, virgola = decimali |
+ * | `1,30` | 1.3 | solo virgola = decimale |
+ * | `1.400` | 1400 | gruppo di 3 cifre = migliaia |
+ * | `1.400.000` | 1400000 | più gruppi da 3 |
+ * | `1.30` | 1.3 | 2 cifre: non è un raggruppamento valido |
+ * | `1.3` | 1.3 | 1 cifra: idem |
+ *
+ * Resta ambiguo `1.400` inteso come "uno virgola quattro": vince la lettura
+ * italiana (millequattrocento). È il compromesso giusto per un gestionale
+ * dove gli importi a quattro cifre sono all'ordine del giorno, e nessuno
+ * scrive i decimali con tre cifre.
  */
 function parseAmount(raw: string): number | null {
-  const cleaned = raw.trim().replace(/\./g, "").replace(",", ".");
-  if (cleaned === "") return null;
-  const n = Number(cleaned);
+  const testo = raw.trim();
+  if (testo === "") return null;
+
+  let normalizzato: string;
+  if (testo.includes(",")) {
+    // Con la virgola in campo non c'è ambiguità: è lei il separatore decimale
+    // e ogni punto è un raggruppamento di migliaia.
+    normalizzato = testo.replace(/\./g, "").replace(",", ".");
+  } else if (testo.includes(".")) {
+    const parti = testo.split(".");
+    const sonoMigliaia =
+      /^-?\d{1,3}$/.test(parti[0]) && parti.slice(1).every((p) => /^\d{3}$/.test(p));
+    normalizzato = sonoMigliaia ? parti.join("") : testo;
+  } else {
+    normalizzato = testo;
+  }
+
+  const n = Number(normalizzato);
   return Number.isNaN(n) ? null : n;
 }
 

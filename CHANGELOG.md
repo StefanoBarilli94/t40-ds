@@ -2,6 +2,31 @@
 
 Schema descritto in [agent_docs/versioning.md](agent_docs/versioning.md).
 
+## v0.10.3 — 2026-08-15
+
+### 🐛 Bug fixing
+
+- **`CurrencyInput` leggeva `1.30` come 130 euro** (#64). Il punto veniva tolto
+  sempre, come separatore delle migliaia: chi digitava un importo col punto
+  decimale — quello del tastierino numerico — otteneva un valore **cento volte
+  più grande**, senza nessun segnale a schermo. Ora il punto è interpretato in
+  base a quante cifre lo seguono, perché un gruppo di migliaia ne ha sempre
+  esattamente tre: `1.400` resta millequattrocento, `1.30` diventa uno e
+  trenta. Con la virgola in campo non c'è ambiguità e vale la regola italiana
+  piena (`1.234,56` → 1234.56). Resta ambiguo `1.400` inteso come "uno virgola
+  quattro": vince la lettura italiana, che su un gestionale è il compromesso
+  giusto.
+
+### 🧰 Infrastruttura
+
+- **Aggiunti i test unitari al pacchetto**, che non ne aveva. `vitest` era già
+  fra le dipendenze (tirato dentro dall'addon Storybook) ma senza
+  configurazione né script: ora c'è `bun run test` e una `vitest.config.ts`
+  minima, con ambiente `node` perché copre logica pura, non componenti resi —
+  il rendering è già coperto da Storybook e da `bun run a11y`. Primo blocco
+  coperto: le 8 regole di `parseAmount`, verificate anche per mutazione (col
+  parsing vecchio ne cadono 7 su 8).
+
 ## v0.10.2 — 2026-08-14
 
 ### ✨ Migliorative
