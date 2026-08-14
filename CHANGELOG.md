@@ -2,6 +2,31 @@
 
 Schema descritto in [agent_docs/versioning.md](agent_docs/versioning.md).
 
+## v0.10.0 — 2026-08-14
+
+### 🚀 Evolutive
+
+- **`Card`: varianti, densità, titolo semantico, `CardStat`/`CardRow`** (#60). Nato
+  osservando gt40 dal vivo: ogni pagina si inventava un trattamento diverso per la
+  stessa `Card` perché il DS non dava un vocabolario, e due classi della base
+  (`rounded-xl`, `shadow`) non si applicavano mai — il reset globale le azzera con
+  `!important`. Rimosse. Aggiunti:
+  - `variant="accent"` (bordo laterale) per **l'appartenenza** (ciclo, sezione) e
+    `variant="state"` (sfondo tinto) per **l'esito** (differenziale, saldo), entrambi
+    con `tone="primary"|"success"|"warning"|"destructive"` sugli stessi token già
+    verificati per contrasto (`--positive`/`--negative`/`--warning`/`--primary-text`).
+  - `density="compact"` su `Card`, letta da `CardHeader`/`CardContent`/`CardFooter`
+    via contesto: stringe il `p-6` fisso che rendeva le viste dense scomode e portava
+    ad aggirare i sotto-componenti scrivendo header e titoli a mano.
+  - `CardTitle` rende ora un'intestazione semantica vera (`as="h2"|"h3"|"h4"|"div"`,
+    default `h3`) invece di un `<div>` — non serve più riavvolgerla a mano.
+  - `CardStat` (etichetta + valore grande, opzionale icona/tono) e `CardRow`
+    (etichetta a sinistra, valore a destra): i due pattern più ripetuti a mano nelle
+    app consumer. `CardStat` porta `min-w-0`/`break-words` di serie: un valore in
+    valuta (`Intl.NumberFormat`, spazio unificatore prima di "€") non si spezza da
+    solo, e dentro una card stretta traboccava sulla colonna vicina invece di andare
+    a capo — la causa dell'overlap osservato in ast40#85.
+
 ## v0.9.2 — 2026-08-12
 
 ### 🐛 Bug fixing

@@ -16,10 +16,11 @@ var(--font-sans) }`, non serve impostarlo componente per componente.
 
 ## Scala dei titoli
 
-Non esiste un componente `Heading` nel design system (`CardTitle`, `SheetTitle` ecc. sono
-`<div>`/elementi semantici Radix stilizzati dal consumer, vedi
-`agent_docs/component-conventions.md`): questa è la scala di riferimento, da applicare con
-classi Tailwind sul tag semantico giusto.
+Non esiste un componente `Heading` nel design system. `CardTitle` rende un'intestazione
+semantica vera (`h3` di default, `as="h2"|"h4"|"div"` per gli altri casi — issue t40-ds#60);
+`SheetTitle` ed equivalenti restano elementi semantici Radix stilizzati dal consumer, vedi
+`agent_docs/component-conventions.md`. Questa è la scala di riferimento, da applicare con
+classi Tailwind sul tag semantico giusto quando non passi da `CardTitle`.
 
 **Ricavata dai titoli che ast40 e gt40 usano davvero**, non decisa a tavolino — è il
 motivo per cui parte da `text-2xl` e non da `text-4xl`. In queste applicazioni la pagina è
@@ -53,8 +54,8 @@ esiste è il nome della pagina, e sta a 24px.
     <div className="text-base font-semibold">Titolo di card</div>
     <div style={{ marginTop: "0.5rem", fontSize: "0.75rem", color: "var(--muted-foreground)", lineHeight: 1.6 }}>
       <code>text-base font-semibold</code><br />
-      Intestazione di card o di dialog, <code>&lt;h3&gt;</code>. È quello che <code>CardTitle</code>
-      già applica da sé: dentro una <code>Card</code> non serve rimetterlo a mano.
+      Intestazione di card o di dialog, <code>&lt;h3&gt;</code>. È il default di
+      <code>CardTitle</code>: tag e dimensione applicati da sé, non serve rimetterli a mano.
     </div>
   </div>
   <div>
