@@ -2,6 +2,14 @@
 
 Schema descritto in [agent_docs/versioning.md](agent_docs/versioning.md).
 
+## v0.10.1 — 2026-08-14
+
+### 🐛 Bug fixing
+
+- **`CardTitle as="h2"` a `text-lg` invece di `text-xl`**. La `v0.10.0` non seguiva
+  la propria scala documentata (`src/docs/Typography.mdx`, "sezione o titolo di
+  dialog a piena pagina" = `text-xl`) — scoperto adottando `as="h2"` in ast40.
+
 ## v0.10.0 — 2026-08-14
 
 ### 🚀 Evolutive

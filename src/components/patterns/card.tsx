@@ -104,8 +104,11 @@ export interface CardTitleProps extends React.HTMLAttributes<HTMLHeadingElement>
   as?: "h2" | "h3" | "h4" | "div";
 }
 
+// Stessa scala di src/docs/Typography.mdx ("Scala dei titoli"): h2 sezione/dialog
+// a piena pagina (text-xl), h3 titolo di card (text-base), h4 sottogruppo dentro
+// una card (text-sm).
 const TITLE_SIZE: Record<NonNullable<CardTitleProps["as"]>, string> = {
-  h2: "text-lg",
+  h2: "text-xl",
   h3: "text-base",
   h4: "text-sm",
   div: "text-base",
