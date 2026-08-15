@@ -12,6 +12,7 @@
 export * from "./components/patterns/accordion";
 export * from "./components/patterns/alert";
 export * from "./components/patterns/alert-dialog";
+export * from "./components/atoms/badge";
 export * from "./components/atoms/button";
 export * from "./components/form/calendar";
 export * from "./components/patterns/card";

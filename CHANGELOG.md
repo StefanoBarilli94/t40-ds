@@ -2,6 +2,25 @@
 
 Schema descritto in [agent_docs/versioning.md](agent_docs/versioning.md).
 
+## v0.11.0 — 2026-08-15
+
+### ✨ Novità
+
+- **`Badge`** (#67): etichetta di stato, una parola o due dentro un chip. Nasce
+  da gt40#129, dove uno stato ("Da inserire", "Da controllare in banca") era
+  scritto come testo attenuato in corsivo e si perdeva dentro una griglia di
+  importi.
+
+  Il tono tinge **sfondo e bordo, mai il testo**, che resta su `--foreground`:
+  un chip piccolo con testo colorato su sfondo tinto è proprio il caso in cui
+  il contrasto scende sotto 4.5:1 senza che si veda a occhio, e `--warning` non
+  è pensato per reggere testo piccolo. Il colore quindi **rinforza** e non
+  porta l'informazione — la parola dentro il chip resta leggibile in scala di
+  grigi e in stampa (WCAG 1.4.1).
+
+  Toni (`neutral` di default, poi `primary`/`success`/`warning`/`destructive`)
+  e `size` (`sm`/`md`). Stesso vocabolario di `Card`/`CardStat`.
+
 ## v0.10.3 — 2026-08-15
 
 ### 🐛 Bug fixing
