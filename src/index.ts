@@ -38,6 +38,7 @@ export * from "./components/patterns/table";
 export * from "./components/patterns/tabs";
 export * from "./components/form/textarea";
 export * from "./components/form/toggle";
+export * from "./components/form/toggle-group";
 export * from "./components/atoms/tooltip";
 
 export { cn } from "./lib/utils";
