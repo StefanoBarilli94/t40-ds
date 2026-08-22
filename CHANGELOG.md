@@ -2,6 +2,22 @@
 
 Schema descritto in [agent_docs/versioning.md](agent_docs/versioning.md).
 
+## v0.12.0 — 2026-08-22
+
+### ✨ Novità
+
+- **`ToggleGroup`** (stamp40#102): segmented control, un insieme di voci fisse
+  tra cui sceglierne una (`type="single"`) o più (`type="multiple"`). Nasce dal
+  bisogno di stamp40 di uno switch tra sezioni («Stampa documenti» / «Compila e
+  firma») nell'header.
+
+  Costruito su Radix ToggleGroup, quindi con **ruoli ARIA e navigazione da
+  tastiera** (frecce, Home/End) inclusi: accessibile senza lavoro extra
+  (verificato AA da `bun run a11y`, 0 violazioni). Riusa lo stesso
+  `toggleVariants` di `Toggle` — varianti (`default`/`outline`) e dimensioni
+  (`sm`/`md`/`lg`) si impostano sul gruppo e si propagano agli item via context.
+  Responsive: gli item vanno a capo (`flex-wrap`) sugli schermi stretti.
+
 ## v0.11.0 — 2026-08-15
 
 ### ✨ Novità
