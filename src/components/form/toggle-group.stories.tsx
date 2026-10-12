@@ -86,7 +86,6 @@ export const ConIcone: Story = {
 };
 
 export const Dimensioni: Story = {
-  name: "Dimensioni",
   render: () => (
     <div className="flex flex-col items-start gap-3">
       {(["sm", "default", "lg"] as const).map((size) => (
@@ -108,7 +107,6 @@ export const Dimensioni: Story = {
 };
 
 export const Disabilitato: Story = {
-  name: "Disabilitato",
   render: () => (
     <ToggleGroup type="single" defaultValue="a" disabled aria-label="Non disponibile">
       <ToggleGroupItem value="a">Uno</ToggleGroupItem>

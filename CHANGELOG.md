@@ -28,6 +28,17 @@ prima di tutto per il telefono.
   obbligatorio su `AvatarImage`. Con lui torna l'eccezione `[data-slot="avatar"]` al
   reset degli angoli, l'unica rimasta.
 
+### 🐛 Bug fixing
+
+- **`bun run lint` non aveva mai funzionato** (#66): mancava `eslint.config.js`, quindi
+  lo script usciva in errore senza analizzare una riga. Ora c'è, con la stessa base di
+  gt40, ast40 e stamp40 più le regole di Storybook: 0 errori. Restano 6 avvisi
+  `react-refresh/only-export-components` sui file che esportano anche le proprie
+  varianti `cva`, lasciati visibili.
+- **Story di `ToggleGroup` senza tipi validi** (#73): 7 errori di `tsc` presenti dalla
+  v0.12.0, invisibili perché Storybook compila senza controllare i tipi. Ora
+  `bunx tsc --noEmit` esce pulito.
+
 ### 📝 Documentazione
 
 - Le pagine **Panoramica** di Atoms, Form e Patterns elencavano ancora 20 componenti

@@ -36,7 +36,6 @@ export const Default: Story = {
 };
 
 export const Vuoto: Story = {
-  name: "Vuoto",
   parameters: {
     docs: {
       description: {

@@ -42,7 +42,6 @@ export const Variante: Story = {
 };
 
 export const Dimensioni: Story = {
-  name: "Dimensioni",
   render: () => (
     <div className="flex items-center gap-2">
       <Toggle size="sm">Sm</Toggle>
