@@ -2,9 +2,23 @@ import type { Meta, StoryObj } from "@storybook/react-vite";
 import { AlignLeft, AlignCenter, AlignRight } from "lucide-react";
 import { ToggleGroup, ToggleGroupItem } from "./toggle-group";
 
+/**
+ * Solo le due prop che le story fanno scegliere dai controlli.
+ *
+ * `component: ToggleGroup` nel `meta` non regge: le prop del gruppo sono
+ * un'unione discriminata su `type` (`single` vuole `value` stringa, `multiple`
+ * un array), e Storybook non sa da quale ramo ricavare gli `args`. Risultato,
+ * sette errori di tipo rimasti nel file dalla v0.12.0. `type` lo fissa ogni
+ * story nel proprio `render`, come indica agent_docs/storybook-conventions.md
+ * per i componenti con prop richieste "innaturali".
+ */
+type Args = {
+  variant?: "default" | "outline";
+  size?: "default" | "sm" | "lg";
+};
+
 const meta = {
   title: "Form/ToggleGroup",
-  component: ToggleGroup,
   tags: ["autodocs"],
   argTypes: {
     variant: { control: "select", options: ["default", "outline"] },
@@ -18,10 +32,10 @@ const meta = {
       },
     },
   },
-} satisfies Meta<typeof ToggleGroup>;
+} satisfies Meta<Args>;
 
 export default meta;
-type Story = StoryObj<typeof meta>;
+type Story = StoryObj<Args>;
 
 export const SceltaSingola: Story = {
   name: "Scelta singola",
