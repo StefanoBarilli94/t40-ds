@@ -264,7 +264,6 @@ export const RigheDiLista: Story = {
 };
 
 export const Minimale: Story = {
-  name: "Minimale",
   parameters: {
     docs: {
       description: {

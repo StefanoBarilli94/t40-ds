@@ -50,34 +50,34 @@
     "react-dom": "^18.3.1 || ^19.0.0"
   },
   "devDependencies": {
+    "@chromatic-com/storybook": "latest",
+    "@eslint/js": "^9.39.5",
+    "@storybook/addon-a11y": "^10.5.7",
+    "@storybook/addon-docs": "^10.5.7",
+    "@storybook/addon-mcp": "latest",
+    "@storybook/addon-vitest": "^10.5.7",
+    "@storybook/react-vite": "^10.5.7",
     "@tailwindcss/vite": "^4.2.1",
     "@types/node": "^22.16.5",
     "@types/react": "^19.2.0",
     "@types/react-dom": "^19.2.0",
     "@vitejs/plugin-react": "^5.0.4",
+    "@vitest/browser-playwright": "latest",
+    "@vitest/coverage-v8": "latest",
     "eslint": "^9.32.0",
+    "eslint-plugin-react-hooks": "^5.2.0",
+    "eslint-plugin-react-refresh": "^0.4.26",
+    "eslint-plugin-storybook": "^10.5.7",
+    "globals": "^15.15.0",
+    "playwright": "latest",
     "react": "^19.2.0",
     "react-dom": "^19.2.0",
+    "storybook": "^10.5.7",
     "tailwindcss": "^4.2.1",
     "typescript": "^5.8.3",
+    "typescript-eslint": "^8.71.2",
     "vite": "^7.3.1",
     "vite-tsconfig-paths": "^6.0.2",
-    "storybook": "^10.5.7",
-    "@storybook/react-vite": "^10.5.7",
-    "@chromatic-com/storybook": "latest",
-    "@storybook/addon-vitest": "^10.5.7",
-    "@storybook/addon-a11y": "^10.5.7",
-    "@storybook/addon-docs": "^10.5.7",
-    "@storybook/addon-mcp": "latest",
-    "eslint-plugin-storybook": "^10.5.7",
-    "vitest": "latest",
-    "playwright": "latest",
-    "@vitest/browser-playwright": "latest",
-    "@vitest/coverage-v8": "latest"
-  },
-  "eslintConfig": {
-    "extends": [
-      "plugin:storybook/recommended"
-    ]
+    "vitest": "latest"
   }
 }
