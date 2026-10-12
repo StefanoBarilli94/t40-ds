@@ -13,12 +13,12 @@ duplicate dei componenti che divergono nel tempo.
 
 ## Componenti, per categoria
 
-I 51 componenti sono organizzati secondo atomic design in tre categorie (vedi anche la
+I componenti sono organizzati secondo atomic design in tre categorie (vedi anche la
 sidebar). Ogni categoria ha una pagina indice con la lista completa.
 
 export const categories = [
   { id: "atoms-panoramica--docs", name: "Atoms", description: "Componenti base indivisibili: Button, Badge, Avatar, Tooltip…", icon: Blocks },
-  { id: "form-panoramica--docs", name: "Form", description: "Campi e controlli di raccolta input: Input, Select, Checkbox…", icon: FormInput },
+  { id: "form-panoramica--docs", name: "Form", description: "Campi e controlli di raccolta input: Input, Select, Switch…", icon: FormInput },
   { id: "patterns-panoramica--docs", name: "Patterns", description: "Composizioni e comportamenti applicativi: Dialog, Table, Sidebar…", icon: Boxes },
 ];
 
@@ -35,8 +35,8 @@ export const categories = [
   `@storybook/addon-vitest` ha un bug upstream (crash all'import per un problema di interop
   ESM/CJS di `aria-query` con Vite, riprodotto su più versioni del pacchetto) — `bun run a11y`
   esegue lo stesso controllo (axe-core + Chromium via Playwright) bypassando quella pipeline.*
-- **Angoli squadrati, nessuna ombra**: l'unica eccezione sono i tag/badge, che restano
-  arrotondati. Vedi `src/index.css`.
+- **Angoli squadrati, nessuna ombra**: l'unica eccezione è l'Avatar, che è tondo. Vedi
+  `src/index.css`.
 - **Niente colore come unico veicolo d'informazione**: badge Aggio/Spesa hanno sempre testo,
   non solo colore (WCAG 1.4.1).
 
