@@ -66,10 +66,10 @@ const BottomNavItem = React.forwardRef<HTMLButtonElement, BottomNavItemProps>(
             // min-h-14: 56px, sopra i 44 raccomandati per un bersaglio al tocco.
             // -outline-offset-2: l'anello di focus sta dentro la voce, perché
             // fuori verrebbe tagliato dai bordi dello schermo.
-            "relative flex min-h-14 w-full min-w-0 flex-col items-center justify-center gap-1 border-t-2 border-transparent px-1 pb-1.5 pt-1 text-xs font-medium leading-none text-sidebar-foreground/80 -outline-offset-2 transition-colors",
+            "relative flex min-h-14 w-full min-w-0 flex-col items-center justify-center gap-1 border-t-[3px] border-transparent px-1 pb-1.5 pt-1 text-xs font-medium leading-none text-sidebar-foreground/80 -outline-offset-2 transition-colors",
             "hover:bg-sidebar-accent hover:text-sidebar-accent-foreground active:bg-sidebar-accent",
             "data-[active=true]:border-sidebar-primary data-[active=true]:bg-sidebar-accent data-[active=true]:font-semibold data-[active=true]:text-sidebar-accent-foreground",
-            "[&>span:not([data-sidebar])]:max-w-full [&>span:not([data-sidebar])]:truncate [&>svg]:size-5 [&>svg]:shrink-0",
+            "[&>span:not([data-sidebar])]:max-w-full [&>span:not([data-sidebar])]:truncate [&>svg]:size-[18px] [&>svg]:shrink-0",
             className,
           )}
           {...props}
