@@ -2,6 +2,39 @@
 
 Schema descritto in [agent_docs/versioning.md](agent_docs/versioning.md).
 
+## v0.13.0 — 2026-10-12
+
+Due componenti chiesti da ft40, l'app di turni e ferie: la prima del gruppo pensata
+prima di tutto per il telefono.
+
+### ✨ Novità
+
+- **`BottomNav`** (#70): navigazione principale su telefono, una barra fissa in fondo
+  allo schermo con `BottomNavItem`, `BottomNavBadge` e `BottomNavSpacer`. Finora su
+  telefono c'era solo la `Sidebar` in versione pannello a scomparsa, che va bene per
+  app usate da desktop ma non per una che si apre ogni giorno dal telefono.
+
+  Usa i token della `Sidebar` e sparisce da `md` in su, la stessa soglia di
+  `useIsMobile`. Da 3 a 5 voci, ognuna con icona **e** testo, alta 56px. La voce attiva
+  non si distingue solo dal colore: barra in alto, sfondo, peso del testo e
+  `aria-current="page"` (WCAG 1.4.1). Rispetta `env(safe-area-inset-bottom)`, quindi
+  l'app deve dichiarare `viewport-fit=cover`. Non conosce il router: con `asChild` la
+  voce diventa il `Link` dell'app, come `SidebarMenuButton`.
+
+- **`Avatar`** (#71): torna il componente tolto con la #27, perché ora serve davvero.
+  Stessa forma di prima (`Avatar`, `AvatarImage`, `AvatarFallback`), con tre
+  differenze: **nessuna dipendenza** da `@radix-ui/react-avatar` (il passaggio dalla
+  foto alle iniziali è stato React), le dimensioni `sm`/`md`/`lg`, e `alt`
+  obbligatorio su `AvatarImage`. Con lui torna l'eccezione `[data-slot="avatar"]` al
+  reset degli angoli, l'unica rimasta.
+
+### 📝 Documentazione
+
+- Le pagine **Panoramica** di Atoms, Form e Patterns elencavano ancora 20 componenti
+  rimossi con la #27, con descrizione e link a story inesistenti (#72). Ora ogni card
+  porta a una story che esiste, ed è comparso `PageLoader`, che mancava.
+  Nell'Introduzione, corretta la nota sugli angoli: l'eccezione è l'Avatar, non i badge.
+
 ## v0.12.0 — 2026-08-22
 
 ### ✨ Novità

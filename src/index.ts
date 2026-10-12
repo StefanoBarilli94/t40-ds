@@ -14,6 +14,7 @@ export * from "./components/patterns/alert";
 export * from "./components/patterns/alert-dialog";
 export * from "./components/atoms/avatar";
 export * from "./components/atoms/badge";
+export * from "./components/patterns/bottom-nav";
 export * from "./components/atoms/button";
 export * from "./components/form/calendar";
 export * from "./components/patterns/card";
