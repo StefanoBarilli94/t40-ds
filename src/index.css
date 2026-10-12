@@ -350,6 +350,19 @@
   }
 
   /*
+   * Unica eccezione al reset degli angoli: l'Avatar è tondo (issue #71).
+   *
+   * Sta qui e non nel componente perché il reset usa `!important`: una classe
+   * `rounded-full` nel layer utilities perderebbe comunque. Stesso layer e
+   * specificità più alta di `*`, quindi vince. Vale anche per i figli, perché
+   * la foto e le iniziali ritagliate dal contenitore devono seguirne la forma.
+   */
+  [data-slot="avatar"],
+  [data-slot="avatar"] * {
+    border-radius: 9999px !important;
+  }
+
+  /*
    * Focus visibile, reso con `outline` e non con `ring` (issue #23).
    *
    * `ring-*` di Tailwind è implementato come box-shadow: la regola qui sopra lo
