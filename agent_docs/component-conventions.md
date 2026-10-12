@@ -26,12 +26,13 @@ un componente, è quasi sempre questo.
 
 ## Eccezioni al reset globale (`src/index.css`, `@layer base`)
 
-La regola globale è "niente `border-radius`, niente `box-shadow`, ovunque", e al momento
-non ha eccezioni: quelle che c'erano (`[data-slot="badge"]`, `[data-slot="avatar"]`) sono
-state rimosse con la #27 insieme ai componenti che le usavano.
+La regola globale è "niente `border-radius`, niente `box-shadow`, ovunque". Ha una sola
+eccezione: `[data-slot="avatar"]`, tondo. Era stata rimossa con la #27 insieme al
+componente ed è tornata con lui (#71); quella del vecchio `badge` no, perché il Badge
+di oggi è squadrato.
 
 Se un nuovo componente ha davvero bisogno di angoli arrotondati (es. un futuro
-componente "pill"), segui il pattern che usavano: `data-slot="<nome>"` sul componente +
+componente "pill"), segui lo stesso pattern: `data-slot="<nome>"` sul componente +
 eccezione in `index.css`, **non** un override locale nel componente stesso — altrimenti
 la regola smette di essere una fonte di verità unica.
 
