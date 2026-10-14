@@ -85,15 +85,15 @@ export const ConErrore: Story = {
   render: () => (
     <div className="grid w-72 gap-1.5">
       <Label htmlFor="errore-story">Importo</Label>
-      <Input
-        id="errore-story"
-        aria-invalid="true"
-        aria-describedby="errore-story-msg"
-        className="border-destructive focus-visible:outline-destructive"
-        defaultValue="-10"
-      />
+      {/* Basta aria-invalid: il bordo rosso lo mette il componente (issue #88). */}
+      <Input id="errore-story" aria-invalid="true" aria-describedby="errore-story-msg" defaultValue="-10" />
       <p id="errore-story-msg" className="text-sm text-destructive">
         L'importo non può essere negativo.
+      </p>
+      <Label htmlFor="errore-data-story">Ultimo giorno</Label>
+      <Input id="errore-data-story" type="date" aria-invalid="true" aria-describedby="errore-data-msg" className="h-12" />
+      <p id="errore-data-msg" className="text-sm text-destructive">
+        Serve l'ultimo giorno.
       </p>
     </div>
   ),
