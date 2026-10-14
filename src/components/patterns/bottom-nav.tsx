@@ -63,13 +63,17 @@ const BottomNavItem = React.forwardRef<HTMLButtonElement, BottomNavItemProps>(
           data-active={isActive}
           aria-current={isActive ? "page" : undefined}
           className={cn(
-            // min-h-14: 56px, sopra i 44 raccomandati per un bersaglio al tocco.
+            // min-h-16: 64px di voce, più la fascia di sistema sotto (issue #81).
+            // Con 56px la barra era bassa per il pollice: Apple chiede almeno
+            // 44pt per ogni bersaglio, e Material 3 ha alzato la sua barra
+            // rispetto ai 56dp di Material 2. 64px lasciano spazio a icona,
+            // testo e un margine sopra e sotto senza rubare troppo schermo.
             // -outline-offset-2: l'anello di focus sta dentro la voce, perché
             // fuori verrebbe tagliato dai bordi dello schermo.
-            "relative flex min-h-14 w-full min-w-0 flex-col items-center justify-center gap-1 border-t-[3px] border-transparent px-1 pb-1.5 pt-1 text-xs font-medium leading-none text-sidebar-foreground/80 -outline-offset-2 transition-colors",
+            "relative flex min-h-16 w-full min-w-0 flex-col items-center justify-center gap-1.5 border-t-[3px] border-transparent px-1 pb-2 pt-1.5 text-xs font-medium leading-none text-sidebar-foreground/80 -outline-offset-2 transition-colors",
             "hover:bg-sidebar-accent hover:text-sidebar-accent-foreground active:bg-sidebar-accent",
             "data-[active=true]:border-sidebar-primary data-[active=true]:bg-sidebar-accent data-[active=true]:font-semibold data-[active=true]:text-sidebar-accent-foreground",
-            "[&>span:not([data-sidebar])]:max-w-full [&>span:not([data-sidebar])]:truncate [&>svg]:size-[18px] [&>svg]:shrink-0",
+            "[&>span:not([data-sidebar])]:max-w-full [&>span:not([data-sidebar])]:truncate [&>svg]:size-5 [&>svg]:shrink-0",
             className,
           )}
           {...props}
@@ -95,7 +99,7 @@ const BottomNavBadge = React.forwardRef<HTMLSpanElement, BottomNavBadgeProps>(
       ref={ref}
       data-sidebar="bottom-nav-badge"
       className={cn(
-        "pointer-events-none absolute left-1/2 top-1 ml-1.5 flex h-4 min-w-4 items-center justify-center bg-sidebar-primary px-1 text-[11px] font-semibold tabular-nums leading-none text-sidebar-primary-foreground",
+        "pointer-events-none absolute left-1/2 top-1.5 ml-2 flex h-4 min-w-4 items-center justify-center bg-sidebar-primary px-1 text-[11px] font-semibold tabular-nums leading-none text-sidebar-primary-foreground",
         className,
       )}
       {...props}
@@ -115,7 +119,7 @@ const BottomNavSpacer = ({ className, ...props }: React.ComponentProps<"div">) =
   <div
     aria-hidden="true"
     data-sidebar="bottom-nav-spacer"
-    className={cn("h-[calc(3.5rem+env(safe-area-inset-bottom))] shrink-0 md:hidden", className)}
+    className={cn("h-[calc(4rem+env(safe-area-inset-bottom))] shrink-0 md:hidden", className)}
     {...props}
   />
 );
