@@ -2,6 +2,15 @@
 
 Schema descritto in [agent_docs/versioning.md](agent_docs/versioning.md).
 
+## v0.14.1 — 2026-10-15
+
+### 🐛 Correzioni
+
+- **`BottomNav` su iPhone** (#94): la fascia di sistema in fondo allo schermo passa dalla
+  `nav` alle voci. Lo sfondo della voce attiva arriva fino in fondo, come nelle tab bar
+  di iOS: prima finiva a metà e sotto restava una striscia scura vuota, visibile quando
+  Safari nasconde la sua barra durante lo scroll.
+
 ## v0.14.0 — 2026-10-14
 
 ### ✨ Migliorative
