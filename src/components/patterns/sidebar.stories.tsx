@@ -23,7 +23,7 @@ const meta = {
     docs: {
       description: {
         component:
-          "Navigazione principale dell'app (replica la sidebar scura di ast40/gt40). `SidebarTrigger` ha già `aria-label=\"Toggle Sidebar\"`; ogni voce attiva usa `data-active` per lo stato visivo, non solo il colore, e resta un `<a>`/`<button>` reale navigabile da tastiera. Il logo in `SidebarHeader` (issue #13) cambia per tema via CSS (selettore `[data-theme=ast40]`, stesso meccanismo del resto del theming — non serve leggere il tema a runtime): `logo-dark.png` (marchio ciano/bianco) di default, `logo-light.png` (marchio rosso, sfondo trasparente) sotto `data-theme=\"ast40\"`.",
+          "Navigazione principale dell'app (replica la sidebar scura di ast40/gt40). `SidebarTrigger` ha già l'etichetta \"Apri o chiudi il menu\" (issue #79); ogni voce attiva usa `data-active` per lo stato visivo, non solo il colore, e resta un `<a>`/`<button>` reale navigabile da tastiera. Il logo in `SidebarHeader` (issue #13) cambia per tema via CSS (selettore `[data-theme=ast40]`, stesso meccanismo del resto del theming — non serve leggere il tema a runtime): `logo-dark.png` (marchio ciano/bianco) di default, `logo-light.png` (marchio rosso, sfondo trasparente) sotto `data-theme=\"ast40\"`.",
       },
     },
   },
