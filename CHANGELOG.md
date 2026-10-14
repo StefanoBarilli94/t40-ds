@@ -2,6 +2,16 @@
 
 Schema descritto in [agent_docs/versioning.md](agent_docs/versioning.md).
 
+## v0.13.2 — 2026-10-14
+
+### ✨ Migliorative
+
+- **`Toggle` e `ToggleGroup`, voce attiva tinta** (#83): la voce scelta ha il fondo
+  tinto del colore del tema, il testo scuro in grassetto e, nella variante `outline`,
+  il bordo del colore del tema. Prima aveva il fondo pieno di `accent`, uguale ai
+  pulsanti principali: accanto a un `Button` una scelta sembrava un'azione. Al
+  passaggio del mouse niente più fondo pieno, e la variante `outline` perde l'ombra.
+
 ## v0.13.1 — 2026-10-14
 
 ### ✨ Migliorative
