@@ -2,6 +2,27 @@
 
 Schema descritto in [agent_docs/versioning.md](agent_docs/versioning.md).
 
+## v0.14.0 — 2026-10-14
+
+### ✨ Migliorative
+
+- **Campi delle form rossi da soli in errore** (#88): con `aria-invalid="true"`
+  `Input` (anche data e ora), `CurrencyInput`, `Textarea`, `Select`, `Switch` e
+  `Toggle` outline prendono bordo e anello di focus rossi. Su `ToggleGroup` basta
+  `aria-invalid` sul gruppo. Le app non aggiungono più classi. Nuova storia
+  "Form/Validazione".
+
+### 🐛 Correzioni
+
+- **Campo data su telefono** (#89): date e ore hanno un'icona del DS sempre a destra
+  (Safari iOS non ne disegnava nessuna) e il valore centrato in verticale. L'icona di
+  Chrome resta invisibile e stesa su tutto il campo: un clic ovunque apre il
+  calendario. Il campo data ora sta in un contenitore `relative w-full`.
+- **Etichette in italiano** (#79, #80): il pulsante di chiusura di `Dialog` e `Sheet`
+  si chiama "Chiudi", con un'area di tocco di 36px; il trigger della `Sidebar` "Apri o
+  chiudi il menu". Via `shadow-lg` e `rounded` da `Dialog`, `AlertDialog` e `Sheet`
+  (erano già spenti dalla regola globale).
+
 ## v0.13.3 — 2026-10-14
 
 ### 🐛 Correzioni
