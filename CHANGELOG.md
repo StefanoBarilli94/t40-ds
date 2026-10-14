@@ -2,6 +2,17 @@
 
 Schema descritto in [agent_docs/versioning.md](agent_docs/versioning.md).
 
+## v0.13.1 — 2026-10-14
+
+### ✨ Migliorative
+
+- **`BottomNav` più alta** (#81): ogni voce passa da 56 a 64px, più la fascia di
+  sistema in fondo, con icone a 20px e un po' più di spazio fra icona e testo. Con 56px
+  la barra era bassa per il pollice: Apple chiede almeno 44pt per ogni bersaglio al
+  tocco e Material 3 ha alzato la sua barra rispetto ai 56dp di Material 2.
+  `BottomNavSpacer` cresce allo stesso modo. Chi posiziona qualcosa sopra la barra con
+  un'altezza scritta a mano (3.5rem) deve passare a 4rem.
+
 ## v0.13.0 — 2026-10-12
 
 Due componenti chiesti da ft40, l'app di turni e ferie: la prima del gruppo pensata

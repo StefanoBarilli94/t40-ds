@@ -58,7 +58,7 @@ const meta = {
     docs: {
       description: {
         component:
-          "Navigazione principale su telefono: una barra fissa in fondo allo schermo, da 3 a 5 voci, ognuna con icona **e** testo. È la stessa navigazione della `Sidebar` in un'altra posizione, quindi ne usa i token (`--sidebar-*`), e sparisce da `md` in su, dove la navigazione torna a essere la `Sidebar`. La voce attiva non si distingue solo dal colore: ha una barra in alto, lo sfondo, il peso del testo e `aria-current=\"page\"` (WCAG 1.4.1). Ogni voce è alta 56px, sopra i 44 raccomandati per il tocco. La barra rispetta `env(safe-area-inset-bottom)`: perché funzioni, l'app deve avere `viewport-fit=cover` nel meta viewport. In fondo alla pagina va messo `BottomNavSpacer`, altrimenti l'ultimo contenuto resta nascosto sotto la barra.",
+          "Navigazione principale su telefono: una barra fissa in fondo allo schermo, da 3 a 5 voci, ognuna con icona **e** testo. È la stessa navigazione della `Sidebar` in un'altra posizione, quindi ne usa i token (`--sidebar-*`), e sparisce da `md` in su, dove la navigazione torna a essere la `Sidebar`. La voce attiva non si distingue solo dal colore: ha una barra in alto, lo sfondo, il peso del testo e `aria-current=\"page\"` (WCAG 1.4.1). Ogni voce è alta 64px: Apple chiede almeno 44pt per ogni bersaglio al tocco e Material 3 ha alzato la barra oltre i 56dp di Material 2; 64px lasciano respiro al pollice senza rubare schermo. La barra rispetta `env(safe-area-inset-bottom)`: perché funzioni, l'app deve avere `viewport-fit=cover` nel meta viewport. In fondo alla pagina va messo `BottomNavSpacer`, altrimenti l'ultimo contenuto resta nascosto sotto la barra.",
       },
     },
   },
