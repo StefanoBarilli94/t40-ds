@@ -398,15 +398,30 @@
     outline-color: var(--sidebar-ring);
   }
 
-  /* L'indicatore del calendario di Chrome segue il testo invece di andare a
-     destra, perché `display: flex` su Input rompe il layout interno del campo
-     data (issue #24). Regola CSS e non una utility `[&::-webkit-...]`: quella
-     Tailwind non la genera. Da sola non bastava sui campi larghi: per date e
-     ore Input usa `block` invece di `flex` (issue #85). */
+  /* L'icona di Chrome seguiva il testo invece di stare a destra (issue #24 e
+     #85), e Safari iOS non ne disegna nessuna (issue #89): Input mette la sua.
+     Quella di Chrome resta, invisibile e stesa su tutto il campo, così un
+     clic in qualsiasi punto apre il calendario e non solo sull'icona. Regola
+     CSS e non una utility `[&::-webkit-...]`: quella Tailwind non la genera. */
   input[type="date"]::-webkit-calendar-picker-indicator,
   input[type="time"]::-webkit-calendar-picker-indicator,
-  input[type="datetime-local"]::-webkit-calendar-picker-indicator {
-    margin-inline-start: auto;
+  input[type="datetime-local"]::-webkit-calendar-picker-indicator,
+  input[type="month"]::-webkit-calendar-picker-indicator,
+  input[type="week"]::-webkit-calendar-picker-indicator {
+    position: absolute;
+    inset: 0;
+    width: auto;
+    height: auto;
+    margin: 0;
+    padding: 0;
+    opacity: 0;
+    cursor: pointer;
+  }
+
+  /* Su Safari iOS il valore della data è allineato al centro in orizzontale:
+     a sinistra come ogni altro campo. */
+  input::-webkit-date-and-time-value {
+    text-align: start;
   }
 
   /*
