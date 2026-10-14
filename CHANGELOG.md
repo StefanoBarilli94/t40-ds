@@ -2,6 +2,15 @@
 
 Schema descritto in [agent_docs/versioning.md](agent_docs/versioning.md).
 
+## v0.13.3 — 2026-10-14
+
+### 🐛 Correzioni
+
+- **Campo data: icona in fondo a destra** (#85): nei campi data e ora larghi l'icona del
+  calendario restava attaccata alla data, a metà del campo. Per date e ore `Input` usa
+  `display: block` invece di `flex`, che rompeva il layout interno del campo in Chrome.
+  Nuova storia "Data a tutta larghezza".
+
 ## v0.13.2 — 2026-10-14
 
 ### ✨ Migliorative

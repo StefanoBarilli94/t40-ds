@@ -47,6 +47,30 @@ export const Tipi: Story = {
   ),
 };
 
+/**
+ * Il campo data a tutta larghezza, come nei moduli su telefono: l'icona del
+ * calendario sta in fondo a destra, non attaccata alla data (issue #85).
+ */
+export const DataATuttaLarghezza: Story = {
+  name: "Data a tutta larghezza",
+  render: () => (
+    <div className="grid w-[420px] max-w-full gap-3">
+      <div className="grid gap-1.5">
+        <Label htmlFor="dal-story">Primo giorno</Label>
+        <Input id="dal-story" type="date" defaultValue="2026-10-16" className="h-12" />
+      </div>
+      <div className="grid gap-1.5">
+        <Label htmlFor="al-story">Ultimo giorno</Label>
+        <Input id="al-story" type="date" className="h-12" />
+      </div>
+      <div className="grid gap-1.5">
+        <Label htmlFor="ora-story">Ora</Label>
+        <Input id="ora-story" type="time" defaultValue="07:30" className="h-12" />
+      </div>
+    </div>
+  ),
+};
+
 export const Disabilitato: Story = {
   render: () => (
     <div className="grid w-72 gap-1.5">

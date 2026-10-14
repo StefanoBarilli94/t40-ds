@@ -401,7 +401,8 @@
   /* L'indicatore del calendario di Chrome segue il testo invece di andare a
      destra, perché `display: flex` su Input rompe il layout interno del campo
      data (issue #24). Regola CSS e non una utility `[&::-webkit-...]`: quella
-     Tailwind non la genera. */
+     Tailwind non la genera. Da sola non bastava sui campi larghi: per date e
+     ore Input usa `block` invece di `flex` (issue #85). */
   input[type="date"]::-webkit-calendar-picker-indicator,
   input[type="time"]::-webkit-calendar-picker-indicator,
   input[type="datetime-local"]::-webkit-calendar-picker-indicator {
