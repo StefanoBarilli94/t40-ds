@@ -87,7 +87,7 @@ const DialogContent = React.forwardRef<
         // aperta coesistono `translate: -50% -50%` e una `transform` con lo
         // stesso scarto. Una dissolvenza non tocca la posizione, quindi il
         // problema non puo' ripresentarsi al prossimo giro di Tailwind.
-        "fixed left-[50%] top-[50%] z-50 grid w-full max-w-lg translate-x-[-50%] translate-y-[-50%] gap-4 border bg-background p-6 shadow-lg duration-200 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 sm:rounded-lg",
+        "fixed left-[50%] top-[50%] z-50 grid w-full max-w-lg translate-x-[-50%] translate-y-[-50%] gap-4 border bg-background p-6 duration-200 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0",
         // Tetto d'altezza e scroll interno (issue #48). Senza, `max-height` era
         // `none` e `overflow-y` `visible`: una modale piu' alta della finestra
         // sfora da entrambi i lati — e' centrata con translate-y(-50%) — e
@@ -106,9 +106,9 @@ const DialogContent = React.forwardRef<
       {...props}
     >
       {children}
-      <DialogPrimitive.Close className="absolute right-4 top-4 rounded-sm opacity-70 transition-opacity hover:opacity-100 disabled:pointer-events-none data-[state=open]:bg-accent data-[state=open]:text-muted-foreground">
+      <DialogPrimitive.Close className="absolute right-2 top-2 inline-flex size-9 items-center justify-center opacity-70 transition-opacity hover:opacity-100 disabled:pointer-events-none">
         <X className="h-4 w-4" />
-        <span className="sr-only">Close</span>
+        <span className="sr-only">Chiudi</span>
       </DialogPrimitive.Close>
     </DialogPrimitive.Content>
   </DialogPortal>
