@@ -20,7 +20,8 @@ const toggleVariants = cva(
       variant: {
         default: "bg-transparent",
         // Niente ombra: il DS non ne usa.
-        outline: "border border-input bg-transparent data-[state=on]:border-primary",
+        outline:
+          "border border-input bg-transparent data-[state=on]:border-primary aria-[invalid=true]:border-destructive! group-aria-[invalid=true]/scelta:border-destructive!",
       },
       size: {
         default: "h-9 px-2 min-w-9",
