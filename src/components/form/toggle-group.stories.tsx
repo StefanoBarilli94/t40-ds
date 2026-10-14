@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import { AlignLeft, AlignCenter, AlignRight } from "lucide-react";
+import { Button } from "../atoms/button";
 import { ToggleGroup, ToggleGroupItem } from "./toggle-group";
 
 /**
@@ -46,6 +47,29 @@ export const SceltaSingola: Story = {
       <ToggleGroupItem value="settimana">Settimana</ToggleGroupItem>
       <ToggleGroupItem value="mese">Mese</ToggleGroupItem>
     </ToggleGroup>
+  ),
+};
+
+/**
+ * Una scelta accanto a un'azione: la voce attiva ha il fondo tinto, il
+ * pulsante principale il fondo pieno. Si distinguono a colpo d'occhio
+ * (issue #83, da ft40).
+ */
+export const AccantoAUnPulsante: Story = {
+  name: "Accanto a un pulsante principale",
+  args: { variant: "outline" },
+  render: (args) => (
+    <div className="flex flex-wrap items-center gap-4">
+      <ToggleGroup {...args} type="single" defaultValue="tutti" aria-label="Quali turni vedere" className="grid w-72 grid-cols-2">
+        <ToggleGroupItem value="miei" className="h-11">
+          I miei turni
+        </ToggleGroupItem>
+        <ToggleGroupItem value="tutti" className="h-11">
+          Tutti
+        </ToggleGroupItem>
+      </ToggleGroup>
+      <Button className="h-11">Continua a comporre</Button>
+    </div>
   ),
 };
 
