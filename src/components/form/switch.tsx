@@ -9,6 +9,8 @@ const Switch = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <SwitchPrimitives.Root
     className={cn(
+      // In errore il bordo, trasparente di solito, diventa rosso (issue #88).
+      "aria-[invalid=true]:border-destructive aria-[invalid=true]:focus-visible:outline-destructive",
       "peer inline-flex h-5 w-9 shrink-0 cursor-pointer items-center rounded-full border-2 border-transparent shadow-sm transition-colors disabled:cursor-not-allowed disabled:opacity-50 data-[state=checked]:bg-primary data-[state=unchecked]:bg-input",
       className,
     )}

@@ -30,7 +30,9 @@ const ToggleGroup = React.forwardRef<
 >(({ className, variant, size, children, ...props }, ref) => (
   <ToggleGroupPrimitive.Root
     ref={ref}
-    className={cn("flex flex-wrap items-center justify-center gap-1", className)}
+    // `group/scelta`: con aria-invalid sul gruppo tutte le voci si mostrano in
+    // errore (issue #88).
+    className={cn("group/scelta flex flex-wrap items-center justify-center gap-1", className)}
     {...props}
   >
     <ToggleGroupContext.Provider value={{ variant, size }}>
