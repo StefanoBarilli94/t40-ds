@@ -26,9 +26,9 @@ const BottomNav = React.forwardRef<HTMLElement, React.ComponentProps<"nav">>(
       data-sidebar="bottom-nav"
       aria-label={etichetta}
       className={cn(
-        // pb con safe-area: su un telefono senza tasto fisico l'ultima fascia
-        // dello schermo è del sistema, e una PWA installata ci arriva sotto.
-        "fixed inset-x-0 bottom-0 z-40 border-t border-sidebar-border bg-sidebar pb-[env(safe-area-inset-bottom)] text-sidebar-foreground md:hidden",
+        // Niente padding qui: la fascia di sistema in fondo allo schermo la
+        // prendono le voci (vedi BottomNavItem), issue #94.
+        "fixed inset-x-0 bottom-0 z-40 border-t border-sidebar-border bg-sidebar text-sidebar-foreground md:hidden",
         className,
       )}
       {...props}
@@ -70,7 +70,14 @@ const BottomNavItem = React.forwardRef<HTMLButtonElement, BottomNavItemProps>(
             // testo e un margine sopra e sotto senza rubare troppo schermo.
             // -outline-offset-2: l'anello di focus sta dentro la voce, perché
             // fuori verrebbe tagliato dai bordi dello schermo.
-            "relative flex min-h-16 w-full min-w-0 flex-col items-center justify-center gap-1.5 border-t-[3px] border-transparent px-1 pb-2 pt-1.5 text-xs font-medium leading-none text-sidebar-foreground/80 -outline-offset-2 transition-colors",
+            //
+            // La fascia di sistema in fondo allo schermo (safe-area, 34pt su
+            // iPhone quando Safari nasconde la sua barra) sta dentro la voce,
+            // non sotto la barra: lo sfondo della voce attiva arriva fino in
+            // fondo, come nelle tab bar di iOS. Prima finiva a metà e sotto
+            // restava una striscia scura vuota (issue #94). Icona e testo
+            // restano nei 64px in alto.
+            "relative flex min-h-[calc(4rem+env(safe-area-inset-bottom))] w-full min-w-0 flex-col items-center justify-start gap-1.5 border-t-[3px] border-transparent px-1 pb-[calc(0.5rem+env(safe-area-inset-bottom))] pt-3 text-xs font-medium leading-none text-sidebar-foreground/80 -outline-offset-2 transition-colors",
             "hover:bg-sidebar-accent hover:text-sidebar-accent-foreground active:bg-sidebar-accent",
             "data-[active=true]:border-sidebar-primary data-[active=true]:bg-sidebar-accent data-[active=true]:font-semibold data-[active=true]:text-sidebar-accent-foreground",
             "[&>span:not([data-sidebar])]:max-w-full [&>span:not([data-sidebar])]:truncate [&>svg]:size-5 [&>svg]:shrink-0",
