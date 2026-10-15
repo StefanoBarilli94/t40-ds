@@ -192,7 +192,9 @@ function Tour({ steps, open, onClose, onStepChange, labels }: TourProps) {
       {luce && (
         <div
           aria-hidden="true"
-          className="pointer-events-none absolute outline outline-2 outline-primary"
+          // Sul velo l'elemento in luce ha un bordo più spesso nel colore del tema
+          // della navigazione: lo stesso del riquadro, così occhio va da uno all'altro.
+          className="pointer-events-none absolute outline outline-[3px] outline-sidebar-primary"
           style={{ top: luce.top, left: luce.left, width: luce.width, height: luce.height }}
         />
       )}
@@ -205,8 +207,13 @@ function Tour({ steps, open, onClose, onStepChange, labels }: TourProps) {
         aria-describedby={idTesto}
         tabIndex={-1}
         onKeyDown={tasti}
+        // Scuro come la navigazione delle app Tabaccheria 4.0 (sidebar): sopra
+        // un'interfaccia chiara il riquadro si stacca, e si capisce subito che
+        // è la guida e non un pezzo della pagina (issue #105). `data-sidebar`
+        // gli dà l'anello di focus del DS per le superfici scure.
+        data-sidebar="tour"
         className={cn(
-          "absolute border border-border bg-card p-4 text-card-foreground focus-visible:outline-none",
+          "absolute border border-sidebar-border bg-sidebar p-4 text-sidebar-foreground focus-visible:outline-none",
           telefono
             ? telefonoInAlto
               ? "inset-x-3 top-[calc(0.75rem+env(safe-area-inset-top))]"
@@ -215,35 +222,49 @@ function Tour({ steps, open, onClose, onStepChange, labels }: TourProps) {
         )}
         style={posizione}
       >
-        <p className="text-xs font-medium tabular-nums text-muted-foreground">{t.step(indice + 1, steps.length)}</p>
-        <h2 id={idTitolo} className="mt-1 flex items-center gap-2 text-base font-semibold text-foreground">
+        <p className="text-xs font-medium tabular-nums text-sidebar-foreground/70">{t.step(indice + 1, steps.length)}</p>
+        <h2 id={idTitolo} className="mt-1 flex items-center gap-2 text-base font-semibold text-sidebar-foreground">
           {passo.icon && (
-            <span aria-hidden="true" className="flex size-8 shrink-0 items-center justify-center bg-muted [&_svg]:size-4">
+            <span
+              aria-hidden="true"
+              className="flex size-8 shrink-0 items-center justify-center bg-sidebar-accent text-sidebar-primary [&_svg]:size-4"
+            >
               {passo.icon}
             </span>
           )}
           {passo.title}
         </h2>
-        <p id={idTesto} className="mt-2 text-sm text-foreground">
+        <p id={idTesto} className="mt-2 text-sm text-sidebar-foreground">
           {passo.description}
         </p>
         {/* Quanti passi mancano, a colpo d'occhio. */}
         <div aria-hidden="true" className="mt-4 flex gap-1">
           {steps.map((_, i) => (
-            <span key={i} className={cn("h-1 flex-1", i <= indice ? "bg-primary" : "bg-border")} />
+            <span key={i} className={cn("h-1 flex-1", i <= indice ? "bg-sidebar-primary" : "bg-sidebar-border")} />
           ))}
         </div>
         <div className="mt-4 flex items-center justify-between gap-2">
-          <Button variant="ghost" className="h-11 px-2 sm:h-9" onClick={() => onClose(false)}>
+          <Button
+            variant="ghost"
+            className="h-11 px-2 text-sidebar-foreground/80 hover:bg-sidebar-accent hover:text-sidebar-foreground sm:h-9"
+            onClick={() => onClose(false)}
+          >
             {t.skip}
           </Button>
           <div className="flex gap-2">
             {indice > 0 && (
-              <Button variant="outline" className="h-11 sm:h-9" onClick={indietro}>
+              <Button
+                variant="outline"
+                className="h-11 border-sidebar-border bg-transparent text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-foreground sm:h-9"
+                onClick={indietro}
+              >
                 {t.back}
               </Button>
             )}
-            <Button className="h-11 sm:h-9" onClick={avanti}>
+            <Button
+              className="h-11 bg-sidebar-primary text-sidebar-primary-foreground hover:bg-sidebar-primary/90 sm:h-9"
+              onClick={avanti}
+            >
               {ultimo ? t.done : t.next}
             </Button>
           </div>

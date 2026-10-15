@@ -2,6 +2,14 @@
 
 Schema descritto in [agent_docs/versioning.md](agent_docs/versioning.md).
 
+## v0.16.2 — 2026-10-15
+
+### ✨ Migliorative
+
+- **`Tour` scuro** (#105): il riquadro usa i colori della navigazione (`--sidebar-*`),
+  come la colonna di gt40: fondo scuro, Avanti nel colore del tema, Indietro a bordo,
+  barra di avanzamento e contorno dell'elemento indicato nel colore del tema.
+
 ## v0.16.1 — 2026-10-15
 
 ### ✨ Migliorative
