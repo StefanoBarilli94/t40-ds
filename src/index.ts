@@ -26,6 +26,7 @@ export * from "./components/patterns/hover-card";
 export * from "./components/form/input";
 export * from "./components/form/label";
 export * from "./components/patterns/page-loader";
+export * from "./components/patterns/error-page";
 export * from "./components/patterns/popover";
 export * from "./components/atoms/progress";
 export * from "./components/patterns/scroll-area";
