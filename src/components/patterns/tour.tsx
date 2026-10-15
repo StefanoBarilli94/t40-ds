@@ -39,6 +39,12 @@ export interface TourProps {
   open: boolean;
   /** `completed`: si è arrivati in fondo; `false` se si è saltato. In entrambi i casi il tour non va riproposto. */
   onClose: (completed: boolean) => void;
+  /**
+   * A ogni passo, prima di cercare l'elemento: l'app può aprire la pagina di
+   * cui parla il passo. L'elemento lo si aspetta fino a 3 secondi, il tempo
+   * che la pagina nuova compaia.
+   */
+  onStepChange?: (index: number) => void;
   labels?: Partial<TourLabels>;
 }
 
@@ -64,9 +70,12 @@ const LARGHEZZA = 352; // 22rem
  * - Con il movimento ridotto l'elemento si porta in vista senza scorrere
  *   animato.
  *
+ * - Un passo può parlare di un'altra pagina: con `onStepChange` l'app la apre,
+ *   e il Tour aspetta che l'elemento compaia.
+ *
  * Quando mostrarlo e ricordarsi che è stato visto lo decide l'app.
  */
-function Tour({ steps, open, onClose, labels }: TourProps) {
+function Tour({ steps, open, onClose, onStepChange, labels }: TourProps) {
   const t = { ...ETICHETTE, ...labels };
   const [indice, setIndice] = React.useState(0);
   const [luce, setLuce] = React.useState<Riquadro | null>(null);
@@ -78,6 +87,9 @@ function Tour({ steps, open, onClose, labels }: TourProps) {
 
   const passo = steps[Math.min(indice, steps.length - 1)];
   const ultimo = indice >= steps.length - 1;
+  // In un ref: chi usa il Tour la passa di solito come funzione nuova a ogni render.
+  const cambioPasso = React.useRef(onStepChange);
+  cambioPasso.current = onStepChange;
 
   // Riaperto, si riparte dal primo passo.
   React.useEffect(() => {
@@ -85,29 +97,46 @@ function Tour({ steps, open, onClose, labels }: TourProps) {
   }, [open]);
 
   // Dove sta l'elemento del passo: lo si porta in vista e lo si misura, anche
-  // quando lo schermo cambia o si scorre.
+  // quando lo schermo cambia o si scorre. Se non c'è ancora (l'app ha appena
+  // aperto un'altra pagina) lo si cerca ogni 100ms, per 3 secondi al massimo:
+  // intanto il riquadro sta al centro.
   React.useEffect(() => {
     if (!open || !passo) return;
-    const elemento = passo.target ? document.querySelector<HTMLElement>(passo.target) : null;
+    cambioPasso.current?.(indice);
+    let elemento: HTMLElement | null = null;
     const ridotto = window.matchMedia?.("(prefers-reduced-motion: reduce)").matches;
-    elemento?.scrollIntoView({ block: "center", behavior: ridotto ? "auto" : "smooth" });
     const misura = () => {
       setSchermo({ w: window.innerWidth, h: window.innerHeight });
-      if (!elemento) return setLuce(null);
+      if (!elemento || !elemento.isConnected) return setLuce(null);
       const r = elemento.getBoundingClientRect();
       setLuce({ top: r.top - MARGINE, left: r.left - MARGINE, width: r.width + MARGINE * 2, height: r.height + MARGINE * 2 });
     };
+    const timer: number[] = [];
+    const trova = () => {
+      elemento = passo.target ? document.querySelector<HTMLElement>(passo.target) : null;
+      if (!elemento) return false;
+      elemento.scrollIntoView({ block: "center", behavior: ridotto ? "auto" : "smooth" });
+      misura();
+      // Lo scorrimento morbido dura un attimo: si rimisura alla fine.
+      timer.push(window.setTimeout(misura, 350));
+      return true;
+    };
+    setLuce(null);
     misura();
-    // Lo scorrimento morbido dura un attimo: si rimisura alla fine.
-    const dopo = window.setTimeout(misura, 350);
+    let tentativi = 0;
+    const cerca = passo.target && !trova() ? window.setInterval(() => {
+      tentativi += 1;
+      if (trova() || tentativi >= 30) window.clearInterval(cerca);
+    }, 100) : undefined;
     window.addEventListener("resize", misura);
     window.addEventListener("scroll", misura, true);
     return () => {
-      window.clearTimeout(dopo);
+      timer.forEach((t) => window.clearTimeout(t));
+      if (cerca) window.clearInterval(cerca);
       window.removeEventListener("resize", misura);
       window.removeEventListener("scroll", misura, true);
     };
-  }, [open, passo]);
+  }, [open, passo, indice]);
 
   // Il focus nel riquadro a ogni passo: chi usa la tastiera o lo screen reader
   // sente il passo nuovo.

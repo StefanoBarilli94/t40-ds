@@ -2,6 +2,15 @@
 
 Schema descritto in [agent_docs/versioning.md](agent_docs/versioning.md).
 
+## v0.16.1 — 2026-10-15
+
+### ✨ Migliorative
+
+- **`Tour` su più pagine** (#103): nuova prop `onStepChange(index)`, chiamata a ogni
+  passo prima di cercare l'elemento, così l'app può aprire la pagina di cui parla il
+  passo. Se l'elemento non c'è ancora il Tour lo cerca ogni 100ms per 3 secondi, con il
+  riquadro al centro nel frattempo.
+
 ## v0.16.0 — 2026-10-15
 
 ### ✨ Nuovi componenti
