@@ -2,6 +2,16 @@
 
 Schema descritto in [agent_docs/versioning.md](agent_docs/versioning.md).
 
+## v0.15.0 — 2026-10-15
+
+### ✨ Nuovi componenti
+
+- **`ErrorPage`** (#97): pagina di errore uguale in tutte le app. Icona in un riquadro,
+  codice facoltativo ("Errore 404"), titolo, testo e pulsanti per ripartire, centrati.
+  Con `fullScreen` occupa lo schermo e il titolo è l'`h1` (quando si è rotto il guscio
+  dell'app); senza sta dentro il guscio e il titolo è un `h2`. Il testo lo sceglie
+  l'app. Storie: pagina non trovata, errore imprevisto, senza connessione.
+
 ## v0.14.1 — 2026-10-15
 
 ### 🐛 Correzioni
