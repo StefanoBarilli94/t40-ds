@@ -2,6 +2,18 @@
 
 Schema descritto in [agent_docs/versioning.md](agent_docs/versioning.md).
 
+## v0.16.0 — 2026-10-15
+
+### ✨ Nuovi componenti
+
+- **`Tour`** (#100): guida a passi sopra l'interfaccia. Un riquadro per passo con
+  titolo, testo e icona, Avanti, Indietro, Salta e "Passo X di N"; l'elemento indicato
+  (`target`, selettore CSS) resta in luce e il resto si scurisce con un velo. Su
+  computer il riquadro sta sotto l'elemento, o sopra; su telefono in basso, o in alto
+  se l'elemento è nella metà bassa dello schermo. Esc salta, le frecce cambiano passo,
+  il focus entra nel riquadro (`dialog` modale). `onClose(completed)`; quando mostrarlo
+  e ricordare che è stato visto lo decide l'app.
+
 ## v0.15.0 — 2026-10-15
 
 ### ✨ Nuovi componenti
