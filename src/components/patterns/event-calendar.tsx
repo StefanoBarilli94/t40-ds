@@ -70,6 +70,8 @@ export interface EventCalendarProps {
   dayIcon?: (day: string) => React.ReactNode;
   /** Cosa dice a parole il giorno oltre agli eventi (per esempio "negozio chiuso"). */
   dayDescription?: (day: string) => string | undefined;
+  /** Con questo, l'icona del giorno (`dayIcon`) si clicca e apre un riquadro con ciò che restituisce. */
+  renderDayDetails?: (day: string) => React.ReactNode;
   /** Con questo, cliccando una barra si apre un riquadro con ciò che restituisce. */
   renderEventDetails?: (event: EventCalendarEvent) => React.ReactNode;
   /** Quante barre per giorno prima del "+N". Default 3. */
@@ -129,6 +131,7 @@ export function EventCalendar({
   dayIcon,
   dayDescription,
   renderEventDetails,
+  renderDayDetails,
   maxLanes = 3,
   locale = "it-IT",
   labels,
@@ -220,6 +223,8 @@ export function EventCalendar({
                 const eventiDetti = delGiorno.length ? delGiorno.map((e) => e.description).join("; ") : testi.empty;
                 const etichetta = `${perEsteso(d)}${extra ? `, ${extra}` : ""}: ${eventiDetti}`;
                 const icona = dayIcon?.(d);
+                // Con i dettagli del giorno l'icona diventa un bottone che li apre (issue #110).
+                const dettagliGiorno = icona ? renderDayDetails?.(d) : null;
                 const numero = (
                   <>
                     <span
@@ -233,8 +238,8 @@ export function EventCalendar({
                     >
                       {fromDay(d).getDate()}
                     </span>
-                    {icona && (
-                      <span aria-hidden="true" className="absolute right-1.5 top-1 text-muted-foreground [&_svg]:size-3.5">
+                    {icona && !dettagliGiorno && (
+                      <span aria-hidden="true" className="absolute right-1 top-0.5 text-muted-foreground [&_svg]:size-5">
                         {icona}
                       </span>
                     )}
@@ -271,6 +276,23 @@ export function EventCalendar({
                         <span className="sr-only">{etichetta}</span>
                         {numero}
                       </div>
+                    )}
+                    {dettagliGiorno && (
+                      <Popover>
+                        <PopoverTrigger asChild>
+                          <button
+                            type="button"
+                            aria-label={extra ?? perEsteso(d)}
+                            className="z-30 m-0.5 inline-flex size-7 cursor-pointer items-center justify-self-end text-muted-foreground hover:text-foreground [&_svg]:mx-auto [&_svg]:size-5"
+                            style={{ gridColumn: c + 1, gridRow: 1 }}
+                          >
+                            {icona}
+                          </button>
+                        </PopoverTrigger>
+                        <PopoverContent align="end" className="w-72">
+                          {dettagliGiorno}
+                        </PopoverContent>
+                      </Popover>
                     )}
                     {nascosti > 0 && (
                       <span

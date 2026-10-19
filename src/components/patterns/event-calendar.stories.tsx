@@ -96,6 +96,7 @@ function SoloConsultazione() {
         isDayMuted={(d) => d === "2026-11-01"}
         dayIcon={(d) => (d === "2026-11-01" ? <StoreIcon /> : null)}
         dayDescription={(d) => (d === "2026-11-01" ? "negozio chiuso" : undefined)}
+        renderDayDetails={(d) => (d === "2026-11-01" ? <p className="text-sm">Tutti i Santi: negozio chiuso.</p> : null)}
         renderEventDetails={(e) => (
           <div className="space-y-1 text-sm">
             <p className="font-semibold">{e.description}</p>
