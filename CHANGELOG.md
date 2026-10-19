@@ -2,6 +2,19 @@
 
 Schema descritto in [agent_docs/versioning.md](agent_docs/versioning.md).
 
+## v0.17.0 — 2026-10-19
+
+### 🚀 Evolutive
+
+- **`EventCalendar`** (#108): un mese con eventi su più giorni, come Google Calendar.
+  Un evento è una barra che attraversa i giorni e va a capo sulla settimana dopo
+  (con una freccina se continua); più eventi si impilano, oltre `maxLanes` il giorno
+  dice "+N altri". Toni `primary`/`positive`/`warning`/`negative`/`neutral`, variante
+  `outline` per un evento proposto, `leading` per un avatar. Oggi in grassetto, giorno
+  scelto contornato, `isDayMuted` per i giorni spenti (barrati). Giorni come stringhe
+  `AAAA-MM-GG` in ora locale. Tastiera: Tab entra nel mese, frecce, Invio; ogni giorno
+  dice a parole i suoi eventi. Esportate anche `placeWeek` e `weeksOfMonth`.
+
 ## v0.16.2 — 2026-10-15
 
 ### ✨ Migliorative

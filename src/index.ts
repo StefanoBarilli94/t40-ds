@@ -40,6 +40,8 @@ export * from "./components/patterns/sonner";
 export * from "./components/form/switch";
 export * from "./components/patterns/table";
 export * from "./components/patterns/tabs";
+export * from "./components/patterns/event-calendar";
+export { placeWeek, weeksOfMonth } from "./components/patterns/event-calendar-layout";
 export * from "./components/form/textarea";
 export * from "./components/form/toggle";
 export * from "./components/form/toggle-group";
