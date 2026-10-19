@@ -18,8 +18,12 @@ export interface EventCalendarEvent {
   /** Prima del testo, per esempio un avatar. Decorativo. */
   leading?: React.ReactNode;
   tone?: EventCalendarTone;
-  /** `outline`: un evento proposto, non ancora deciso (per esempio la richiesta che si sta guardando). */
-  variant?: "solid" | "outline";
+  /**
+   * `solid` (default): fondo tenue e riga del colore a sinistra.
+   * `outline`: solo il contorno, per un evento proposto.
+   * `filled`: fondo pieno del colore, per l'evento in primo piano (per esempio la richiesta che si sta guardando).
+   */
+  variant?: "solid" | "outline" | "filled";
   /** Come lo legge lo screen reader nel giorno: "Paola, ferie da decidere". */
   description: string;
 }

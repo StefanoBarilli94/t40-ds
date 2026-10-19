@@ -3,6 +3,7 @@ import { ChevronLeftIcon, ChevronRightIcon } from "lucide-react";
 
 import { cn } from "../../lib/utils";
 import { Button } from "../atoms/button";
+import { Popover, PopoverContent, PopoverTrigger } from "./popover";
 import {
   addDays,
   addMonths,
@@ -28,10 +29,13 @@ export type { EventCalendarEvent, EventCalendarTone, PlacedEvent } from "./event
  * I giorni sono stringhe `AAAA-MM-GG` in ora locale, mai `Date` con fuso:
  * un evento a giorni interi non deve spostarsi di un giorno a mezzanotte.
  *
- * Accessibilità: il mese è una griglia (`role="grid"`); ci si entra con Tab
- * sul giorno scelto e ci si muove con le frecce, come in `Calendar`; Invio o
- * Spazio scelgono il giorno. Le barre sono decorative: ogni giorno dice a
- * parole i suoi eventi (`description` di ciascuno).
+ * Accessibilità: il mese è una griglia (`role="grid"`). Con `onSelect` i
+ * giorni si scelgono: ci si entra con Tab sul giorno scelto e ci si muove con
+ * le frecce, come in `Calendar`; Invio o Spazio scelgono. Senza, i giorni non
+ * sono interattivi (niente manina, niente tappa di Tab). Ogni giorno dice a
+ * parole i suoi eventi (`description` di ciascuno). Con `renderEventDetails`
+ * le barre sono bottoni, raggiungibili con Tab, che aprono un riquadro con i
+ * dettagli (issue #110); altrimenti sono decorative.
  */
 
 export interface EventCalendarLabels {
@@ -62,6 +66,12 @@ export interface EventCalendarProps {
   today?: string;
   /** I giorni da segnare come "spenti" (per esempio un negozio chiuso): numero barrato. */
   isDayMuted?: (day: string) => boolean;
+  /** Un'icona accanto al numero del giorno (per esempio il negozio chiuso). Decorativa: il significato va in `dayDescription`. */
+  dayIcon?: (day: string) => React.ReactNode;
+  /** Cosa dice a parole il giorno oltre agli eventi (per esempio "negozio chiuso"). */
+  dayDescription?: (day: string) => string | undefined;
+  /** Con questo, cliccando una barra si apre un riquadro con ciò che restituisce. */
+  renderEventDetails?: (event: EventCalendarEvent) => React.ReactNode;
   /** Quante barre per giorno prima del "+N". Default 3. */
   maxLanes?: number;
   /** La lingua di mese e giorni della settimana. Default `it-IT`. */
@@ -82,6 +92,10 @@ const TONO: Record<EventCalendarTone, string> = {
 
 function stileBarra(e: EventCalendarEvent, p: PlacedEvent): React.CSSProperties {
   const colore = TONO[e.tone ?? "primary"];
+  if (e.variant === "filled") {
+    // Fondo pieno: il testo è quello pensato per stare sopra il colore.
+    return { backgroundColor: colore, color: (e.tone ?? "primary") === "primary" ? "var(--primary-foreground)" : "var(--card)" };
+  }
   const base: React.CSSProperties =
     e.variant === "outline"
       ? { backgroundColor: "var(--card)", border: `2px solid ${colore}` }
@@ -92,6 +106,18 @@ function stileBarra(e: EventCalendarEvent, p: PlacedEvent): React.CSSProperties 
   return base;
 }
 
+/** Il contenuto di una barra: frecce se continua, ciò che precede, il testo. */
+function ContenutoBarra({ p }: { p: PlacedEvent }) {
+  return (
+    <>
+      {p.continuesBefore && <ChevronLeftIcon className="size-3 shrink-0 opacity-70" />}
+      {p.event.leading}
+      <span className="min-w-0 truncate font-medium">{p.event.label}</span>
+      {p.continuesAfter && <ChevronRightIcon className="ml-auto size-3 shrink-0 opacity-70" />}
+    </>
+  );
+}
+
 export function EventCalendar({
   month,
   onMonthChange,
@@ -100,6 +126,9 @@ export function EventCalendar({
   onSelect,
   today = toDay(new Date()),
   isDayMuted,
+  dayIcon,
+  dayDescription,
+  renderEventDetails,
   maxLanes = 3,
   locale = "it-IT",
   labels,
@@ -187,38 +216,62 @@ export function EventCalendar({
                 const nascosti = piazzati.filter((p) => p.lane >= maxLanes && p.from <= c && p.to >= c).length;
                 const fuori = monthOf(d) !== month;
                 const scelto = d === selected;
-                const etichetta = `${perEsteso(d)}: ${delGiorno.length ? delGiorno.map((e) => e.description).join("; ") : testi.empty}`;
-                return (
-                  <div key={d} role="gridcell" aria-selected={scelto} className="contents">
-                    <button
-                      type="button"
-                      data-day={d}
-                      tabIndex={d === focusDay ? 0 : -1}
-                      aria-label={etichetta}
-                      onClick={() => {
-                        setFocusDay(d);
-                        onSelect?.(d);
-                      }}
-                      onKeyDown={(e) => tasto(e, d)}
+                const extra = dayDescription?.(d);
+                const eventiDetti = delGiorno.length ? delGiorno.map((e) => e.description).join("; ") : testi.empty;
+                const etichetta = `${perEsteso(d)}${extra ? `, ${extra}` : ""}: ${eventiDetti}`;
+                const icona = dayIcon?.(d);
+                const numero = (
+                  <>
+                    <span
+                      aria-hidden="true"
                       className={cn(
-                        "relative border-b border-r border-border text-left transition-colors hover:bg-accent/40",
-                        fuori && "bg-muted/40",
-                        // Il giorno scelto: contorno del tema, non un fondo pieno che coprirebbe le barre.
-                        scelto && "z-10 outline-2 -outline-offset-2 outline-primary",
+                        "absolute left-1.5 top-1 text-xs tabular-nums",
+                        fuori ? "text-muted-foreground" : "text-foreground",
+                        d === today && "font-bold text-primary-text",
+                        isDayMuted?.(d) && "line-through",
                       )}
-                      style={{ gridColumn: c + 1, gridRow: "1 / -1" }}
                     >
-                      <span
-                        className={cn(
-                          "absolute left-1.5 top-1 text-xs tabular-nums",
-                          fuori ? "text-muted-foreground" : "text-foreground",
-                          d === today && "font-bold text-primary-text",
-                          isDayMuted?.(d) && "line-through",
-                        )}
-                      >
-                        {fromDay(d).getDate()}
+                      {fromDay(d).getDate()}
+                    </span>
+                    {icona && (
+                      <span aria-hidden="true" className="absolute right-1.5 top-1 text-muted-foreground [&_svg]:size-3.5">
+                        {icona}
                       </span>
-                    </button>
+                    )}
+                  </>
+                );
+                const cella = cn("relative border-b border-r border-border text-left", fuori && "bg-muted/40");
+                return (
+                  <div key={d} role="gridcell" aria-selected={onSelect ? scelto : undefined} className="contents">
+                    {onSelect ? (
+                      <button
+                        type="button"
+                        data-day={d}
+                        tabIndex={d === focusDay ? 0 : -1}
+                        aria-label={etichetta}
+                        onClick={() => {
+                          setFocusDay(d);
+                          onSelect(d);
+                        }}
+                        onKeyDown={(e) => tasto(e, d)}
+                        className={cn(
+                          cella,
+                          "transition-colors hover:bg-accent/40",
+                          // Il giorno scelto: contorno del tema, non un fondo pieno che coprirebbe le barre.
+                          scelto && "z-10 outline-2 -outline-offset-2 outline-primary",
+                        )}
+                        style={{ gridColumn: c + 1, gridRow: "1 / -1" }}
+                      >
+                        {numero}
+                      </button>
+                    ) : (
+                      // Giorni che non si scelgono: niente bottone e niente manina; lo
+                      // screen reader legge lo stesso il giorno e i suoi eventi.
+                      <div data-day={d} className={cella} style={{ gridColumn: c + 1, gridRow: "1 / -1" }}>
+                        <span className="sr-only">{etichetta}</span>
+                        {numero}
+                      </div>
+                    )}
                     {nascosti > 0 && (
                       <span
                         aria-hidden="true"
@@ -232,19 +285,41 @@ export function EventCalendar({
                 );
               })}
 
-              {visibili.map((p) => (
-                <div
-                  key={p.event.id}
-                  aria-hidden="true"
-                  className="pointer-events-none z-20 mx-0.5 my-px flex min-w-0 items-center gap-1 overflow-hidden px-1 text-xs text-foreground"
-                  style={{ gridColumn: `${p.from + 1} / ${p.to + 2}`, gridRow: p.lane + 2, ...stileBarra(p.event, p) }}
-                >
-                  {p.continuesBefore && <ChevronLeftIcon className="size-3 shrink-0 text-muted-foreground" />}
-                  {p.event.leading}
-                  <span className="min-w-0 truncate font-medium">{p.event.label}</span>
-                  {p.continuesAfter && <ChevronRightIcon className="ml-auto size-3 shrink-0 text-muted-foreground" />}
-                </div>
-              ))}
+              {visibili.map((p) => {
+                const posto: React.CSSProperties = {
+                  gridColumn: `${p.from + 1} / ${p.to + 2}`,
+                  gridRow: p.lane + 2,
+                  ...stileBarra(p.event, p),
+                };
+                const barra = "z-20 mx-0.5 my-px flex min-w-0 items-center gap-1 overflow-hidden px-1 text-xs text-foreground";
+                if (!renderEventDetails) {
+                  return (
+                    <div key={p.event.id} aria-hidden="true" className={cn(barra, "pointer-events-none")} style={posto}>
+                      <ContenutoBarra p={p} />
+                    </div>
+                  );
+                }
+                // Cliccabile: un bottone vero, raggiungibile con Tab, che apre i dettagli.
+                return (
+                  <div key={p.event.id} role="gridcell" className="contents">
+                    <Popover>
+                      <PopoverTrigger asChild>
+                        <button
+                          type="button"
+                          aria-label={p.event.description}
+                          className={cn(barra, "cursor-pointer text-left hover:brightness-95")}
+                          style={posto}
+                        >
+                          <ContenutoBarra p={p} />
+                        </button>
+                      </PopoverTrigger>
+                      <PopoverContent align="start" className="w-72">
+                        {renderEventDetails(p.event)}
+                      </PopoverContent>
+                    </Popover>
+                  </div>
+                );
+              })}
             </div>
           );
         })}
