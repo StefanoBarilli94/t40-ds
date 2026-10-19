@@ -1,6 +1,8 @@
 import * as React from "react";
 import type { Meta, StoryObj } from "@storybook/react-vite";
 
+import { StoreIcon } from "lucide-react";
+
 import { Avatar, AvatarFallback } from "../atoms/avatar";
 import { EventCalendar, type EventCalendarEvent } from "./event-calendar";
 
@@ -21,7 +23,7 @@ const faccia = (iniziali: string) => (
 
 // Le assenze di FT4.0 attorno alla richiesta di Paola, 26–30 ottobre 2026.
 const ASSENZE: EventCalendarEvent[] = [
-  { id: "r", start: "2026-10-26", end: "2026-10-30", label: "Paola", leading: faccia("PT"), tone: "primary", variant: "outline", description: "Paola, questa richiesta" },
+  { id: "r", start: "2026-10-26", end: "2026-10-30", label: "Paola (Questa richiesta)", leading: faccia("PT"), tone: "primary", variant: "filled", description: "Paola, questa richiesta" },
   { id: "1", start: "2026-10-28", end: "2026-11-03", label: "Monica", leading: faccia("MF"), tone: "positive", description: "Monica, in ferie" },
   { id: "2", start: "2026-10-27", end: "2026-10-28", label: "Ilaria", leading: faccia("IC"), tone: "negative", description: "Ilaria, malattia" },
   { id: "3", start: "2026-10-24", end: "2026-10-24", label: "Ilaria", leading: faccia("IC"), tone: "neutral", description: "Ilaria, riposo" },
@@ -80,4 +82,43 @@ export const TroppiEventi: Story = {
   args: { month: "2026-10", onMonthChange: () => {}, events: [] },
   render: () => <Pieno />,
   parameters: { docs: { description: { story: "Oltre tre barre per giorno, il giorno dice \"+N altri\"; a parole li dice tutti." } } },
+};
+
+function SoloConsultazione() {
+  const [mese, setMese] = React.useState("2026-10");
+  return (
+    <div className="w-[56rem] max-w-full">
+      <EventCalendar
+        month={mese}
+        onMonthChange={setMese}
+        events={ASSENZE}
+        today="2026-10-19"
+        isDayMuted={(d) => d === "2026-11-01"}
+        dayIcon={(d) => (d === "2026-11-01" ? <StoreIcon /> : null)}
+        dayDescription={(d) => (d === "2026-11-01" ? "negozio chiuso" : undefined)}
+        renderDayDetails={(d) => (d === "2026-11-01" ? <p className="text-sm">Tutti i Santi: negozio chiuso.</p> : null)}
+        renderEventDetails={(e) => (
+          <div className="space-y-1 text-sm">
+            <p className="font-semibold">{e.description}</p>
+            <p className="text-muted-foreground">
+              Dal {e.start} al {e.end}
+            </p>
+          </div>
+        )}
+      />
+    </div>
+  );
+}
+
+export const SoloConsultazioneConDettagli: Story = {
+  args: { month: "2026-10", onMonthChange: () => {}, events: [] },
+  render: () => <SoloConsultazione />,
+  parameters: {
+    docs: {
+      description: {
+        story:
+          "Come lo usa FT4.0 accanto a una richiesta di ferie: i giorni non si scelgono (niente manina), la richiesta è piena del colore primary, le barre si cliccano (o si raggiungono con Tab) e aprono i dettagli. Il 1° novembre, negozio chiuso, ha la sua icona.",
+      },
+    },
+  },
 };
