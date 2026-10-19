@@ -66,6 +66,8 @@ export interface EventCalendarProps {
   today?: string;
   /** I giorni da segnare come "spenti" (per esempio un negozio chiuso): numero barrato. */
   isDayMuted?: (day: string) => boolean;
+  /** I giorni che non si possono scegliere (per esempio quelli passati): spenti e non cliccabili. Vale solo con `onSelect`. */
+  isDayDisabled?: (day: string) => boolean;
   /** Un'icona accanto al numero del giorno (per esempio il negozio chiuso). Decorativa: il significato va in `dayDescription`. */
   dayIcon?: (day: string) => React.ReactNode;
   /** Cosa dice a parole il giorno oltre agli eventi (per esempio "negozio chiuso"). */
@@ -114,7 +116,7 @@ function ContenutoBarra({ p }: { p: PlacedEvent }) {
     <>
       {p.continuesBefore && <ChevronLeftIcon className="size-3 shrink-0 opacity-70" />}
       {p.event.leading}
-      <span className="min-w-0 truncate font-medium">{p.event.label}</span>
+      <span className={cn("min-w-0 truncate font-medium", p.event.leading && "hidden sm:inline")}>{p.event.label}</span>
       {p.continuesAfter && <ChevronRightIcon className="ml-auto size-3 shrink-0 opacity-70" />}
     </>
   );
@@ -128,6 +130,7 @@ export function EventCalendar({
   onSelect,
   today = toDay(new Date()),
   isDayMuted,
+  isDayDisabled,
   dayIcon,
   dayDescription,
   renderEventDetails,
@@ -210,15 +213,18 @@ export function EventCalendar({
             <div
               key={week[0]}
               role="row"
-              className="relative grid grid-cols-7"
+              // Su telefono le righe sono più basse e le barre mostrano solo ciò che
+              // precede il testo (la foto): il mese sta nello schermo (issue #110).
+              className="relative grid grid-cols-7 [--riga-corsia:1.125rem] [--riga-numero:1.5rem] [--riga-piu:1rem] sm:[--riga-corsia:1.5rem] sm:[--riga-numero:1.75rem] sm:[--riga-piu:1.25rem]"
               // Riga dei numeri, una riga per corsia, una per il "+N".
-              style={{ gridTemplateRows: `1.75rem repeat(${corsie}, 1.5rem) 1.25rem` }}
+              style={{ gridTemplateRows: `var(--riga-numero) repeat(${corsie}, var(--riga-corsia)) var(--riga-piu)` }}
             >
               {week.map((d, c) => {
                 const delGiorno = events.filter((e) => e.start <= d && e.end >= d);
                 const nascosti = piazzati.filter((p) => p.lane >= maxLanes && p.from <= c && p.to >= c).length;
                 const fuori = monthOf(d) !== month;
                 const scelto = d === selected;
+                const spento = isDayDisabled?.(d) ?? false;
                 const extra = dayDescription?.(d);
                 const eventiDetti = delGiorno.length ? delGiorno.map((e) => e.description).join("; ") : testi.empty;
                 const etichetta = `${perEsteso(d)}${extra ? `, ${extra}` : ""}: ${eventiDetti}`;
@@ -254,14 +260,16 @@ export function EventCalendar({
                         data-day={d}
                         tabIndex={d === focusDay ? 0 : -1}
                         aria-label={etichetta}
+                        aria-disabled={spento || undefined}
                         onClick={() => {
                           setFocusDay(d);
-                          onSelect(d);
+                          // Un giorno spento resta raggiungibile con le frecce, ma non si sceglie.
+                          if (!spento) onSelect(d);
                         }}
                         onKeyDown={(e) => tasto(e, d)}
                         className={cn(
                           cella,
-                          "transition-colors hover:bg-accent/40",
+                          spento ? "cursor-default bg-muted/40 text-muted-foreground" : "transition-colors hover:bg-accent/40",
                           // Il giorno scelto: contorno del tema, non un fondo pieno che coprirebbe le barre.
                           scelto && "z-10 outline-2 -outline-offset-2 outline-primary",
                         )}

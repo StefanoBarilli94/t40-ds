@@ -2,6 +2,18 @@
 
 Schema descritto in [agent_docs/versioning.md](agent_docs/versioning.md).
 
+## v0.18.0 — 2026-10-19
+
+### 🚀 Evolutive
+
+- **`EventCalendar`** (#110):
+  - `renderEventDetails`: le barre diventano bottoni (raggiungibili con Tab) che aprono un riquadro con i dettagli;
+  - variante `filled` per l'evento in primo piano (fondo pieno del colore);
+  - `dayIcon`, `dayDescription` e `renderDayDetails`: un'icona nel giorno (per esempio negozio chiuso), detta a parole, che si clicca e apre il suo riquadro;
+  - `isDayDisabled`: giorni spenti e non selezionabili (con `onSelect`);
+  - senza `onSelect` i giorni non sono interattivi: niente manina, niente tappa di Tab, il giorno si legge lo stesso a parole;
+  - su telefono il mese è compatto: righe più basse e, nelle barre con `leading`, solo quello (per esempio la foto).
+
 ## v0.17.0 — 2026-10-19
 
 ### 🚀 Evolutive
