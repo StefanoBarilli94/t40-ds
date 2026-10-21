@@ -2,6 +2,13 @@
 
 Schema descritto in [agent_docs/versioning.md](agent_docs/versioning.md).
 
+## v0.19.0 — 2026-10-21
+
+### ✨ Migliorative
+
+- **Montserrat servito dall'app, non da Google Fonts** (ft40#241): via l'`@import` di `fonts.googleapis.com` in testa a `src/index.css`, al suo posto `@fontsource-variable/montserrat` (un file variabile per tutti i pesi, solo normale). Niente fogli di stile da un altro dominio che bloccano la prima schermata, e il font c'è anche senza rete. `--font-sans` diventa `"Montserrat Variable", "Montserrat", …`.
+- **Per le app**: togliere da `index.html` i `<link>` a Google Fonts (ora caricano il font due volte) e, nella CSP, `fonts.googleapis.com` e `fonts.gstatic.com`.
+
 ## v0.18.0 — 2026-10-19
 
 ### 🚀 Evolutive
