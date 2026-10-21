@@ -1,4 +1,8 @@
-@import url("https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap");
+/* Montserrat servito dall'app stessa, non da Google Fonts: niente fogli di
+   stile da un altro dominio che bloccano la prima schermata, e funziona senza
+   rete. Un solo file variabile per tutti i pesi; il browser scarica solo i
+   caratteri che servono (latino). Il corsivo non si usa. */
+@import "@fontsource-variable/montserrat/wght.css";
 @import "tailwindcss" source(none);
 @source "../src";
 @import "tw-animate-css";
@@ -20,7 +24,7 @@
  */
 
 @theme inline {
-  --font-sans: "Montserrat", ui-sans-serif, system-ui, sans-serif;
+  --font-sans: "Montserrat Variable", "Montserrat", ui-sans-serif, system-ui, sans-serif;
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
