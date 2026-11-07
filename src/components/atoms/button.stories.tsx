@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
-import { Mail, Loader2 } from "lucide-react";
+import { Mail, Loader2, Trash2 } from "lucide-react";
 import { Button } from "./button";
 
 const meta = {
@@ -17,7 +17,7 @@ const meta = {
   argTypes: {
     variant: {
       control: "select",
-      options: ["default", "destructive", "outline", "secondary", "ghost", "link"],
+      options: ["default", "destructive", "destructive-outline", "outline", "secondary", "ghost", "link"],
     },
     size: { control: "select", options: ["default", "sm", "lg", "icon"] },
   },
@@ -49,6 +49,9 @@ export const Variants: Story = {
       </Button>
       <Button {...args} variant="destructive">
         Destructive
+      </Button>
+      <Button {...args} variant="destructive-outline">
+        Destructive outline
       </Button>
     </div>
   ),
@@ -111,6 +114,23 @@ export const StatiHover: Story = {
       description: {
         story:
           "Passa il mouse sopra i bottoni. `default`/`destructive`/`secondary` restano piene (solo leggermente più scure all'hover). `outline`/`ghost` prendono uno sfondo **neutro** (`bg-muted`) invece del colore primario/accent — prima usavano `bg-accent`, identico a `--primary`, e all'hover diventavano indistinguibili da un bottone `default`.",
+      },
+    },
+  },
+};
+
+export const TogliRiga: Story = {
+  name: "Togli una riga (destructive-outline)",
+  render: () => (
+    <Button size="icon" variant="destructive-outline" className="size-11" aria-label="Togli la fascia Mattina">
+      <Trash2 />
+    </Button>
+  ),
+  parameters: {
+    docs: {
+      description: {
+        story:
+          "Il cestino accanto a una riga di un elenco da modificare: rosso perché toglie, ma vuoto perché non è l'azione principale (quella resta il pulsante pieno, per esempio \"Salva\"). Solo icona, quindi `aria-label` con il nome di ciò che toglie.",
       },
     },
   },
