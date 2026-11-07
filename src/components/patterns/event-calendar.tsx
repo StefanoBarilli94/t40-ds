@@ -78,6 +78,11 @@ export interface EventCalendarProps {
   renderEventDetails?: (event: EventCalendarEvent) => React.ReactNode;
   /** Quante barre per giorno prima del "+N". Default 3. */
   maxLanes?: number;
+  /**
+   * Sempre 6 settimane, anche nei mesi che ne hanno 4 o 5: l'altezza non cambia
+   * passando da un mese all'altro, e niente sotto il calendario si sposta.
+   */
+  fixedWeeks?: boolean;
   /** La lingua di mese e giorni della settimana. Default `it-IT`. */
   locale?: string;
   labels?: Partial<EventCalendarLabels>;
@@ -136,12 +141,13 @@ export function EventCalendar({
   renderEventDetails,
   renderDayDetails,
   maxLanes = 3,
+  fixedWeeks = false,
   locale = "it-IT",
   labels,
   className,
 }: EventCalendarProps) {
   const testi = { ...ETICHETTE, ...labels };
-  const weeks = React.useMemo(() => weeksOfMonth(month), [month]);
+  const weeks = React.useMemo(() => weeksOfMonth(month, fixedWeeks), [month, fixedWeeks]);
   const griglia = React.useRef<HTMLDivElement>(null);
   // Il giorno che riceve il Tab: lo scelto se è nel mese, altrimenti il primo.
   const [focusDay, setFocusDay] = React.useState(() => (selected && monthOf(selected) === month ? selected : `${month}-01`));

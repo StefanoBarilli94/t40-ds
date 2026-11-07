@@ -49,8 +49,12 @@ export const addMonths = (month: string, n: number) => {
   return `${d.getFullYear()}-${pad(d.getMonth() + 1)}`;
 };
 
-/** Le settimane (lunedì–domenica) che coprono il mese, giorno per giorno. */
-export function weeksOfMonth(month: string): string[][] {
+/**
+ * Le settimane (lunedì–domenica) che coprono il mese, giorno per giorno: da 4 a 6.
+ * Con `fixed` sempre 6, completate con i giorni del mese dopo, così cambiando
+ * mese il calendario non cambia altezza e la pagina non salta.
+ */
+export function weeksOfMonth(month: string, fixed = false): string[][] {
   const first = `${month}-01`;
   const dow = (fromDay(first).getDay() + 6) % 7; // 0 = lunedì
   let day = addDays(first, -dow);
@@ -62,7 +66,7 @@ export function weeksOfMonth(month: string): string[][] {
       day = addDays(day, 1);
     }
     weeks.push(week);
-  } while (monthOf(day) === month);
+  } while (monthOf(day) === month || (fixed && weeks.length < 6));
   return weeks;
 }
 
