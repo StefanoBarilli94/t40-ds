@@ -111,9 +111,20 @@ const TimeInput = React.forwardRef<HTMLInputElement, TimeInputProps>(
     const [aperto, setAperto] = React.useState(false);
     const elenco = React.useRef<HTMLUListElement>(null);
 
+    // L'ultimo valore dato a chi usa il campo. Quando torna indietro come
+    // `value` è l'eco di quello che si sta scrivendo: il testo non si tocca,
+    // altrimenti un orario sbagliato (valore vuoto) sparirebbe invece di
+    // restare rosso da correggere. Si riallinea solo a un cambio da fuori.
+    const dato = React.useRef(value);
     React.useEffect(() => {
-      if (!scrivendo) setTesto(value);
-    }, [value, scrivendo]);
+      if (value === dato.current) return;
+      dato.current = value;
+      setTesto(value);
+    }, [value]);
+    const comunica = (letto: string | null) => {
+      dato.current = letto ?? "";
+      onValueChange?.(letto);
+    };
 
     const orari = React.useMemo(() => orariDellElenco(da, a, passo), [da, a, passo]);
     // Il più vicino a quello scelto (o a `vicino`): all'apertura l'elenco parte da lì.
@@ -124,7 +135,7 @@ const TimeInput = React.forwardRef<HTMLInputElement, TimeInputProps>(
 
     const scegli = (orario: string) => {
       setTesto(orario);
-      onValueChange?.(orario);
+      comunica(orario);
       setAperto(false);
     };
 
@@ -142,7 +153,7 @@ const TimeInput = React.forwardRef<HTMLInputElement, TimeInputProps>(
           value={testo}
           onChange={(event) => {
             setTesto(event.target.value);
-            onValueChange?.(parseOrario(event.target.value));
+            comunica(parseOrario(event.target.value));
           }}
           onFocus={(event) => {
             setScrivendo(true);
