@@ -66,6 +66,29 @@ export const Default: Story = {
   },
 };
 
+function SeiSettimane() {
+  const [mese, setMese] = React.useState("2027-02");
+  return (
+    <div className="w-[56rem] max-w-full space-y-2">
+      <EventCalendar month={mese} onMonthChange={setMese} events={[]} fixedWeeks />
+      <p className="text-sm text-muted-foreground">Questo testo sotto il calendario non si muove cambiando mese.</p>
+    </div>
+  );
+}
+
+export const SempreSeiSettimane: Story = {
+  args: { month: "2027-02", onMonthChange: () => {}, events: [] },
+  render: () => <SeiSettimane />,
+  parameters: {
+    docs: {
+      description: {
+        story:
+          "Con `fixedWeeks` il mese ha sempre 6 righe, completate con i giorni del mese dopo: passando da febbraio 2027 (4 settimane) a marzo (5) o a novembre (6) l'altezza resta la stessa e niente sotto il calendario si sposta (ft40#269).",
+      },
+    },
+  },
+};
+
 function Pieno() {
   const [mese, setMese] = React.useState("2026-10");
   const tanti = ["A", "B", "C", "D", "E"].map((n, i) => ({

@@ -13,6 +13,16 @@ describe("weeksOfMonth", () => {
     // Un mese che comincia di lunedì non ha giorni del mese prima.
     expect(weeksOfMonth("2027-02")[0][0]).toBe("2027-02-01");
   });
+
+  it("con fixed sono sempre 6 settimane, completate con il mese dopo (ft40#269)", () => {
+    // Febbraio 2027 ne ha 4, novembre 2026 5, novembre 2027 6.
+    expect(weeksOfMonth("2027-02")).toHaveLength(4);
+    expect(weeksOfMonth("2026-11")).toHaveLength(6);
+    for (const mese of ["2027-02", "2026-11", "2026-10", "2027-11"]) expect(weeksOfMonth(mese, true)).toHaveLength(6);
+    const febbraio = weeksOfMonth("2027-02", true);
+    expect(febbraio[0][0]).toBe("2027-02-01");
+    expect(febbraio[5][6]).toBe("2027-03-14");
+  });
 });
 
 describe("placeWeek (issue #108)", () => {

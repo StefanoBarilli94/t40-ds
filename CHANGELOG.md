@@ -2,6 +2,13 @@
 
 Schema descritto in [agent_docs/versioning.md](agent_docs/versioning.md).
 
+## v0.20.0 — 2026-11-07
+
+### ✨ Migliorative
+
+- **`EventCalendar`**: nuova opzione `fixedWeeks` (ft40#269). Il mese ha sempre 6 righe, completate con i giorni del mese dopo, così cambiando mese con le frecce il calendario non cambia altezza e la pagina sotto non salta. Senza l'opzione resta tutto come prima, da 4 a 6 righe.
+- **`weeksOfMonth(month, fixed)`**: con `fixed` restituisce sempre 6 settimane. Serve a chi chiede i dati del periodo mostrato, perché siano gli stessi giorni del calendario.
+
 ## v0.19.0 — 2026-10-21
 
 ### ✨ Migliorative
