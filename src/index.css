@@ -41,6 +41,7 @@
   --color-primary: var(--primary);
   --color-primary-foreground: var(--primary-foreground);
   --color-primary-text: var(--primary-text);
+  --color-selected-border: var(--selected-border);
   --color-primary-50: var(--primary-50);
   --color-primary-100: var(--primary-100);
   --color-primary-200: var(--primary-200);
@@ -123,6 +124,10 @@
      dei bottoni) scende a 1.8:1: --primary-text è la stessa tinta scurita
      per restare leggibile (4.6:1+) quando serve come foreground. */
   --primary-text: oklch(0.52 0.14 185);
+  /* Il bordo di una voce scelta (Toggle, RadioGroup, Tabs a sottolineatura):
+     almeno 3:1 sul fondo, come chiede WCAG 1.4.11 ai controlli (issue #117).
+     --primary sul bianco è 1.8:1. Segue --primary-text in ogni tema. */
+  --selected-border: var(--primary-text);
   /* Scala tint/shade del brand (issue #4). Non sostituisce --primary (resta il
      token semantico usato dai componenti): serve per sfondi tenui, grafici,
      illustrazioni. 50-300 sono pensati come SFONDO con --foreground sopra
@@ -354,7 +359,8 @@
   }
 
   /*
-   * Unica eccezione al reset degli angoli: l'Avatar è tondo (issue #71).
+   * Eccezioni al reset degli angoli: l'Avatar è tondo (issue #71), e così il
+   * pallino della scelta di RadioGroup (issue #117).
    *
    * Sta qui e non nel componente perché il reset usa `!important`: una classe
    * `rounded-full` nel layer utilities perderebbe comunque. Stesso layer e
@@ -362,7 +368,9 @@
    * la foto e le iniziali ritagliate dal contenitore devono seguirne la forma.
    */
   [data-slot="avatar"],
-  [data-slot="avatar"] * {
+  [data-slot="avatar"] *,
+  [data-slot="radio"],
+  [data-slot="radio"] * {
     border-radius: 9999px !important;
   }
 

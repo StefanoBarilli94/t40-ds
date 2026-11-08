@@ -2,6 +2,29 @@
 
 Schema descritto in [agent_docs/versioning.md](agent_docs/versioning.md).
 
+## v0.22.0 — 2026-11-08
+
+Dall'analisi della UI di ft40 con Impeccable (8 novembre 2026): i controlli sul telefono, lo stato scelto, le schede che uscivano dallo schermo, l'orario tagliato.
+
+### 🚀 Evolutive
+
+- **`RadioGroup` e `RadioGroupItem`** (#117, da `SceltaRadio` di ft40): la scelta a schede, con `title` e `description`. Ogni scheda si raggiunge con Tab e si sceglie con Invio o Spazio (ft40#191), niente frecce. La scheda scelta ha il bordo `--selected-border`, il fondo tinto e il pallino pieno. Con `aria-invalid` sul gruppo le schede sono rosse.
+- **`TabsList variant`** (#118): `segmented` (default, la pillola: viste dello stesso contenuto o filtri) e `underline` (la sottolineatura: sezioni diverse di una pagina).
+
+### ✨ Migliorative
+
+- **44 px sul telefono, da soli** (#116): sotto `md` Button (tutte le taglie, `icon` compreso), Toggle e ToggleGroupItem, Input, Select, TabsTrigger, TimeInput e i suoi orari sono alti 44 px. Da `md` in su restano quelli di prima.
+- **Stato scelto ben visibile** (#117): Toggle e ToggleGroupItem scelti hanno il bordo `--selected-border` (almeno 3:1 sul fondo), oltre al fondo tinto e al grassetto. Prima il bordo era `--primary`, più chiaro di quello delle voci non scelte. Token nuovo **`--selected-border`** (classe `border-selected-border`), che segue `--primary-text` in ogni tema.
+- **Le schede non allargano più la pagina** (#118): `TabsList` sta nella larghezza di chi lo contiene e, se le schede non ci stanno, scorre dentro di sé con una sfumatura sul lato dove c'è dell'altro.
+- **`TimeInput` non si taglia** (#119): largo almeno 5,75 rem, con meno spazio a sinistra e un orologio più stretto. "07:30" si legge intero anche in una griglia di 3 colonne a 360 px.
+
+### Per le app
+
+- Togliere le altezze messe a mano su pulsanti, scelte, campi e schede (`h-10`, `h-11`, `h-12`, `min-h-10`, `min-h-11`, `size-11`): ora le dà il design system. Dove un controllo deve restare alto 44 px anche su computer, lasciare la classe.
+- `ToggleGroupItem` con `className` che ridefinisce il bordo della voce scelta: controllare che non copra `border-selected-border`.
+- Le schede a sottolineatura fatte a mano diventano `TabsList variant="underline"`.
+- `TabsList` ora è `flex` largo quanto il suo contenuto (`w-fit`), non `inline-flex h-9`: le classi di altezza sull'elenco non servono più.
+
 ## v0.21.0 — 2026-11-08
 
 ### 🚀 Evolutive

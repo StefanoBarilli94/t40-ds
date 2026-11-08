@@ -139,8 +139,10 @@ const TimeInput = React.forwardRef<HTMLInputElement, TimeInputProps>(
       setAperto(false);
     };
 
+    // Largo almeno quanto "07:30" più l'orologio: in una griglia stretta
+    // l'orario non si taglia (issue #119).
     return (
-      <div className="relative">
+      <div className="relative min-w-[5.75rem]">
         <Input
           ref={ref}
           type="text"
@@ -149,7 +151,7 @@ const TimeInput = React.forwardRef<HTMLInputElement, TimeInputProps>(
           placeholder="00:00"
           disabled={disabled}
           aria-invalid={ariaInvalid ?? (nonValido || undefined)}
-          className={cn("pr-10 tabular-nums", className)}
+          className={cn("pl-2.5 pr-8 tabular-nums", className)}
           value={testo}
           onChange={(event) => {
             setTesto(event.target.value);
@@ -174,7 +176,7 @@ const TimeInput = React.forwardRef<HTMLInputElement, TimeInputProps>(
               type="button"
               disabled={disabled}
               aria-label={etichettaElenco}
-              className="absolute inset-y-0 right-0 flex w-10 items-center justify-center text-muted-foreground transition-colors hover:text-foreground disabled:pointer-events-none disabled:opacity-50"
+              className="absolute inset-y-0 right-0 flex w-8 items-center justify-center text-muted-foreground transition-colors hover:text-foreground disabled:pointer-events-none disabled:opacity-50"
             >
               <Clock aria-hidden="true" className="size-4" />
             </button>
@@ -204,7 +206,7 @@ const TimeInput = React.forwardRef<HTMLInputElement, TimeInputProps>(
                       aria-pressed={scelto}
                       onClick={() => scegli(orario)}
                       className={cn(
-                        "flex h-9 w-full items-center justify-center text-sm tabular-nums transition-colors hover:bg-accent hover:text-accent-foreground",
+                        "flex h-11 md:h-9 w-full items-center justify-center text-sm tabular-nums transition-colors hover:bg-accent hover:text-accent-foreground",
                         scelto && "bg-primary text-primary-foreground hover:bg-primary hover:text-primary-foreground",
                       )}
                     >

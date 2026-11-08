@@ -14,19 +14,21 @@ import { cn } from "../../lib/utils";
  * invito a toccare: si vede, ma non urla.
  */
 const toggleVariants = cva(
-  "inline-flex items-center justify-center gap-2 rounded-md text-sm font-medium transition-colors hover:bg-muted hover:text-foreground disabled:pointer-events-none disabled:opacity-50 data-[state=on]:bg-[color-mix(in_oklab,var(--primary)_14%,var(--background))] data-[state=on]:font-semibold data-[state=on]:text-foreground [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0",
+  "inline-flex items-center justify-center gap-2 rounded-md text-sm font-medium transition-colors hover:bg-muted hover:text-foreground disabled:pointer-events-none disabled:opacity-50 data-[state=on]:bg-[color-mix(in_oklab,var(--primary)_14%,var(--background))] data-[state=on]:border-selected-border data-[state=on]:font-semibold data-[state=on]:text-foreground [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0",
   {
     variants: {
       variant: {
-        default: "bg-transparent",
+        // Il bordo trasparente fa posto a quello della voce scelta (issue #117).
+        default: "border border-transparent bg-transparent",
         // Niente ombra: il DS non ne usa.
         outline:
-          "border border-input bg-transparent data-[state=on]:border-primary aria-[invalid=true]:border-destructive! group-aria-[invalid=true]/scelta:border-destructive!",
+          "border border-input bg-transparent aria-[invalid=true]:border-destructive! group-aria-[invalid=true]/scelta:border-destructive!",
       },
       size: {
-        default: "h-9 px-2 min-w-9",
-        sm: "h-8 px-1.5 min-w-8",
-        lg: "h-10 px-2.5 min-w-10",
+        // 44 px sotto md, come Button (issue #116).
+        default: "h-11 min-w-11 px-2 md:h-9 md:min-w-9",
+        sm: "h-11 min-w-11 px-1.5 md:h-8 md:min-w-8",
+        lg: "h-11 min-w-11 px-2.5 md:h-10 md:min-w-10",
       },
     },
     defaultVariants: {

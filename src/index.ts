@@ -46,6 +46,7 @@ export * from "./components/form/textarea";
 export * from "./components/form/time-input";
 export * from "./components/form/toggle";
 export * from "./components/form/toggle-group";
+export * from "./components/form/radio-group";
 export * from "./components/atoms/tooltip";
 
 export { cn } from "./lib/utils";
