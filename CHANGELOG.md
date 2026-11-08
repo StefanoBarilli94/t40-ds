@@ -2,6 +2,16 @@
 
 Schema descritto in [agent_docs/versioning.md](agent_docs/versioning.md).
 
+## v0.21.0 — 2026-11-08
+
+### 🚀 Evolutive
+
+- **`TimeInput`** (#114, ft40#277): orario a 24 ore da scrivere come viene ("7.30", "7:30", "730", "7") o da scegliere nell'elenco che si apre con l'orologio, a passi di `passo` minuti fra `da` e `a`. Uscendo dal campo l'orario diventa "07:30"; un testo che non è un orario resta scritto e il campo diventa rosso (`aria-invalid`). Ogni orario dell'elenco si raggiunge con Tab e si sceglie con Invio o Spazio; all'apertura il fuoco va sull'orario scelto o sul più vicino. Esporta anche `parseOrario` e `orariDellElenco`.
+
+### ✨ Migliorative
+
+- **`Button`**: nuova variante `destructive-outline`, bordo e testo rossi su fondo chiaro. Per togliere una riga (per esempio con il cestino) senza che pesi come l'azione principale.
+
 ## v0.20.0 — 2026-11-07
 
 ### ✨ Migliorative
