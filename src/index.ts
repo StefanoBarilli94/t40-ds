@@ -43,6 +43,7 @@ export * from "./components/patterns/tabs";
 export * from "./components/patterns/event-calendar";
 export { placeWeek, weeksOfMonth } from "./components/patterns/event-calendar-layout";
 export * from "./components/form/textarea";
+export * from "./components/form/time-input";
 export * from "./components/form/toggle";
 export * from "./components/form/toggle-group";
 export * from "./components/atoms/tooltip";

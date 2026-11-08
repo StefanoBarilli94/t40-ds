@@ -11,6 +11,11 @@ const buttonVariants = cva(
       variant: {
         default: "bg-primary text-primary-foreground shadow hover:bg-primary/90",
         destructive: "bg-destructive text-destructive-foreground shadow-sm hover:bg-destructive/90",
+        // Un'azione che toglie qualcosa ma non è l'azione principale della
+        // pagina (ft40#277, il cestino accanto a una riga): rossa, ma vuota,
+        // così non pesa quanto il pulsante pieno accanto.
+        "destructive-outline":
+          "border border-destructive bg-background text-destructive shadow-sm hover:bg-destructive/10 hover:text-destructive",
         // hover:bg-muted (non hover:bg-accent): --accent è identico a --primary, quindi
         // uno sfondo "accent" pieno all'hover farebbe sembrare outline/ghost un bottone
         // "default" pieno. Un highlight neutro mantiene la gerarchia visiva chiara.
