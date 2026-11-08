@@ -53,3 +53,40 @@ export const NonValido: Story = {
 };
 
 export const Disabilitato: Story = { render: () => <Demo disabled /> };
+
+const TELEFONO = {
+  parameters: {
+    layout: "fullscreen",
+    viewport: { options: { telefono: { name: "Telefono 360", styles: { width: "360px", height: "740px" } } } },
+  },
+  globals: { viewport: { value: "telefono", isRotated: false } },
+};
+
+/**
+ * Tre campi in una griglia di 3 colonne a 360 px, come una fascia degli Orari
+ * di ft40 (issue #119): l'orario si legge intero, "07:30", con l'orologio.
+ */
+export const InGrigliaSulTelefono: Story = {
+  name: "In griglia sul telefono (360 px)",
+  render: () => {
+    const [dalle, setDalle] = React.useState("07:30");
+    const [alle, setAlle] = React.useState("13:00");
+    return (
+      <div className="grid grid-cols-3 gap-2 p-4">
+        <div className="grid gap-1.5">
+          <Label htmlFor="dalle">Dalle</Label>
+          <TimeInput id="dalle" value={dalle} onValueChange={(v) => setDalle(v ?? "")} />
+        </div>
+        <div className="grid gap-1.5">
+          <Label htmlFor="alle">Alle</Label>
+          <TimeInput id="alle" value={alle} onValueChange={(v) => setAlle(v ?? "")} />
+        </div>
+        <div className="grid gap-1.5">
+          <Label htmlFor="persone">Persone</Label>
+          <input id="persone" defaultValue="2" className="h-11 border border-input bg-card px-3 md:h-9" />
+        </div>
+      </div>
+    );
+  },
+  ...TELEFONO,
+};

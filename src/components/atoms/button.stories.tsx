@@ -152,3 +152,29 @@ export const IconOnlyAccessibile: Story = {
     },
   },
 };
+
+const TELEFONO = {
+  parameters: {
+    layout: "fullscreen",
+    viewport: { options: { telefono: { name: "Telefono 360", styles: { width: "360px", height: "740px" } } } },
+  },
+  globals: { viewport: { value: "telefono", isRotated: false } },
+};
+
+/**
+ * Sul telefono (sotto `md`) ogni taglia è alta 44 px, il minimo per il dito
+ * (issue #116). Da `md` in su tornano 36 px (default), 32 (sm), 40 (lg).
+ * Non servono più classi `h-11` nelle app.
+ */
+export const SulTelefono: Story = {
+  name: "Sul telefono (360 px)",
+  render: () => (
+    <div className="flex flex-wrap items-center gap-2 p-4">
+      <Button>Salva</Button>
+      <Button size="sm" variant="outline">Piccolo</Button>
+      <Button size="lg" variant="secondary">Grande</Button>
+      <Button size="icon" variant="outline" aria-label="Elimina la riga"><Trash2 /></Button>
+    </div>
+  ),
+  ...TELEFONO,
+};

@@ -22,7 +22,7 @@ const SelectTrigger = React.forwardRef<
       // In errore rosso da solo, come Input (issue #88).
       "aria-[invalid=true]:border-destructive aria-[invalid=true]:focus-visible:outline-destructive",
       // bg-card, non bg-background: stessa ragione di Input, vedi input.tsx.
-      "flex h-9 w-full items-center justify-between whitespace-nowrap rounded-md border border-input bg-card px-3 py-2 text-base md:text-sm shadow-sm data-[placeholder]:text-muted-foreground disabled:cursor-not-allowed disabled:opacity-50 disabled:bg-muted [&>span]:line-clamp-1",
+      "flex h-11 md:h-9 w-full items-center justify-between whitespace-nowrap rounded-md border border-input bg-card px-3 py-2 text-base md:text-sm shadow-sm data-[placeholder]:text-muted-foreground disabled:cursor-not-allowed disabled:opacity-50 disabled:bg-muted [&>span]:line-clamp-1",
       className,
     )}
     {...props}

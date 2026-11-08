@@ -139,3 +139,35 @@ export const Disabilitato: Story = {
     </ToggleGroup>
   ),
 };
+
+const TELEFONO = {
+  parameters: {
+    layout: "fullscreen",
+    viewport: { options: { telefono: { name: "Telefono 360", styles: { width: "360px", height: "740px" } } } },
+  },
+  globals: { viewport: { value: "telefono", isRotated: false } },
+};
+
+/**
+ * La voce scelta (issue #117): bordo `--selected-border`, almeno 3:1 sul
+ * fondo, più il fondo tinto e il grassetto. Prima il bordo della voce scelta
+ * era il teal chiaro, più chiaro di quello delle altre. Sul telefono ogni voce
+ * è alta 44 px (issue #116).
+ */
+export const StatoSceltoSulTelefono: Story = {
+  name: "Stato scelto sul telefono (360 px)",
+  render: () => (
+    <div className="space-y-4 p-4">
+      <ToggleGroup type="single" variant="outline" defaultValue="miei" rovingFocus={false} aria-label="Quali turni" className="grid grid-cols-2">
+        <ToggleGroupItem value="miei">I miei turni</ToggleGroupItem>
+        <ToggleGroupItem value="tutti">Tutti</ToggleGroupItem>
+      </ToggleGroup>
+      <ToggleGroup type="single" defaultValue="6" rovingFocus={false} aria-label="Periodo" className="justify-start">
+        <ToggleGroupItem value="3">3 mesi</ToggleGroupItem>
+        <ToggleGroupItem value="6">6 mesi</ToggleGroupItem>
+        <ToggleGroupItem value="12">12 mesi</ToggleGroupItem>
+      </ToggleGroup>
+    </div>
+  ),
+  ...TELEFONO,
+};
