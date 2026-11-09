@@ -65,7 +65,9 @@ const TabsList = React.forwardRef<
         data-variant={variant}
         className={cn(
           // max-w-full + overflow: scorre dentro di sé, non allarga la pagina.
-          "flex max-w-full items-stretch overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden",
+          // relative: i testi sr-only (posizione assoluta) delle schede fuori
+          // vista restano dentro l'elenco invece di allargare la pagina.
+          "relative flex max-w-full items-stretch overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden",
           variant === "segmented"
             ? "w-fit bg-muted p-1 text-muted-foreground"
             : "w-full gap-4 border-b border-border text-muted-foreground",

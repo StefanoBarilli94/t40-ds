@@ -2,6 +2,12 @@
 
 Schema descritto in [agent_docs/versioning.md](agent_docs/versioning.md).
 
+## v0.22.1 — 2026-11-09
+
+### 🐛 Correttive
+
+- **`TabsList` non allarga più la pagina sul telefono**: un testo `sr-only` (posizione assoluta) dentro una scheda fuori vista usciva dall'elenco e faceva scorrere di lato tutta la pagina (Richieste di ft40 a 360 px, 515 px di larghezza). Ora l'elenco è `relative` e lo tiene dentro di sé.
+
 ## v0.22.0 — 2026-11-08
 
 Dall'analisi della UI di ft40 con Impeccable (8 novembre 2026): i controlli sul telefono, lo stato scelto, le schede che uscivano dallo schermo, l'orario tagliato.
