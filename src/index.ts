@@ -60,4 +60,5 @@ export { useIsMobile } from "./hooks/use-mobile";
 
 export * from "./components/patterns/chart";
 export * from "./components/patterns/top-nav";
+export * from "./components/patterns/page-header";
 export * from "./components/patterns/chart-presets";
