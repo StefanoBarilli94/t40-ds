@@ -72,6 +72,19 @@
   --color-chart-6: var(--chart-6);
   --color-chart-7: var(--chart-7);
   --color-chart-8: var(--chart-8);
+  /* Colori di stato e fondi tenui (issue #120): bg-positive-subtle,
+     text-warning, border-warning-border… Vedi "Fondamenta/Colori". */
+  --color-positive: var(--positive);
+  --color-warning: var(--warning);
+  --color-negative: var(--negative);
+  --color-primary-subtle: var(--primary-subtle);
+  --color-primary-border: var(--primary-border);
+  --color-positive-subtle: var(--positive-subtle);
+  --color-positive-border: var(--positive-border);
+  --color-warning-subtle: var(--warning-subtle);
+  --color-warning-border: var(--warning-border);
+  --color-negative-subtle: var(--negative-subtle);
+  --color-negative-border: var(--negative-border);
   --color-sidebar: var(--sidebar);
   --color-sidebar-foreground: var(--sidebar-foreground);
   --color-sidebar-primary: var(--sidebar-primary);
@@ -349,6 +362,36 @@
   --sidebar-accent-foreground: oklch(0.984 0.003 247.858);
   --sidebar-border: oklch(1 0 0 / 10%);
   --sidebar-ring: oklch(0.551 0.027 264.364);
+}
+
+/*
+ * Fondi tenui e bordi di stato (issue #120, da `fondi.ts` di ft40).
+ *
+ * Mescolanze dei colori del tema, non colori nuovi: seguono da soli il tema
+ * scuro e AST40. Sono dichiarati su ogni elemento che cambia tema e non solo
+ * su :root, perché una variabile che ne legge un'altra si calcola dove è
+ * dichiarata: su :root sola resterebbe "congelata" ai colori di :root anche
+ * dentro un `data-theme` o un `.dark` più in basso.
+ *
+ * - `*-subtle`: il fondo di un blocco che dice uno stato (avviso, riepilogo,
+ *   ferie, assenza). Sopra va --foreground: il testo resta nero, il colore
+ *   rinforza, la parola e l'icona dicono.
+ * - `*-border`: il bordo dello stesso blocco, quando deve staccare dalla card.
+ * - `--accent-bar-width`: la barra laterale che dice uno stato (Card
+ *   "accent", EventCalendar, issue #121). Mai più di 2 px, mai per decorare.
+ */
+:root,
+[data-theme],
+.dark {
+  --primary-subtle: color-mix(in oklab, var(--primary) 12%, var(--card));
+  --primary-border: color-mix(in oklab, var(--primary) 45%, var(--card));
+  --positive-subtle: color-mix(in oklab, var(--positive) 14%, var(--card));
+  --positive-border: color-mix(in oklab, var(--positive) 45%, var(--card));
+  --warning-subtle: color-mix(in oklab, var(--warning) 12%, var(--card));
+  --warning-border: color-mix(in oklab, var(--warning) 45%, var(--card));
+  --negative-subtle: color-mix(in oklab, var(--negative) 10%, var(--card));
+  --negative-border: color-mix(in oklab, var(--negative) 45%, var(--card));
+  --accent-bar-width: 2px;
 }
 
 @layer base {
