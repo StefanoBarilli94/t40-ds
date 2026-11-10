@@ -84,7 +84,7 @@ export const RiempieLoSpazio: Story = {
 export const SulTelefono: Story = {
   name: "Sul telefono (360 px)",
   render: () => (
-    <div className="flex min-h-[740px] flex-col gap-4 p-4">
+    <div className="flex min-h-[600px] flex-col gap-4 p-4">
       <EmptyState
         fill
         variant="error"

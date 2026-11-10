@@ -2,6 +2,31 @@
 
 Schema descritto in [agent_docs/versioning.md](agent_docs/versioning.md).
 
+## v0.23.0 — 2026-11-10
+
+Il giro A dall'analisi della UI di ft40 con Impeccable: i colori di stato come classi, l'avviso dentro la pagina, il testo compatto, il pulsante spento e lo stato vuoto con "Riprova".
+
+### 🚀 Evolutive
+
+- **Fondi tenui e bordi di stato** (#120): `--primary-subtle`, `--positive-subtle`, `--warning-subtle`, `--negative-subtle` e i bordi `--*-border`, mescolanze dei colori del tema che seguono da sole il tema scuro e AST40. `--positive`, `--warning` e `--negative` ora sono in `@theme`: esistono `text-warning`, `bg-positive-subtle`, `border-warning-border` e così via. Le regole d'uso stanno in "Fondamenta/Colori": sul fondo tenue il testo è `--foreground`, il colore va sull'icona.
+- **`Callout`** (#121): l'avviso dentro la pagina, con i toni `neutral`, `primary`, `success`, `warning`, `destructive`, titolo e azione facoltativi. Fondo tenue, bordo sottile e icona, niente barra laterale spessa.
+- **`text-compact`** (#122): 13 px con interlinea 18 px, per le griglie fitte su computer. Sotto i 12 px non si scende.
+- **`EmptyState`** (#124, da `PaginaVuota` di ft40): icona, titolo, testo e azione; la versione `error` ha l'icona negativa, `role="alert"` e, con `onRetry`, il pulsante "Riprova". Con `fill` occupa l'altezza disponibile.
+
+### ✨ Migliorative
+
+- **Barre laterali a 2 px** (#121): token `--accent-bar-width`, usato da Card `variant="accent"` e da EventCalendar, che passa da 3 a 2 px. Una barra laterale dice uno stato, mai decora.
+- **Pulsante spento** (#123): fondo `--muted` e testo `--muted-foreground` (5.3:1) al posto dell'opacità al 50%, che lo faceva sembrare rotto. La regola in Storybook: accanto a un pulsante spento c'è sempre il motivo.
+
+### Per le app
+
+- `color-mix` scritti a mano per i fondi di stato (in ft40 `src/lib/fondi.ts`) diventano classi: `bg-primary-subtle`, `bg-warning-subtle` + `border-warning-border`, `bg-positive-subtle`, `bg-negative-subtle`.
+- `text-[color:var(--positive)]`, `var(--warning)` e simili diventano `text-positive`, `text-warning`, `text-negative`.
+- I blocchi `border-l-4` con fondo tinto diventano `<Callout tone="…">`; le barre laterali di stato si stringono a `border-l-[length:var(--accent-bar-width)]` (2 px).
+- `text-[0.8125rem]` diventa `text-compact`; `text-[11px]` e `text-[0.6875rem]` diventano `text-xs`, salvo i numeri dentro un Badge.
+- Un pulsante spento ha il motivo scritto accanto (`aria-describedby`), oppure resta attivo e spiega al tocco.
+- Gli stati vuoti e di errore fatti a mano diventano `EmptyState`; gli errori di caricamento passano `variant="error"` e `onRetry` (di solito il `refetch` della query).
+
 ## v0.22.1 — 2026-11-09
 
 ### 🐛 Correttive
