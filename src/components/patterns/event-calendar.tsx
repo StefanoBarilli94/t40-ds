@@ -111,7 +111,7 @@ function stileBarra(e: EventCalendarEvent, p: PlacedEvent): React.CSSProperties 
       : { backgroundColor: `color-mix(in oklab, ${colore} 16%, var(--card))` };
   // La riga del colore solo dove l'evento comincia davvero: se arriva dalla
   // settimana prima, la barra è "aperta" a sinistra.
-  if (!p.continuesBefore && e.variant !== "outline") base.borderLeft = `3px solid ${colore}`;
+  if (!p.continuesBefore && e.variant !== "outline") base.borderLeft = `var(--accent-bar-width) solid ${colore}`; // 2 px, issue #121
   return base;
 }
 

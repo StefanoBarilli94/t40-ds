@@ -4,23 +4,27 @@ import { cva, type VariantProps } from "class-variance-authority";
 
 import { cn } from "../../lib/utils";
 
+// Spento (issue #123): fondo --muted e testo --muted-foreground (5.3:1),
+// non più l'opacità al 50%. Un teal sbiadito con il testo grigio si leggeva
+// come "rotto", non come "manca qualcosa". Accanto a un pulsante spento va
+// sempre scritto il motivo (vedi la storia "Spento, con il motivo").
 const buttonVariants = cva(
-  "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-colors disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0",
+  "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-colors disabled:pointer-events-none disabled:text-muted-foreground [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0",
   {
     variants: {
       variant: {
-        default: "bg-primary text-primary-foreground shadow hover:bg-primary/90",
-        destructive: "bg-destructive text-destructive-foreground shadow-sm hover:bg-destructive/90",
+        default: "bg-primary text-primary-foreground shadow hover:bg-primary/90 disabled:bg-muted",
+        destructive: "bg-destructive text-destructive-foreground shadow-sm hover:bg-destructive/90 disabled:bg-muted",
         // Un'azione che toglie qualcosa ma non è l'azione principale della
         // pagina (ft40#277, il cestino accanto a una riga): rossa, ma vuota,
         // così non pesa quanto il pulsante pieno accanto.
         "destructive-outline":
-          "border border-destructive bg-background text-destructive shadow-sm hover:bg-destructive/10 hover:text-destructive",
+          "border border-destructive bg-background text-destructive shadow-sm hover:bg-destructive/10 hover:text-destructive disabled:border-border",
         // hover:bg-muted (non hover:bg-accent): --accent è identico a --primary, quindi
         // uno sfondo "accent" pieno all'hover farebbe sembrare outline/ghost un bottone
         // "default" pieno. Un highlight neutro mantiene la gerarchia visiva chiara.
-        outline: "border border-input bg-background shadow-sm hover:bg-muted hover:text-foreground",
-        secondary: "bg-secondary text-secondary-foreground shadow-sm hover:bg-secondary/80",
+        outline: "border border-input bg-background shadow-sm hover:bg-muted hover:text-foreground disabled:border-border",
+        secondary: "bg-secondary text-secondary-foreground shadow-sm hover:bg-secondary/80 disabled:bg-muted",
         ghost: "hover:bg-muted hover:text-foreground",
         link: "text-primary-text underline-offset-4 hover:underline",
       },

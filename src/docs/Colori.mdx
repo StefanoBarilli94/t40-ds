@@ -147,6 +147,49 @@ un'azione di brand o di pericolo.
   </div>
 </div>
 
+## Colori di stato
+
+Quattro significati, gli stessi in tutte le app e in tutti i temi: **tema** (evidenza,
+"quello che stai facendo"), **positivo**, **attenzione**, **negativo**. Ognuno ha il colore
+pieno, un fondo tenue e un bordo (issue #120). Sono classi Tailwind come le altre:
+`text-warning`, `bg-warning-subtle`, `border-warning-border`. Mai stili inline.
+
+export const stato = (nome, colore, etichetta, uso) => (
+  <div key={nome} style={{ background: `var(--${nome}-subtle)`, border: `1px solid var(--${nome}-border)`, padding: "0.75rem 1rem", fontSize: "0.85rem", color: "var(--foreground)", display: "flex", gap: "0.6rem", alignItems: "flex-start" }}>
+    <span aria-hidden="true" style={{ width: "0.75rem", height: "0.75rem", marginTop: "0.2rem", flexShrink: 0, background: `var(--${colore})` }} />
+    <div>
+      <div style={{ fontWeight: 600 }}>{etichetta}</div>
+      <div style={{ opacity: 0.85 }}><code>bg-{nome}-subtle</code> · <code>border-{nome}-border</code> · icona <code>{colore === "primary-text" ? "text-primary-text" : `text-${colore}`}</code></div>
+      <div style={{ marginTop: "0.25rem" }}>{uso}</div>
+    </div>
+  </div>
+);
+
+<div className="sb-unstyled" style={{ display: "grid", gap: "0.6rem", margin: "1.5rem 0" }}>
+  {stato("primary", "primary-text", "Evidenza", "Il riepilogo di quello che stai per fare, una password appena creata, il proprio turno.")}
+  {stato("positive", "positive", "Positivo", "Una cosa andata a buon fine; le ferie nei turni.")}
+  {stato("warning", "warning", "Attenzione", "Una cosa da sapere prima di andare avanti: bozza non pubblicata, orari cambiati.")}
+  {stato("negative", "negative", "Negativo", "Un errore, un'assenza.")}
+</div>
+
+**Le regole d'uso**
+
+- **Sul fondo tenue il testo è `--foreground`**, non il colore di stato. Il colore pieno va
+  sull'icona o su un segno (3:1 basta, e passa ovunque); come testo sul fondo tenue scende
+  sotto 4.5:1 nel tema chiaro (positivo 4.0, negativo 4.2, tema 4.5).
+- **Il colore rinforza, non dice da solo**: c'è sempre una parola o un'icona.
+- **Il bordo è facoltativo**: serve quando il blocco sta su una card e deve staccare.
+- **Una barra laterale dice uno stato, mai decora**, ed è larga `--accent-bar-width` (2 px).
+- Per un avviso dentro la pagina c'è `Callout`: usa questi token da sé.
+
+| Coppia (chiaro / scuro) | Contrasto |
+| --- | --- |
+| foreground su primary-subtle | 17.5 / 13.3 ✅ |
+| foreground su positive-subtle | 15.6 / 14.0 ✅ |
+| foreground su warning-subtle | 15.7 / 14.1 ✅ |
+| foreground su negative-subtle | 16.5 / 15.0 ✅ |
+| muted-foreground sui quattro fondi | 4.95 – 5.6 / 5.3 – 6.0 ✅ |
+
 ## Indicatori positive/negative
 
 <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(160px, 1fr))", gap: "0.75rem", margin: "1.5rem 0" }}>

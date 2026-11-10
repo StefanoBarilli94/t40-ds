@@ -80,6 +80,51 @@ export const Disabled: Story = {
   args: { disabled: true },
 };
 
+export const TutteSpente: Story = {
+  name: "Tutte le varianti spente",
+  render: () => (
+    <div className="flex flex-wrap gap-2">
+      <Button disabled>Salva</Button>
+      <Button disabled variant="destructive">Elimina</Button>
+      <Button disabled variant="destructive-outline">Togli</Button>
+      <Button disabled variant="outline">Annulla le modifiche</Button>
+      <Button disabled variant="secondary">Secondario</Button>
+      <Button disabled variant="ghost">Ghost</Button>
+      <Button disabled variant="link">Collegamento</Button>
+    </div>
+  ),
+  parameters: {
+    docs: {
+      description: {
+        story:
+          "Spento vuol dire fondo `--muted` e testo `--muted-foreground` (5.3:1), non più l'opacità al 50% (issue #123): un pulsante sbiadito sembrava rotto.",
+      },
+    },
+  },
+};
+
+export const SpentoConMotivo: Story = {
+  name: "Spento, con il motivo",
+  render: () => (
+    <div className="grid max-w-xs gap-2">
+      <Button disabled aria-describedby="motivo-salva">
+        Salva
+      </Button>
+      <p id="motivo-salva" className="text-sm text-muted-foreground">
+        Nessuna modifica da salvare.
+      </p>
+    </div>
+  ),
+  parameters: {
+    docs: {
+      description: {
+        story:
+          "**La regola**: un pulsante spento ha sempre il motivo scritto accanto, collegato con `aria-describedby`. Se il motivo non sta in poche parole, il pulsante resta attivo e il messaggio arriva al tocco (\"Scrivi la password\").",
+      },
+    },
+  },
+};
+
 export const Loading: Story = {
   name: "Stato di caricamento",
   render: (args) => (
