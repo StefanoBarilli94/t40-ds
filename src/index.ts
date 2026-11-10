@@ -59,4 +59,5 @@ export { useIsMobile } from "./hooks/use-mobile";
 //   import "@tabaccheria/design-system/src/index.css";
 
 export * from "./components/patterns/chart";
+export * from "./components/patterns/top-nav";
 export * from "./components/patterns/chart-presets";
