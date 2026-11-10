@@ -82,6 +82,7 @@
   --color-positive: var(--positive);
   --color-warning: var(--warning);
   --color-negative: var(--negative);
+  --color-info: var(--info);
   --color-primary-subtle: var(--primary-subtle);
   --color-primary-border: var(--primary-border);
   --color-positive-subtle: var(--positive-subtle);
@@ -90,6 +91,8 @@
   --color-warning-border: var(--warning-border);
   --color-negative-subtle: var(--negative-subtle);
   --color-negative-border: var(--negative-border);
+  --color-info-subtle: var(--info-subtle);
+  --color-info-border: var(--info-border);
   --color-sidebar: var(--sidebar);
   --color-sidebar-foreground: var(--sidebar-foreground);
   --color-sidebar-primary: var(--sidebar-primary);
@@ -248,6 +251,10 @@
      differenza dei brand color, gli stati semantici (successo/avviso/errore)
      restano coerenti tra i temi. Verificato 6.19:1 su --card chiaro. */
   --warning: oklch(0.5 0.16 68);
+  /* Informazione (issue #137): né bene né male, "in corso" (una bozza). Blu,
+     lontano dal teal di --primary e dal verde di --positive. 6.1:1 su --card,
+     5.1:1 come testo sul suo fondo tenue. */
+  --info: oklch(0.5 0.15 255);
 }
 
 /*
@@ -349,6 +356,8 @@
      diverso da quello mostrato. */
   --positive: oklch(0.7 0.155 160);
   --negative: oklch(0.72 0.17 25);
+  /* 8.1:1 sul --card scuro, 6.8:1 sul suo fondo tenue. */
+  --info: oklch(0.75 0.12 250);
   /* Nessuna palette chart dedicata al tema scuro (issue #49, secondo giro).
      Ce n'era una, e falliva peggio delle altre due: quattro tinte fuori dalla
      banda di luminosità utile su fondo scuro, e rosa/teal a ΔE 2.9 in
@@ -396,6 +405,8 @@
   --warning-border: color-mix(in oklab, var(--warning) 45%, var(--card));
   --negative-subtle: color-mix(in oklab, var(--negative) 10%, var(--card));
   --negative-border: color-mix(in oklab, var(--negative) 45%, var(--card));
+  --info-subtle: color-mix(in oklab, var(--info) 12%, var(--card));
+  --info-border: color-mix(in oklab, var(--info) 45%, var(--card));
   --accent-bar-width: 2px;
 }
 

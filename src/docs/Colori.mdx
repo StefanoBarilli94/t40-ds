@@ -149,8 +149,9 @@ un'azione di brand o di pericolo.
 
 ## Colori di stato
 
-Quattro significati, gli stessi in tutte le app e in tutti i temi: **tema** (evidenza,
-"quello che stai facendo"), **positivo**, **attenzione**, **negativo**. Ognuno ha il colore
+Cinque significati, gli stessi in tutte le app e in tutti i temi: **tema** (evidenza,
+"quello che stai facendo"), **informazione** (in corso, una bozza), **positivo**,
+**attenzione**, **negativo**. Ognuno ha il colore
 pieno, un fondo tenue e un bordo (issue #120). Sono classi Tailwind come le altre:
 `text-warning`, `bg-warning-subtle`, `border-warning-border`. Mai stili inline.
 
@@ -167,6 +168,7 @@ export const stato = (nome, colore, etichetta, uso) => (
 
 <div className="sb-unstyled" style={{ display: "grid", gap: "0.6rem", margin: "1.5rem 0" }}>
   {stato("primary", "primary-text", "Evidenza", "Il riepilogo di quello che stai per fare, una password appena creata, il proprio turno.")}
+  {stato("info", "info", "Informazione", "Una cosa in corso, né bene né male: una settimana in bozza.")}
   {stato("positive", "positive", "Positivo", "Una cosa andata a buon fine; le ferie nei turni.")}
   {stato("warning", "warning", "Attenzione", "Una cosa da sapere prima di andare avanti: bozza non pubblicata, orari cambiati.")}
   {stato("negative", "negative", "Negativo", "Un errore, un'assenza.")}
@@ -188,6 +190,8 @@ export const stato = (nome, colore, etichetta, uso) => (
 | foreground su positive-subtle | 15.6 / 14.0 ✅ |
 | foreground su warning-subtle | 15.7 / 14.1 ✅ |
 | foreground su negative-subtle | 16.5 / 15.0 ✅ |
+| foreground su info-subtle | 15.8 / 14.3 ✅ |
+| info come testo su card / su info-subtle | 6.1 · 5.1 / 8.1 · 6.8 ✅ |
 | muted-foreground sui quattro fondi | 4.95 – 5.6 / 5.3 – 6.0 ✅ |
 
 ## Indicatori positive/negative
