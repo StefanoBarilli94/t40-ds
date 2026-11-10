@@ -42,6 +42,7 @@ export const Toni: Story = {
       <Callout tone="primary" title="In breve">
         Paola ha fatto 3 domeniche in più della media negli ultimi 12 mesi.
       </Callout>
+      <Callout tone="info">La settimana è in bozza: la stai ancora componendo.</Callout>
       <Callout tone="success">Orari salvati. Valgono per le settimane create da adesso.</Callout>
       <Callout tone="warning" title="Settimana in bozza">
         I dipendenti non la vedono finché non la pubblichi.
@@ -119,6 +120,7 @@ export const TemaScuro: Story = {
   render: () => (
     <div className="dark grid max-w-xl gap-3 bg-background p-4 text-foreground">
       <Callout tone="primary">Evidenza</Callout>
+      <Callout tone="info">Informazione</Callout>
       <Callout tone="success">Positivo</Callout>
       <Callout tone="warning">Attenzione</Callout>
       <Callout tone="destructive">Errore</Callout>

@@ -7,10 +7,12 @@ import { cn } from "../../lib/utils";
  * `neutral` è il default e non tinge niente — è l'etichetta che non vuole
  * dire "bene" o "male", solo "questo stato".
  */
-export type BadgeTone = "neutral" | "primary" | "success" | "warning" | "destructive";
+export type BadgeTone = "neutral" | "primary" | "info" | "success" | "warning" | "destructive";
 
 const TONE_COLOR: Record<Exclude<BadgeTone, "neutral">, string> = {
   primary: "var(--primary-text)",
+  // "In corso", né bene né male: una bozza (issue #137).
+  info: "var(--info)",
   success: "var(--positive)",
   warning: "var(--warning)",
   destructive: "var(--destructive)",

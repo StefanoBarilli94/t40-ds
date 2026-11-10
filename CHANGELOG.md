@@ -2,6 +2,16 @@
 
 Schema descritto in [agent_docs/versioning.md](agent_docs/versioning.md).
 
+## v0.25.0 — 2026-11-10
+
+### 🚀 Evolutive
+
+- **Tono informazione** (#137): `--info` (blu), `--info-subtle` e `--info-border`, con le classi `text-info`, `bg-info-subtle`, `border-info-border`. `Badge tone="info"` e `Callout tone="info"`. È lo stato "in corso", né bene né male: in ft40 la settimana in bozza, che con il teal di `primary` si confondeva con il verde di `success`. 6.1:1 su `--card`, 5.1:1 come testo sul suo fondo tenue; in scuro 8.1:1 e 6.8:1.
+
+### Per le app
+
+- Gli stati "in corso" (bozza, in attesa) che oggi usano `primary` o `neutral` possono passare a `tone="info"`.
+
 ## v0.24.0 — 2026-11-10
 
 Il giro B dall'analisi della UI di ft40: grafici, barra di navigazione su computer e intestazione delle pagine.

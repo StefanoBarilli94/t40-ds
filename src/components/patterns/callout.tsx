@@ -8,15 +8,17 @@ import { cn } from "../../lib/utils";
  *
  * - `neutral`: un'informazione, senza urgenza;
  * - `primary`: l'evidenza, "quello che conta qui" (un riepilogo, "In breve");
+ * - `info`: una cosa in corso, né bene né male (issue #137);
  * - `success`: una cosa andata a buon fine;
  * - `warning`: una cosa da sapere prima di andare avanti;
  * - `destructive`: un errore.
  */
-export type CalloutTone = "neutral" | "primary" | "success" | "warning" | "destructive";
+export type CalloutTone = "neutral" | "primary" | "info" | "success" | "warning" | "destructive";
 
 const TONI: Record<CalloutTone, { box: string; icona: string; Icona: React.ElementType }> = {
   neutral: { box: "border-border bg-muted", icona: "text-muted-foreground", Icona: Info },
   primary: { box: "border-primary-border bg-primary-subtle", icona: "text-primary-text", Icona: Lightbulb },
+  info: { box: "border-info-border bg-info-subtle", icona: "text-info", Icona: Info },
   success: { box: "border-positive-border bg-positive-subtle", icona: "text-positive", Icona: CircleCheck },
   warning: { box: "border-warning-border bg-warning-subtle", icona: "text-warning", Icona: TriangleAlert },
   destructive: { box: "border-negative-border bg-negative-subtle", icona: "text-negative", Icona: CircleAlert },

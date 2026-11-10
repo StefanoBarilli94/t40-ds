@@ -23,7 +23,8 @@ export const Toni: Story = {
   render: () => (
     <div className="flex flex-wrap items-center gap-2">
       <Badge>Neutro</Badge>
-      <Badge tone="primary">In corso</Badge>
+      <Badge tone="primary">Evidenza</Badge>
+      <Badge tone="info">Bozza</Badge>
       <Badge tone="success">Confermato</Badge>
       <Badge tone="warning">Da controllare</Badge>
       <Badge tone="destructive">Scaduto</Badge>
