@@ -131,10 +131,34 @@ introdurre una dimensione ad hoc.
   </div>
 </div>
 
+## Il passo compatto, e niente 11 px
+
+Fra `text-xs` (12 px) e `text-sm` (14 px) c'è **`text-compact`** (13 px, interlinea 18 px,
+issue #122). Serve **solo nelle viste fitte su computer**: la griglia della composizione dei
+turni, le celle di un calendario, i nomi in una colonna stretta. Non è un testo da pagina:
+nel dubbio resta `text-sm`.
+
+<div className="sb-unstyled" style={{ display: "grid", gap: "1rem", margin: "1.5rem 0" }}>
+  <div style={{ display: "grid", gridTemplateColumns: "repeat(3, minmax(0, 1fr))", gap: "0.5rem", maxWidth: "28rem" }}>
+    {["Mattina 7.30–13.00", "Pomeriggio 15.30–20.00", "Riposo"].map((t) => (
+      <div key={t} className="border border-border bg-card p-2 text-compact">{t}</div>
+    ))}
+  </div>
+  <div style={{ fontSize: "0.75rem", color: "var(--muted-foreground)", lineHeight: 1.6 }}>
+    <code>text-compact</code>: 13 px. Al posto di <code>text-[0.8125rem]</code> scritto a mano.
+  </div>
+</div>
+
+**Niente sotto i 12 px.** `text-[11px]`, `text-[0.6875rem]` e simili non si usano: 11 px
+grigio non si legge, soprattutto sul telefono. Per una nota piccola c'è `text-xs`. L'unica
+eccezione sono i numeri tabellari dentro un `Badge` (un contatore), dove la cifra sta da
+sola e il badge le dà già un fondo.
+
 ## Perché non un token `--font-size-*`
 
 I token in `index.css` coprono colori/radius (valori che cambiano per tema/brand) —
-le dimensioni testo no: sono le utility Tailwind standard (`text-sm`, `text-2xl`…),
+le dimensioni testo no: sono le utility Tailwind standard (`text-sm`, `text-2xl`…, più il
+solo `text-compact` qui sopra),
 già coerenti in tutto il pacchetto senza bisogno di un livello di indirezione in più.
 Questa pagina è la fonte di verità su *quale* dimensione usare in un dato contesto,
 non un nuovo sistema di token da mantenere.

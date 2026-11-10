@@ -25,6 +25,11 @@
 
 @theme inline {
   --font-sans: "Montserrat Variable", "Montserrat", ui-sans-serif, system-ui, sans-serif;
+  /* Il passo "compatto" fra text-xs (12 px) e text-sm (14 px), issue #122:
+     per le griglie fitte su computer (composizione, calendario). Classe
+     `text-compact`. Sotto i 12 px non si scende. */
+  --text-compact: 0.8125rem;
+  --text-compact--line-height: 1.125rem;
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
