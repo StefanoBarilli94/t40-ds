@@ -1,6 +1,9 @@
 import { Meta } from "@storybook/addon-docs/blocks";
 import { CategoryGrid } from "./CategoryGrid";
 import {
+  ChartNoAxesCombined,
+  PanelTop,
+  Heading1,
   ChevronDown,
   TriangleAlert,
   ShieldAlert,
@@ -28,6 +31,9 @@ Composizioni di più Atom/Form, o comportamenti applicativi completi (navigazion
 overlay, feedback). Tutto ciò che non è un primitivo indivisibile o un controllo form.
 
 export const items = [
+  { id: "patterns-pageheader--docs", name: "PageHeader", description: "Titolo della pagina, collegamento indietro e azione principale.", icon: Heading1 },
+  { id: "patterns-topnav--docs", name: "TopNav", description: "Navigazione principale in alto su computer.", icon: PanelTop },
+  { id: "patterns-chart--docs", name: "Chart", description: "Legenda, tooltip, assi e griglia per i grafici.", icon: ChartNoAxesCombined },
   { id: "patterns-accordion--docs", name: "Accordion", description: "Sezioni espandibili e collassabili, una o più alla volta.", icon: ChevronDown },
   { id: "patterns-alert--docs", name: "Alert", description: "Messaggio in linea per informazioni, avvisi o errori.", icon: TriangleAlert },
   { id: "patterns-alertdialog--docs", name: "AlertDialog", description: "Dialog modale per conferme distruttive o irreversibili.", icon: ShieldAlert },
