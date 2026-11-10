@@ -57,3 +57,6 @@ export { useIsMobile } from "./hooks/use-mobile";
 // I design token (colori, radius) sono in ./index.css — non un modulo JS.
 // L'app consumer li importa direttamente, es. in main.tsx:
 //   import "@tabaccheria/design-system/src/index.css";
+
+export * from "./components/patterns/chart";
+export * from "./components/patterns/chart-presets";
