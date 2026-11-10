@@ -1,4 +1,5 @@
-import type { CartesianGridProps, XAxisProps, YAxisProps } from "recharts";
+// Valori semplici, senza tipi di "recharts": il design system compila anche
+// nelle app che non installano Recharts (gt40).
 
 export const chartColors = [
   "var(--chart-1)", "var(--chart-2)", "var(--chart-3)", "var(--chart-4)",
@@ -11,10 +12,10 @@ export const chartAxisProps = {
   tickLine: false,
   axisLine: false,
   minTickGap: 12,
-} satisfies Partial<XAxisProps & YAxisProps>;
+} as const;
 
 export const chartGridProps = {
   stroke: "var(--border)",
   strokeDasharray: "3 3",
   vertical: false,
-} satisfies Partial<CartesianGridProps>;
+} as const;

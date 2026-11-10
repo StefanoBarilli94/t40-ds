@@ -1,5 +1,4 @@
 import * as React from "react";
-import type { TooltipProps } from "recharts";
 
 import { cn } from "../../lib/utils";
 import type { chartColors } from "./chart-presets";
@@ -28,7 +27,34 @@ const ChartLegend = React.forwardRef<HTMLUListElement, ChartLegendProps>(
 );
 ChartLegend.displayName = "ChartLegend";
 
-type ChartTooltipProps = TooltipProps<number | string | (number | string)[], number | string>;
+type Valore = number | string | (number | string)[];
+type Voce = {
+  value?: Valore;
+  name?: number | string;
+  dataKey?: unknown;
+  unit?: React.ReactNode;
+  formatter?: ChartTooltipFormatter;
+};
+type ChartTooltipFormatter = (
+  value: Valore,
+  name: number | string,
+  item: Voce,
+  index: number,
+  payload: Voce[],
+) => React.ReactNode | [React.ReactNode, React.ReactNode];
+
+/**
+ * Le props che Recharts passa al `content` del suo `Tooltip`. Scritte qui e
+ * non prese da "recharts": il design system non deve dipendere da Recharts per
+ * compilare, perché gt40 non lo usa (lo installano solo le app con i grafici).
+ */
+export interface ChartTooltipProps {
+  active?: boolean;
+  payload?: Voce[];
+  label?: React.ReactNode;
+  labelFormatter?: (label: React.ReactNode, payload: Voce[]) => React.ReactNode;
+  formatter?: ChartTooltipFormatter;
+}
 
 const ChartTooltipContent = React.forwardRef<HTMLDivElement, ChartTooltipProps>(
   ({ active, payload, label, labelFormatter, formatter }, ref) => {
@@ -42,7 +68,7 @@ const ChartTooltipContent = React.forwardRef<HTMLDivElement, ChartTooltipProps>(
             const { value, name } = item;
             if (value == null || name == null) return null;
             const formatted = (item.formatter ?? formatter)?.(value, name, item, index, payload);
-            const [displayValue, displayName] = Array.isArray(formatted)
+            const [displayValue, displayName] = Array.isArray(formatted) && formatted.length === 2
               ? formatted
               : [formatted ?? (Array.isArray(value) ? value.join(" – ") : value), name];
             return (
