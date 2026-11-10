@@ -2,6 +2,22 @@
 
 Schema descritto in [agent_docs/versioning.md](agent_docs/versioning.md).
 
+## v0.24.0 — 2026-11-10
+
+Il giro B dall'analisi della UI di ft40: grafici, barra di navigazione su computer e intestazione delle pagine.
+
+### 🚀 Evolutive
+
+- **Grafici** (#132): legenda HTML sotto il grafico, tooltip e preset Recharts per assi e griglia. Con un solo mese si possono usare le barre. I colori di serie si assegnano in ordine, fino a otto.
+- **`TopNav`** (#125): marchio, voci, contatore e spazio per il menu della persona. La voce attiva ha una riga da 2 px, un peso maggiore e `aria-current`. La barra appare da 768 px.
+- **`PageHeader`** (#127): titolo, collegamento indietro, contenuto accanto al titolo e azione principale. Sul telefono l'azione si trova sotto il titolo e occupa tutta la larghezza.
+
+### Per le app
+
+- In ft40, `src/components/andamento/TurniPerMese.tsx`, `AssenzePerMese.tsx` e `GiorniPesanti.tsx` possono usare la legenda, il tooltip e i preset condivisi al posto degli stili locali di `src/components/andamento/stile.ts`. Le tabelle dei dati restano accanto ai grafici.
+- `src/components/IntestazioneComputer.tsx` può delegare la struttura a `TopNav` e continuare a fornire i collegamenti, gli avvisi e il menu della persona.
+- L'intestazione del guscio può usare `PageHeader` per riunire i contenuti di `src/components/IndietroLink.tsx`, `AccantoAlTitolo.tsx` e `AzionePagina.tsx`. L'integrazione deve scegliere dove mostrare l'azione su telefono, oggi sopra la barra inferiore.
+
 ## v0.23.0 — 2026-11-10
 
 Il giro A dall'analisi della UI di ft40 con Impeccable: i colori di stato come classi, l'avviso dentro la pagina, il testo compatto, il pulsante spento e lo stato vuoto con "Riprova".
