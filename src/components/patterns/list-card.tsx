@@ -24,7 +24,7 @@ export const ListCard = React.forwardRef<HTMLAnchorElement, ListCardProps>(
         {...props}
         ref={ref}
         data-slot="list-card"
-        className={cn("flex h-full min-h-11 items-center gap-3 border border-border bg-card p-4 hover:bg-muted", className)}
+        className={cn("flex h-full min-h-11 items-center gap-3 border border-border bg-card p-4 hover:bg-[color-mix(in_oklab,var(--primary)_6%,var(--card))]", className)}
       >
         {icon}
         <span className="grid min-w-0 flex-1 gap-1">
