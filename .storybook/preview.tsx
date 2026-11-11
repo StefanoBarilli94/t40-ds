@@ -51,7 +51,7 @@ const preview: Preview = {
     (Story, context) => (
       <div
         data-theme={context.globals.theme === "ast40" ? "ast40" : undefined}
-        className="bg-background p-6 text-foreground"
+        className={context.parameters.layout === "fullscreen" ? "bg-background text-foreground" : "bg-background p-6 text-foreground"}
       >
         <Story />
       </div>
