@@ -2,6 +2,16 @@
 
 Schema descritto in [agent_docs/versioning.md](agent_docs/versioning.md).
 
+## v0.27.0 — 2026-11-12
+
+### 🚀 Evolutive
+
+- **LoginBackground** (#140). Sfondo a pagina intera con i motivi SVG di turni, cassa e mesi. Il fondo usa il token `--sidebar` e il motivo usa `--primary` del tema.
+
+### Per le app
+
+- Avvolgi la scheda di accesso in `LoginBackground` e passa `motif="shifts"` per FT40, `motif="register"` per GT40 o `motif="months"` per AST40.
+
 ## v0.26.0 — 2026-11-11
 
 ### 🚀 Evolutive

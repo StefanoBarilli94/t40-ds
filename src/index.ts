@@ -69,3 +69,4 @@ export * from "./components/patterns/stepper-form";
 export * from "./components/patterns/list-card";
 export * from "./components/patterns/stat";
 export * from "./components/patterns/week-strip";
+export * from "./components/patterns/login-background";
