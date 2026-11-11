@@ -2,6 +2,24 @@
 
 Schema descritto in [agent_docs/versioning.md](agent_docs/versioning.md).
 
+## v0.26.0 — 2026-11-11
+
+### 🚀 Evolutive
+
+- **ResponsiveConfirm e ResponsivePanel** (#126). Riprendono Conferma e Pannello di ft40. Da 1024 px si aprono al centro, su schermi più stretti dal basso.
+- **StepperForm** (#128). Un passo per schermata, avanzamento leggibile e comandi fissi in basso. Sopra i comandi si legge il motivo quando Avanti o Invia è disabilitato.
+- **ListCard e IconTile** (#129). La scheda è un collegamento unico, con icona, stato, titolo e dettagli. Lo stato può stare prima o dopo il titolo.
+- **Stat e StatItem** (#130). Una lista di etichette e valori su due, tre o quattro colonne, con cifre della stessa larghezza.
+- **WeekStrip** (#131). Sette pulsanti per scegliere un giorno. Ogni stato ha un'icona e un nome accessibile. Il giorno scelto è annunciato come premuto.
+
+### Per le app
+
+- In ft40, `Conferma` e `Pannello` possono usare `ResponsiveConfirm` e `ResponsivePanel` passando le proprietà in inglese, tra cui `open`, `onClose`, `title` e `description`. Per la conferma, l'azione si passa in `action` e `onConfirm`.
+- `PassoAPasso` può usare `StepperForm` passando `steps` con `content`, `ready` e `reason`, il passo in `step` e il cambio in `onStepChange`. Il collegamento Annulla si passa in `cancel` e il riferimento della guida in `footerProps`.
+- `SchedaRichiesta`, le schede di Avvisi e quelle dei dipendenti possono usare `ListCard`. `IconTile` fornisce il riquadro di `IconaTipo`, con il colore scelto dall'app.
+- `ContatoreFerie` può passare i valori già calcolati a `StatItem`, dentro uno `Stat` a due o tre colonne.
+- `StrisciaGiorni` può delegare la resa a `WeekStrip` e passargli i giorni, i loro stati e il giorno scelto.
+
 ## v0.25.0 — 2026-11-10
 
 ### 🚀 Evolutive
