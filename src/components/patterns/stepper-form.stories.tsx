@@ -29,19 +29,19 @@ function Esempio() {
   if (inviato) return <p role="status">Richiesta inviata</p>;
   return (
     <StepperForm
-      passo={passo}
-      setPasso={setPasso}
-      annulla={<a href="#inizio">Annulla</a>}
-      testoInvio="Invia richiesta"
-      invioDisabilitato={false}
+      step={passo}
+      onStepChange={setPasso}
+      cancel={<a href="#inizio">Annulla</a>}
+      submitLabel="Invia richiesta"
+      submitDisabled={false}
       onSubmit={(e) => { e.preventDefault(); setInviato(true); }}
-      passi={[
+      steps={[
         {
-          pronto: !!nota.trim(),
-          motivo: "Scrivi perché non puoi lavorare per andare avanti.",
-          contenuto: <div className="space-y-2"><Label htmlFor="motivo">Perché non puoi lavorare?</Label><Input id="motivo" value={nota} onChange={(e) => setNota(e.target.value)} /></div>,
+          ready: !!nota.trim(),
+          reason: "Scrivi perché non puoi lavorare per andare avanti.",
+          content: <div className="space-y-2"><Label htmlFor="motivo">Perché non puoi lavorare?</Label><Input id="motivo" value={nota} onChange={(e) => setNota(e.target.value)} /></div>,
         },
-        { pronto: true, motivo: null, contenuto: <p>Motivo della richiesta: {nota}</p> },
+        { ready: true, reason: null, content: <p>Motivo della richiesta: {nota}</p> },
       ]}
     />
   );

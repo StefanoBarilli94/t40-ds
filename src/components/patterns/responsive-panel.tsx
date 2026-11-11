@@ -24,28 +24,28 @@ import { useWideScreen } from "../../hooks/use-wide-screen";
  * chi lo usa: un'uscita che si legge serve in entrambi.
  */
 export function ResponsivePanel({
-  aperto,
-  onChiudi,
-  titolo,
-  descrizione,
+  open,
+  onClose,
+  title,
+  description,
   children,
 }: {
-  aperto: boolean;
-  onChiudi: () => void;
-  titolo: ReactNode;
-  descrizione?: ReactNode;
+  open: boolean;
+  onClose: () => void;
+  title: ReactNode;
+  description?: ReactNode;
   children: ReactNode;
 }) {
   const largo = useWideScreen();
 
   if (largo) {
     return (
-      <Dialog open={aperto} onOpenChange={(o) => !o && onChiudi()}>
+      <Dialog open={open} onOpenChange={(o) => !o && onClose()}>
         {/* Si sceglie e basta: niente da perdere, toccare fuori può chiudere. */}
-        <DialogContent dismissOnOutsideClick className="max-w-md" {...(!descrizione && { "aria-describedby": undefined })}>
+        <DialogContent dismissOnOutsideClick className="max-w-md" {...(!description && { "aria-describedby": undefined })}>
           <DialogHeader>
-            <DialogTitle>{titolo}</DialogTitle>
-            {descrizione && <DialogDescription>{descrizione}</DialogDescription>}
+            <DialogTitle>{title}</DialogTitle>
+            {description && <DialogDescription>{description}</DialogDescription>}
           </DialogHeader>
           {children}
         </DialogContent>
@@ -54,12 +54,12 @@ export function ResponsivePanel({
   }
 
   return (
-    <Drawer open={aperto} onOpenChange={(o) => !o && onChiudi()}>
-      <DrawerContent {...(!descrizione && { "aria-describedby": undefined })}>
+    <Drawer open={open} onOpenChange={(o) => !o && onClose()}>
+      <DrawerContent {...(!description && { "aria-describedby": undefined })}>
         <div className="mx-auto w-full max-w-md px-4 pb-[calc(1rem+env(safe-area-inset-bottom))]">
           <DrawerHeader className="px-0 text-left">
-            <DrawerTitle>{titolo}</DrawerTitle>
-            {descrizione && <DrawerDescription>{descrizione}</DrawerDescription>}
+            <DrawerTitle>{title}</DrawerTitle>
+            {description && <DrawerDescription>{description}</DrawerDescription>}
           </DrawerHeader>
           {children}
         </div>

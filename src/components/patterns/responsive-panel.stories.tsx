@@ -36,7 +36,7 @@ function Esempio({ scuro = false }: { scuro?: boolean }) {
   return (
     <>
       <Button onClick={() => setAperto(true)}>Scegli il periodo</Button>
-      <ResponsivePanel aperto={aperto} onChiudi={() => setAperto(false)} titolo="Scegli il periodo">
+      <ResponsivePanel open={aperto} onClose={() => setAperto(false)} title="Scegli il periodo">
         <div className="grid gap-2">
           <Button onClick={() => setAperto(false)}>Questa settimana</Button>
           <Button variant="outline" onClick={() => setAperto(false)}>Indietro</Button>

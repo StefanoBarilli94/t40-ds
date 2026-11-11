@@ -39,12 +39,12 @@ function Esempio({ scuro = false }: { scuro?: boolean }) {
       <Button onClick={() => { setConfermato(false); setAperto(true); }}>Pubblica i turni</Button>
       {confermato && <p role="status" className="mt-2">Turni pubblicati</p>}
       <ResponsiveConfirm
-        aperto={aperto}
-        onChiudi={() => setAperto(false)}
-        titolo="Pubblicare i turni?"
-        descrizione="I turni saranno visibili alle persone che lavorano questa settimana."
-        azione="Pubblica i turni"
-        onConferma={() => { setConfermato(true); setAperto(false); }}
+        open={aperto}
+        onClose={() => setAperto(false)}
+        title="Pubblicare i turni?"
+        description="I turni saranno visibili alle persone che lavorano questa settimana."
+        action="Pubblica i turni"
+        onConfirm={() => { setConfermato(true); setAperto(false); }}
       />
     </>
   );

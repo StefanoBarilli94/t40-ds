@@ -35,50 +35,50 @@ import { useWideScreen } from "../../hooks/use-wide-screen";
  * di un rifiuto.
  */
 export function ResponsiveConfirm({
-  aperto,
-  onChiudi,
-  titolo,
-  descrizione,
+  open,
+  onClose,
+  title,
+  description,
   children,
-  azione,
-  onConferma,
-  occupato = false,
-  azioneDisabilitata = false,
-  annulla = "Indietro",
-  onAnnulla,
+  action,
+  onConfirm,
+  busy = false,
+  actionDisabled = false,
+  cancelLabel = "Indietro",
+  onCancel,
 }: {
-  aperto: boolean;
-  onChiudi: () => void;
-  titolo: ReactNode;
-  descrizione: ReactNode;
+  open: boolean;
+  onClose: () => void;
+  title: ReactNode;
+  description: ReactNode;
   children?: ReactNode;
   /** Il testo del pulsante che conferma. */
-  azione: ReactNode;
-  onConferma: () => unknown;
-  occupato?: boolean;
-  azioneDisabilitata?: boolean;
-  annulla?: string;
-  onAnnulla?: () => void;
+  action: ReactNode;
+  onConfirm: () => unknown;
+  busy?: boolean;
+  actionDisabled?: boolean;
+  cancelLabel?: string;
+  onCancel?: () => void;
 }) {
   const largo = useWideScreen();
 
   if (!largo) {
     return (
-      <Drawer open={aperto} dismissible={!occupato} onOpenChange={(o) => !o && !occupato && onChiudi()}>
-        <DrawerContent role="alertdialog" onEscapeKeyDown={(e) => { if (occupato) e.preventDefault(); }}>
+      <Drawer open={open} dismissible={!busy} onOpenChange={(o) => !o && !busy && onClose()}>
+        <DrawerContent role="alertdialog" onEscapeKeyDown={(e) => { if (busy) e.preventDefault(); }}>
           <div className="mx-auto w-full max-w-md space-y-4 px-4 pb-[calc(1rem+env(safe-area-inset-bottom))]">
             <DrawerHeader className="px-0 text-left">
-              <DrawerTitle>{titolo}</DrawerTitle>
-              <DrawerDescription>{descrizione}</DrawerDescription>
+              <DrawerTitle>{title}</DrawerTitle>
+              <DrawerDescription>{description}</DrawerDescription>
             </DrawerHeader>
             {children}
             {/* L'azione in alto, sotto il pollice; "Indietro" sotto. */}
             <div className="flex flex-col gap-2">
-              <Button type="button" disabled={occupato || azioneDisabilitata} onClick={() => void onConferma()}>
-                {azione}
+              <Button type="button" disabled={busy || actionDisabled} onClick={() => void onConfirm()}>
+                {action}
               </Button>
-              <Button type="button" variant="outline" disabled={occupato} onClick={onAnnulla ?? onChiudi}>
-                {annulla}
+              <Button type="button" variant="outline" disabled={busy} onClick={onCancel ?? onClose}>
+                {cancelLabel}
               </Button>
             </div>
           </div>
@@ -88,32 +88,32 @@ export function ResponsiveConfirm({
   }
 
   return (
-    <AlertDialog open={aperto} onOpenChange={(o) => !o && !occupato && onChiudi()}>
-      <AlertDialogContent onEscapeKeyDown={(e) => { if (occupato) e.preventDefault(); }}>
+    <AlertDialog open={open} onOpenChange={(o) => !o && !busy && onClose()}>
+      <AlertDialogContent onEscapeKeyDown={(e) => { if (busy) e.preventDefault(); }}>
         <AlertDialogHeader>
-          <AlertDialogTitle>{titolo}</AlertDialogTitle>
-          <AlertDialogDescription>{descrizione}</AlertDialogDescription>
+          <AlertDialogTitle>{title}</AlertDialogTitle>
+          <AlertDialogDescription>{description}</AlertDialogDescription>
         </AlertDialogHeader>
         {children}
         {/* "Indietro" a sinistra e l'azione a destra, staccati. Lo spazio fra i
             due lo dà il DS: azzerarlo li attaccava (issue #105). */}
         <AlertDialogFooter className="gap-3 sm:justify-between">
-          <AlertDialogCancel disabled={occupato} onClick={(e) => {
-            if (onAnnulla) {
+          <AlertDialogCancel disabled={busy} onClick={(e) => {
+            if (onCancel) {
               e.preventDefault();
-              onAnnulla();
+              onCancel();
             }
           }}>
-            {annulla}
+            {cancelLabel}
           </AlertDialogCancel>
           <AlertDialogAction
-            disabled={occupato || azioneDisabilitata}
+            disabled={busy || actionDisabled}
             onClick={(e) => {
               e.preventDefault();
-              void onConferma();
+              void onConfirm();
             }}
           >
-            {azione}
+            {action}
           </AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>

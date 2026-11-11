@@ -14,8 +14,8 @@ Schema descritto in [agent_docs/versioning.md](agent_docs/versioning.md).
 
 ### Per le app
 
-- In ft40, `Conferma` e `Pannello` possono usare `ResponsiveConfirm` e `ResponsivePanel` con le stesse proprietà.
-- `PassoAPasso` può usare `StepperForm` passando il collegamento Annulla come elemento e il riferimento della guida in `footerProps`.
+- In ft40, `Conferma` e `Pannello` possono usare `ResponsiveConfirm` e `ResponsivePanel` passando le proprietà in inglese, tra cui `open`, `onClose`, `title` e `description`. Per la conferma, l'azione si passa in `action` e `onConfirm`.
+- `PassoAPasso` può usare `StepperForm` passando `steps` con `content`, `ready` e `reason`, il passo in `step` e il cambio in `onStepChange`. Il collegamento Annulla si passa in `cancel` e il riferimento della guida in `footerProps`.
 - `SchedaRichiesta`, le schede di Avvisi e quelle dei dipendenti possono usare `ListCard`. `IconTile` fornisce il riquadro di `IconaTipo`, con il colore scelto dall'app.
 - `ContatoreFerie` può passare i valori già calcolati a `StatItem`, dentro uno `Stat` a due o tre colonne.
 - `StrisciaGiorni` può delegare la resa a `WeekStrip` e passargli i giorni, i loro stati e il giorno scelto.
