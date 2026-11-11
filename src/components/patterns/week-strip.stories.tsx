@@ -15,7 +15,7 @@ const meta = {
   title: "Patterns/WeekStrip",
   component: WeekStrip,
   tags: ["autodocs"],
-  parameters: { docs: { description: { component: "Sette pulsanti raggiungibili con Tab. Il giorno selezionato ha aria-current e ogni stato ha un'icona e un nome accessibile. L'app sceglie dove posizionare la striscia." } } },
+  parameters: { docs: { description: { component: "Sette pulsanti raggiungibili con Tab. Il giorno scelto è annunciato come premuto (aria-pressed). Oggi è indicato a parte. Ogni stato ha un'icona e un nome accessibile. L'app sceglie dove posizionare la striscia." } } },
 } satisfies Meta;
 
 export default meta;

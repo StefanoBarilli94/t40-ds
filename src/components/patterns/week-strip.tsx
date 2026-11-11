@@ -29,7 +29,7 @@ export const WeekStrip = React.forwardRef<HTMLDivElement, WeekStripProps>(
           <button
             key={giorno.id}
             type="button"
-            aria-current={attivo ? "date" : undefined}
+            aria-pressed={attivo}
             aria-label={`${giorno.label}, ${giorno.status.label}${giorno.today ? ", oggi" : ""}`}
             onClick={() => onSelectDay(giorno.id)}
             className={cn(

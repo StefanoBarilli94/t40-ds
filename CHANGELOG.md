@@ -10,7 +10,7 @@ Schema descritto in [agent_docs/versioning.md](agent_docs/versioning.md).
 - **StepperForm** (#128). Un passo per schermata, avanzamento leggibile e comandi fissi in basso. Sopra i comandi si legge il motivo quando Avanti o Invia è disabilitato.
 - **ListCard e IconTile** (#129). La scheda è un collegamento unico, con icona, stato, titolo e dettagli. Lo stato può stare prima o dopo il titolo.
 - **Stat e StatItem** (#130). Una lista di etichette e valori su due, tre o quattro colonne, con cifre della stessa larghezza.
-- **WeekStrip** (#131). Sette pulsanti per scegliere un giorno. Ogni stato ha un'icona e un nome accessibile, e il giorno selezionato è annunciato come corrente.
+- **WeekStrip** (#131). Sette pulsanti per scegliere un giorno. Ogni stato ha un'icona e un nome accessibile. Il giorno scelto è annunciato come premuto.
 
 ### Per le app
 
