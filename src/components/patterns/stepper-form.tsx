@@ -42,9 +42,9 @@ export function StepperForm({
     if (!haPassi || !barra) return;
     const misura = () => setAltezza(barra.offsetHeight);
     misura();
-    const observer = new ResizeObserver(misura);
-    observer.observe(barra);
-    return () => observer.disconnect();
+    const observer = typeof ResizeObserver === "undefined" ? null : new ResizeObserver(misura);
+    observer?.observe(barra);
+    return () => observer?.disconnect();
   }, [haPassi]);
 
   // Il numero dei passi può cambiare a seconda delle risposte già date.
