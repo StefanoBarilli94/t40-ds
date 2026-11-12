@@ -2,6 +2,16 @@
 
 Schema descritto in [agent_docs/versioning.md](agent_docs/versioning.md).
 
+## v0.28.0 — 2026-11-12
+
+### 🚀 Evolutive
+
+- **Tour** (#142). Da 768 px il riquadro può essere spostato con l'icona a sei puntini o con la tastiera. Mantiene la posizione tra i passi e resta dentro la finestra.
+
+### Per le app
+
+- Passa `draggable` a `Tour` per attivare lo spostamento da tablet in su.
+
 ## v0.27.0 — 2026-11-12
 
 ### 🚀 Evolutive
