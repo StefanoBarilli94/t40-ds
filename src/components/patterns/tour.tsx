@@ -1,3 +1,4 @@
+import { GripVertical } from "lucide-react";
 import * as React from "react";
 import { createPortal } from "react-dom";
 
@@ -46,7 +47,11 @@ export interface TourProps {
    */
   onStepChange?: (index: number) => void;
   labels?: Partial<TourLabels>;
+  /** Consente di spostare il riquadro su computer (da 768 px). */
+  draggable?: boolean;
 }
+
+type Posizione = { left: number; top: number };
 
 type Riquadro = { top: number; left: number; width: number; height: number };
 
@@ -75,15 +80,20 @@ const LARGHEZZA = 352; // 22rem
  *
  * Quando mostrarlo e ricordarsi che è stato visto lo decide l'app.
  */
-function Tour({ steps, open, onClose, onStepChange, labels }: TourProps) {
+function Tour({ steps, open, onClose, onStepChange, labels, draggable = false }: TourProps) {
   const t = { ...ETICHETTE, ...labels };
   const [indice, setIndice] = React.useState(0);
   const [luce, setLuce] = React.useState<Riquadro | null>(null);
   const [schermo, setSchermo] = React.useState({ w: 0, h: 0 });
   const [altezza, setAltezza] = React.useState(0);
+  const [posizioneScelta, setPosizioneScelta] = React.useState<Posizione | null>(null);
+  const [spostaConTastiera, setSpostaConTastiera] = React.useState(false);
+  const presa = React.useRef<(Posizione & { pointerId: number }) | null>(null);
   const riquadro = React.useRef<HTMLDivElement>(null);
   const idTitolo = React.useId();
   const idTesto = React.useId();
+  const idSposta = React.useId();
+  const spostabile = draggable && schermo.w >= 768;
 
   const passo = steps[Math.min(indice, steps.length - 1)];
   const ultimo = indice >= steps.length - 1;
@@ -93,7 +103,13 @@ function Tour({ steps, open, onClose, onStepChange, labels }: TourProps) {
 
   // Riaperto, si riparte dal primo passo.
   React.useEffect(() => {
-    if (open) setIndice(0);
+    if (open) {
+      setIndice(0);
+    } else {
+      setPosizioneScelta(null);
+      setSpostaConTastiera(false);
+      presa.current = null;
+    }
   }, [open]);
 
   // Dove sta l'elemento del passo: lo si porta in vista e lo si misura, anche
@@ -143,8 +159,17 @@ function Tour({ steps, open, onClose, onStepChange, labels }: TourProps) {
   React.useLayoutEffect(() => {
     if (!open) return;
     riquadro.current?.focus();
-    setAltezza(riquadro.current?.offsetHeight ?? 0);
   }, [open, indice]);
+
+  React.useLayoutEffect(() => {
+    const elemento = riquadro.current;
+    if (!open || !elemento) return;
+    const misura = () => setAltezza(elemento.offsetHeight);
+    misura();
+    const observer = typeof ResizeObserver === "undefined" ? null : new ResizeObserver(misura);
+    observer?.observe(elemento);
+    return () => observer?.disconnect();
+  }, [open, indice, spostabile]);
 
   if (!open || !passo || typeof document === "undefined") return null;
 
@@ -158,13 +183,58 @@ function Tour({ steps, open, onClose, onStepChange, labels }: TourProps) {
     else if (e.key === "ArrowLeft") indietro();
   };
 
+  const limitaPosizione = ({ left, top }: Posizione): Posizione => ({
+    left: Math.max(BORDO, Math.min(left, schermo.w - LARGHEZZA - BORDO)),
+    top: Math.max(BORDO, Math.min(top, schermo.h - altezza - BORDO)),
+  });
+
+  const iniziaSpostamento = (e: React.PointerEvent<HTMLButtonElement>) => {
+    const rect = riquadro.current?.getBoundingClientRect();
+    if (!rect || !e.isPrimary || e.button !== 0 || presa.current) return;
+    e.currentTarget.setPointerCapture(e.pointerId);
+    presa.current = { left: e.clientX - rect.left, top: e.clientY - rect.top, pointerId: e.pointerId };
+  };
+  const trascina = (e: React.PointerEvent<HTMLButtonElement>) => {
+    if (presa.current?.pointerId !== e.pointerId) return;
+    setPosizioneScelta(limitaPosizione({
+      left: e.clientX - presa.current.left,
+      top: e.clientY - presa.current.top,
+    }));
+  };
+  const lascia = (e: React.PointerEvent<HTMLButtonElement>) => {
+    if (presa.current?.pointerId === e.pointerId) presa.current = null;
+  };
+  const tastiSposta = (e: React.KeyboardEvent<HTMLButtonElement>) => {
+    if (!spostaConTastiera) return;
+    if (e.key === "Escape") {
+      e.stopPropagation();
+      setSpostaConTastiera(false);
+      return;
+    }
+    const scarti: Record<string, Posizione> = {
+      ArrowLeft: { left: -16, top: 0 },
+      ArrowRight: { left: 16, top: 0 },
+      ArrowUp: { left: 0, top: -16 },
+      ArrowDown: { left: 0, top: 16 },
+    };
+    const scarto = scarti[e.key];
+    const rect = riquadro.current?.getBoundingClientRect();
+    if (!scarto || !rect) return;
+    e.preventDefault();
+    e.stopPropagation();
+    setPosizioneScelta(limitaPosizione({ left: rect.left + scarto.left, top: rect.top + scarto.top }));
+  };
+
   const telefono = schermo.w > 0 && schermo.w < 640;
   // Su telefono il riquadro sta in basso, sotto il pollice; ma se l'elemento è
   // nella metà bassa (la barra di navigazione) va in alto, per non coprirlo.
   const telefonoInAlto = telefono && !!luce && luce.top > schermo.h / 2;
   // Su computer: sotto l'elemento se c'è posto, se no sopra; mai fuori schermo.
   let posizione: React.CSSProperties | undefined;
-  if (!telefono && luce) {
+  const spostata = spostabile && posizioneScelta !== null;
+  if (spostata) {
+    posizione = { ...limitaPosizione(posizioneScelta), width: LARGHEZZA };
+  } else if (!telefono && luce) {
     const sotto = luce.top + luce.height + DISTANZA;
     const top = sotto + altezza <= schermo.h - BORDO ? sotto : Math.max(BORDO, luce.top - DISTANZA - altezza);
     const left = Math.min(Math.max(BORDO, luce.left), schermo.w - LARGHEZZA - BORDO);
@@ -218,11 +288,40 @@ function Tour({ steps, open, onClose, onStepChange, labels }: TourProps) {
             ? telefonoInAlto
               ? "inset-x-3 top-[calc(0.75rem+env(safe-area-inset-top))]"
               : "inset-x-3 bottom-[calc(0.75rem+env(safe-area-inset-bottom))]"
-            : !luce && "left-1/2 top-1/2 w-[22rem] -translate-x-1/2 -translate-y-1/2",
+            : !luce && !spostata && "left-1/2 top-1/2 w-[22rem] -translate-x-1/2 -translate-y-1/2",
         )}
-        style={posizione}
+        style={spostabile ? { ...posizione, maxHeight: Math.max(0, schermo.h - BORDO * 2), overflowY: "auto" } : posizione}
       >
-        <p className="text-xs font-medium tabular-nums text-sidebar-foreground/70">{t.step(indice + 1, steps.length)}</p>
+        <div className={cn(spostabile && "flex items-center justify-between gap-2")}>
+          <p className="text-xs font-medium tabular-nums text-sidebar-foreground/70">{t.step(indice + 1, steps.length)}</p>
+          {spostabile && (
+            <>
+              <span id={idSposta} className="sr-only">
+                Premi Invio o Spazio, poi usa le frecce per spostare la guida.
+              </span>
+              <Button
+                type="button"
+                size="icon"
+                variant="ghost"
+                aria-label="Sposta la guida"
+                aria-describedby={idSposta}
+                aria-pressed={spostaConTastiera}
+                title="Sposta la guida"
+                className="touch-none select-none cursor-grab text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-foreground active:cursor-grabbing aria-pressed:bg-sidebar-accent"
+                onPointerDown={iniziaSpostamento}
+                onPointerMove={trascina}
+                onLostPointerCapture={lascia}
+                onClick={(e) => {
+                  if (e.detail === 0) setSpostaConTastiera((attiva) => !attiva);
+                }}
+                onKeyDown={tastiSposta}
+                onBlur={() => setSpostaConTastiera(false)}
+              >
+                <GripVertical aria-hidden="true" />
+              </Button>
+            </>
+          )}
+        </div>
         <h2 id={idTitolo} className="mt-1 flex items-center gap-2 text-base font-semibold text-sidebar-foreground">
           {passo.icon && (
             <span

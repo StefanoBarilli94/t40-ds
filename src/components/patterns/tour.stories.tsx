@@ -14,7 +14,7 @@ const meta = {
     docs: {
       description: {
         component:
-          "Guida a passi sopra l'interfaccia (issue #100). Un riquadro per passo con Avanti, Indietro e Salta; l'elemento di cui si parla resta in luce, il resto si scurisce con un velo. Su telefono il riquadro si appoggia in basso. Esc salta, le frecce cambiano passo. Quando mostrarlo e ricordarsi che è stato visto lo decide l'app.",
+          "Guida a passi sopra l'interfaccia (issue #100). Un riquadro per passo con Avanti, Indietro e Salta; l'elemento di cui si parla resta in luce, il resto si scurisce con un velo. Su telefono il riquadro si appoggia in basso. Esc salta, le frecce cambiano passo. Con draggable, da 768 px la guida si può spostare trascinando l’icona a sei puntini o usando la tastiera. Quando mostrarlo e ricordarsi che è stato visto lo decide l’app.",
       },
     },
   },
@@ -56,7 +56,7 @@ const BENVENUTO: TourStep[] = [
   },
 ];
 
-function Telefono() {
+function Telefono({ draggable = false }: { draggable?: boolean }) {
   const [aperto, setAperto] = React.useState(true);
   return (
     <div className="flex min-h-dvh flex-col bg-background">
@@ -85,14 +85,14 @@ function Telefono() {
           <span>Profilo</span>
         </BottomNavItem>
       </BottomNav>
-      <Tour steps={BENVENUTO} open={aperto} onClose={() => setAperto(false)} />
+      <Tour draggable={draggable} steps={BENVENUTO} open={aperto} onClose={() => setAperto(false)} />
     </div>
   );
 }
 
 /** Il benvenuto al primo ingresso, su telefono: il riquadro sta in basso. */
 export const BenvenutoSuTelefono: Story = {
-  render: () => <Telefono />,
+  render: () => <Telefono draggable />,
   parameters: { viewport: { defaultViewport: "mobile1" } },
 };
 
@@ -116,7 +116,7 @@ const FERIE: TourStep[] = [
   },
 ];
 
-function Computer() {
+function Computer({ draggable = false }: { draggable?: boolean }) {
   const [aperto, setAperto] = React.useState(true);
   return (
     <div className="mx-auto max-w-2xl space-y-4 p-8">
@@ -131,7 +131,7 @@ function Computer() {
       <div className="flex justify-end">
         <Button data-tour="invia">Invia la richiesta</Button>
       </div>
-      <Tour steps={FERIE} open={aperto} onClose={() => setAperto(false)} />
+      <Tour draggable={draggable} steps={FERIE} open={aperto} onClose={() => setAperto(false)} />
       {!aperto && (
         <Button variant="outline" onClick={() => setAperto(true)}>
           Rivedi la guida
@@ -144,4 +144,9 @@ function Computer() {
 /** Una guida su una funzione, su computer: il riquadro sta sotto l'elemento, o sopra se sotto non c'è posto. */
 export const SuComputer: Story = {
   render: () => <Computer />,
+};
+
+/** L'icona a sei puntini sposta la guida su computer. La posizione resta tra un passo e l'altro. */
+export const SpostabileSuComputer: Story = {
+  render: () => <Computer draggable />,
 };
