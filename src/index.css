@@ -319,6 +319,27 @@
   --chart-8: oklch(0.58 0.15 175);
 }
 
+/*
+ * Tema FT40 (issue #146, Stefano, 13 novembre 2026): il rosa del logo come
+ * colore **secondario**, il primario resta il teal del default. Cambia poco
+ * di proposito: l'app è già in uso e non deve cambiare faccia tutta insieme.
+ *
+ * - `--secondary`: il rosa del logo (#FF005D). Sopra, testo scuro: il bianco
+ *   sul rosa è 3.9:1, sotto AA; il --primary-foreground scuro è 4.9:1.
+ * - `--login-motif-accent`: una delle due serie del motivo di LoginBackground
+ *   (i quadrati vuoti) diventa rosa. Negli altri temi non c'è, e il motivo
+ *   resta tutto nel colore primario.
+ *
+ * Il rosa (hue 13) è vicino a --destructive (hue 27): qui non è il colore
+ * delle azioni principali, quindi --destructive resta quello di default.
+ * Va usato per accenti, non per i pulsanti di conferma.
+ */
+[data-theme="ft40"] {
+  --secondary: oklch(0.637 0.255 13.2);
+  --secondary-foreground: oklch(0.18 0.03 250);
+  --login-motif-accent: oklch(0.637 0.255 13.2);
+}
+
 .dark {
   --background: oklch(0.129 0.042 264.695);
   --foreground: oklch(0.984 0.003 247.858);
