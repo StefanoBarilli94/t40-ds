@@ -2,6 +2,16 @@
 
 Schema descritto in [agent_docs/versioning.md](agent_docs/versioning.md).
 
+## v0.31.0 — 2026-11-13
+
+### 🚀 Evolutive
+
+- **Tema FT40** (#148). Il rosa diventa il colore **primario**: rosa profondo (`oklch(0.58 0.24 13.2)`, circa #E40050) con testo bianco, 4.8:1. Il testo rosa su fondo chiaro usa `--primary-text`, 4.8:1. Il pericolo è un arancione più scuro di quello di AST40, 5:1 come testo. I grafici usano la tavolozza di AST40, lontana dal rosa. Nello sfondo di accesso i quadrati sono rosa e quelli vuoti teal. Il secondario torna quello di default.
+
+### Per le app
+
+- ft40: nessun cambio di codice oltre all'aggiornamento, `data-theme="ft40"` c'è già. L'app cambia colore: pulsanti principali, voce attiva e link diventano rosa.
+
 ## v0.30.0 — 2026-11-13
 
 ### 🚀 Evolutive
