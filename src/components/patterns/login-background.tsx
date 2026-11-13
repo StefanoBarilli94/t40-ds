@@ -26,8 +26,16 @@ const motifs = {
           <rect x="136" y="134" width="36" height="34" />
           <rect x="224" y="134" width="36" height="34" />
         </g>
-        {/* I quadrati vuoti prendono l'accento del tema, se c'è (FT40, issue #146). */}
-        <g fill="none" strokeOpacity="0.22" style={{ stroke: "var(--login-motif-accent, currentColor)" }}>
+        {/* I quadrati vuoti prendono l'accento del tema, se c'è, con la sua
+            intensità e il suo spessore (FT40, issue #146). */}
+        <g
+          fill="none"
+          style={{
+            stroke: "var(--login-motif-accent, currentColor)",
+            strokeOpacity: "var(--login-motif-accent-opacity, 0.22)",
+            strokeWidth: "var(--login-motif-accent-width, 1)",
+          }}
+        >
           <rect x="92.5" y="6.5" width="35" height="33" />
           <rect x="224.5" y="6.5" width="35" height="33" />
           <rect x="48.5" y="48.5" width="35" height="33" />
