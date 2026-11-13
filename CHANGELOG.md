@@ -2,6 +2,16 @@
 
 Schema descritto in [agent_docs/versioning.md](agent_docs/versioning.md).
 
+## v0.29.0 — 2026-11-13
+
+### 🚀 Evolutive
+
+- **PasswordInput** (#144). Campo password con l'occhio dentro il campo per vederla mentre si scrive. Parte nascosta, il pulsante non invia il modulo e si usa da tastiera; il valore e `autoComplete` restano.
+
+### Per le app
+
+- Al posto di `<Input type="password">` usa `<PasswordInput>` con gli stessi props. I testi del pulsante si cambiano con `labelMostra` e `labelNascondi`.
+
 ## v0.28.0 — 2026-11-12
 
 ### 🚀 Evolutive
