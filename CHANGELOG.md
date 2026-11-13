@@ -2,6 +2,17 @@
 
 Schema descritto in [agent_docs/versioning.md](agent_docs/versioning.md).
 
+## v0.30.0 — 2026-11-13
+
+### 🚀 Evolutive
+
+- **Tema FT40** (#146). `data-theme="ft40"`: il primario resta il teal di default, il rosa del logo FT40 diventa il colore **secondario** (`--secondary`, testo scuro sopra, 4.9:1). Nella toolbar di Storybook e nella pagina Colori.
+- **LoginBackground** (#146). Nel motivo `shifts` i quadrati vuoti prendono `--login-motif-accent` quando il tema lo definisce: con FT40 sono rosa. Negli altri temi il motivo non cambia.
+
+### Per le app
+
+- ft40: `data-theme="ft40"` sull'elemento radice. GT40 e AST40 non devono fare niente.
+
 ## v0.29.0 — 2026-11-13
 
 ### 🚀 Evolutive
