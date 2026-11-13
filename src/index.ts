@@ -25,6 +25,7 @@ export * from "./components/patterns/drawer";
 export * from "./components/patterns/dropdown-menu";
 export * from "./components/patterns/hover-card";
 export * from "./components/form/input";
+export * from "./components/form/password-input";
 export * from "./components/form/label";
 export * from "./components/patterns/page-loader";
 export * from "./components/patterns/error-page";
