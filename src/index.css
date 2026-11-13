@@ -328,9 +328,7 @@
  *   sul rosa è 3.9:1, sotto AA; il --primary-foreground scuro è 4.9:1.
  * - `--login-motif-accent`: una delle due serie del motivo di LoginBackground
  *   (i quadrati vuoti) diventa rosa. Negli altri temi non c'è, e il motivo
- *   resta tutto nel colore primario. Il rosa scuro sul fondo scuro si perdeva
- *   all'intensità del teal (22%): qui è più pieno e più spesso, così si vede
- *   (Stefano: "rendilo più rosa").
+ *   resta tutto nel colore primario.
  *
  * Il rosa (hue 13) è vicino a --destructive (hue 27): qui non è il colore
  * delle azioni principali, quindi --destructive resta quello di default.
@@ -340,8 +338,6 @@
   --secondary: oklch(0.637 0.255 13.2);
   --secondary-foreground: oklch(0.18 0.03 250);
   --login-motif-accent: oklch(0.637 0.255 13.2);
-  --login-motif-accent-opacity: 0.55;
-  --login-motif-accent-width: 2;
 }
 
 .dark {

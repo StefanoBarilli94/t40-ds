@@ -7,7 +7,7 @@ Schema descritto in [agent_docs/versioning.md](agent_docs/versioning.md).
 ### 🚀 Evolutive
 
 - **Tema FT40** (#146). `data-theme="ft40"`: il primario resta il teal di default, il rosa del logo FT40 diventa il colore **secondario** (`--secondary`, testo scuro sopra, 4.9:1). Nella toolbar di Storybook e nella pagina Colori.
-- **LoginBackground** (#146). Nel motivo `shifts` i quadrati vuoti prendono `--login-motif-accent` (con intensità e spessore propri) quando il tema lo definisce: con FT40 sono rosa, al 55% e spessi 2 px. Negli altri temi il motivo non cambia.
+- **LoginBackground** (#146). Nel motivo `shifts` i quadrati vuoti prendono `--login-motif-accent` quando il tema lo definisce: con FT40 sono rosa. Negli altri temi il motivo non cambia.
 
 ### Per le app
 
