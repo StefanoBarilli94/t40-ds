@@ -35,14 +35,14 @@ const preview: Preview = {
   globalTypes: {
     theme: {
       name: "Tema",
-      description: "Tema di brand (gt40 = default, ast40 = rosso, ft40 = rosa secondario)",
+      description: "Tema di brand (gt40 = default, ast40 = rosso, ft40 = rosa)",
       defaultValue: "gt40",
       toolbar: {
         icon: "paintbrush",
         items: [
           { value: "gt40", title: "GT40 (default)" },
           { value: "ast40", title: "AST40 (rosso)" },
-          { value: "ft40", title: "FT40 (rosa secondario)" },
+          { value: "ft40", title: "FT40 (rosa)" },
         ],
         dynamicTitle: true,
       },
@@ -51,7 +51,7 @@ const preview: Preview = {
   decorators: [
     (Story, context) => (
       <div
-        data-theme={context.globals.theme === "ast40" || context.globals.theme === "ft40" ? context.globals.theme : undefined}
+        data-theme={context.globals.theme === "ast40" ? "ast40" : context.globals.theme === "ft40" ? "ft40" : undefined}
         className={context.parameters.layout === "fullscreen" ? "bg-background text-foreground" : "bg-background p-6 text-foreground"}
       >
         <Story />
