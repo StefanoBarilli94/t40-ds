@@ -8,7 +8,7 @@ Tutti i colori sono definiti come variabili CSS in `src/index.css`, in formato `
 componenti sotto leggono le variabili live, quindi riflettono sempre il file sorgente.
 
 Il design system serve tre brand: **GT40** (default, nessun attributo), **FT40**
-(`data-theme="ft40"`, il rosa solo come secondario) e **AST40**
+(`data-theme="ft40"`, rosa) e **AST40**
 (`data-theme="ast40"`). Le sezioni qui sotto mostrano i tre temi fianco a fianco,
 non solo quello selezionato nella toolbar in alto — così il confronto è sempre visibile.
 
@@ -83,7 +83,7 @@ export const themeBlock = (themeAttr, title) => (
 <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "1.5rem", margin: "1.5rem 0" }}>
   {themeBlock(undefined, "GT40 (default) — teal/mint")}
   {themeBlock("ast40", "AST40 — rosso, dal logo T40")}
-  {themeBlock("ft40", "FT40 — teal, con il rosa del logo come secondario")}
+  {themeBlock("ft40", "FT40 — rosa del logo come primario, testo bianco")}
 </div>
 
 <div style={{ background: "var(--muted)", border: "1px solid var(--border)", padding: "1rem", fontSize: "0.875rem" }}>
