@@ -2,7 +2,7 @@
 
 Schema descritto in [agent_docs/versioning.md](agent_docs/versioning.md).
 
-## In preparazione
+## v0.30.0 — 2026-11-13
 
 ### 🚀 Evolutive
 
