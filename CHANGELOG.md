@@ -2,6 +2,16 @@
 
 Schema descritto in [agent_docs/versioning.md](agent_docs/versioning.md).
 
+## In preparazione
+
+### 🚀 Evolutive
+
+- **Schede verticali** (#151). `Tabs orientation="vertical"` dispone le schede in colonna. La scheda attiva ha una barra del colore primario e lo sfondo `card`. Ogni scheda si raggiunge con Tab e si sceglie con Invio o Spazio.
+
+### Per le app
+
+- Per separare due gruppi, aggiungi un margine sopra la prima scheda del secondo gruppo. Per segnalare una differenza, aggiungi al contenuto della scheda un segno decorativo e un testo `sr-only`. La storia «Verticale» mostra entrambi.
+
 ## v0.31.0 — 2026-11-13
 
 ### 🚀 Evolutive
