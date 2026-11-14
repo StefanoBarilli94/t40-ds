@@ -110,3 +110,43 @@ export const Varianti: Story = {
     </div>
   ),
 };
+
+const giorni = [
+  { id: "lunedi", nome: "Lunedì" },
+  { id: "martedi", nome: "Martedì" },
+  { id: "mercoledi", nome: "Mercoledì", diverso: true },
+  { id: "giovedi", nome: "Giovedì" },
+  { id: "venerdi", nome: "Venerdì" },
+  { id: "sabato", nome: "Sabato", diverso: true },
+  { id: "domenica", nome: "Domenica", separato: true },
+  { id: "festivi", nome: "Festivi" },
+];
+
+export const Verticale: Story = {
+  render: () => (
+    <div className="w-full max-w-xl bg-muted p-4">
+      <Tabs orientation="vertical" defaultValue="mercoledi" className="flex items-start gap-4">
+        <TabsList aria-label="Giorno" className="shrink-0">
+          {giorni.map(({ id, nome, diverso, separato }) => (
+            <TabsTrigger key={id} value={id} className={separato ? "mt-2.5" : undefined}>
+              {nome}
+              {diverso && (
+                <>
+                  <span aria-hidden="true" className="size-1.5 bg-primary" />
+                  <span className="sr-only">orari diversi dal lunedì</span>
+                </>
+              )}
+            </TabsTrigger>
+          ))}
+        </TabsList>
+        {giorni.map(({ id, nome }) => (
+          <TabsContent key={id} value={id} className="mt-0 flex-1 bg-card p-4 text-sm">
+            <h2 className="mb-2 font-semibold">{nome}</h2>
+            <p>Mattina · 7.30–13.00</p>
+            <p>Pomeriggio · {id === "mercoledi" ? "15.30–20.00" : "15.00–20.00"}</p>
+          </TabsContent>
+        ))}
+      </Tabs>
+    </div>
+  ),
+};
