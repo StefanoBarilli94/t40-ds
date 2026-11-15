@@ -9,6 +9,9 @@
 // axe-core based) is unaffected and works fine for manual spot-checks.
 //
 // Usage: bun run a11y  (storybook must already be running on :6006)
+//
+// Every story is checked with each brand theme (issue #150): a token that fails
+// only in AST40 or FT40 would otherwise go unnoticed.
 
 import { chromium } from "playwright";
 import fs from "node:fs";
@@ -21,18 +24,22 @@ const axeSource = fs.readFileSync(
   "utf8",
 );
 
-const indexRes = await fetch("http://localhost:6006/index.json");
+// STORYBOOK_URL per una porta diversa da 6006.
+const BASE = process.env.STORYBOOK_URL ?? "http://localhost:6006";
+const indexRes = await fetch(`${BASE}/index.json`);
 const index = await indexRes.json();
 const stories = Object.values(index.entries).filter((e) => e.type === "story");
 
 const browser = await chromium.launch();
 const page = await browser.newPage();
 
+const THEMES = ["gt40", "ast40", "ft40"];
+
 let totalViolations = 0;
 const report = [];
 
-for (const story of stories) {
-  const url = `http://localhost:6006/iframe.html?id=${story.id}&viewMode=story`;
+for (const theme of THEMES) for (const story of stories) {
+  const url = `${BASE}/iframe.html?id=${story.id}&viewMode=story&globals=theme:${theme}`;
   try {
     await page.goto(url, { waitUntil: "networkidle", timeout: 20000 });
     await page.waitForTimeout(300);
@@ -46,6 +53,7 @@ for (const story of stories) {
       totalViolations += results.violations.length;
       report.push({
         id: story.id,
+        theme,
         title: story.title,
         name: story.name,
         violations: results.violations.map((v) => ({
@@ -58,14 +66,14 @@ for (const story of stories) {
       });
     }
   } catch (err) {
-    report.push({ id: story.id, title: story.title, name: story.name, error: String(err) });
+    report.push({ id: story.id, theme, title: story.title, name: story.name, error: String(err) });
   }
 }
 
 await browser.close();
 
 console.log(
-  `\n=== ${stories.length} stories checked, ${totalViolations} total violations, ${
+  `\n=== ${stories.length} stories × ${THEMES.length} themes checked, ${totalViolations} total violations, ${
     report.filter((r) => r.error).length
   } errors ===\n`,
 );

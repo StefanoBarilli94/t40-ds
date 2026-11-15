@@ -2,6 +2,13 @@
 
 Schema descritto in [agent_docs/versioning.md](agent_docs/versioning.md).
 
+## In preparazione
+
+### 🐛 Correzioni
+
+- **Contrasto del pericolo in AST40** (#150). `--destructive` passa a `oklch(0.55 0.19 45)`, lo stesso valore di FT40: come testo arriva a 5:1 sul fondo e 5.2:1 sulla card, il bianco sopra a 5.2:1. Prima era 4.4:1, sotto AA, nei messaggi d'errore dei moduli e nei pulsanti `destructive-outline`.
+- **`bun run a11y` controlla tutti i temi**: ogni storia con GT40, AST40 e FT40.
+
 ## v0.32.0 — 2026-11-14
 
 ### 🚀 Evolutive
