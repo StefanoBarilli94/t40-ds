@@ -279,8 +279,9 @@
   /* Il --destructive di default (hue 27.325) è troppo vicino al nuovo --primary
      rosso (hue 25): a colpo d'occhio i bottoni "default" e "destructive"
      diventavano indistinguibili. Spostato verso l'arancione (hue 45) per
-     restare leggibile come "azione pericolosa" senza clonare il brand. */
-  --destructive: oklch(0.581 0.2 45);
+     restare leggibile come "azione pericolosa" senza clonare il brand.
+     L = 0.55 come in FT40: come testo arriva a 5:1 sul fondo (issue #150). */
+  --destructive: oklch(0.55 0.19 45);
   --destructive-foreground: oklch(1 0 0);
 
   /* Scala tint/shade del rosso di brand, stessa logica di --primary-* in
