@@ -76,7 +76,8 @@ export interface EventCalendarProps {
   renderDayDetails?: (day: string) => React.ReactNode;
   /** Con questo, cliccando una barra si apre un riquadro con ciò che restituisce. */
   renderEventDetails?: (event: EventCalendarEvent) => React.ReactNode;
-  /** Quante barre per giorno prima del "+N". Default 3. */
+  /** Quante barre per giorno prima del "+N". Default 3. Da telefono il valore è
+   * limitato a 2, così il mese sta nello schermo (ft40#384). */
   maxLanes?: number;
   /**
    * Sempre 6 settimane, anche nei mesi che ne hanno 4 o 5: l'altezza non cambia
@@ -90,6 +91,22 @@ export interface EventCalendarProps {
 }
 
 // ---------------------------------------------------------------------------
+
+/** Quante corsie si riservano da telefono, al massimo (ft40#384). */
+const CORSIE_MOBILE = 2;
+
+// Il telefono: stessa soglia del breakpoint `sm` di Tailwind, quella a cui le
+// righe del calendario cambiano altezza (`--riga-*`). I tablet (≥640px) hanno
+// spazio a sufficienza e tengono tutte le corsie.
+const TELEFONO = "(max-width: 639px)";
+function ascoltaTelefono(aggiorna: () => void) {
+  const media = window.matchMedia(TELEFONO);
+  media.addEventListener("change", aggiorna);
+  return () => media.removeEventListener("change", aggiorna);
+}
+function useTelefono() {
+  return React.useSyncExternalStore(ascoltaTelefono, () => window.matchMedia(TELEFONO).matches, () => false);
+}
 
 const TONO: Record<EventCalendarTone, string> = {
   primary: "var(--primary)",
@@ -148,6 +165,12 @@ export function EventCalendar({
 }: EventCalendarProps) {
   const testi = { ...ETICHETTE, ...labels };
   const weeks = React.useMemo(() => weeksOfMonth(month, fixedWeeks), [month, fixedWeeks]);
+  // Da telefono si riservano meno corsie, così il mese sta nello schermo e gli
+  // ultimi giorni non finiscono sotto lo scroll (ft40#384). Resta un numero
+  // fisso — non dipende dagli eventi — per non cambiare altezza al cambio mese
+  // (ft40#269). `maxLanes = 1` (es. i festivi) resta 1.
+  const telefono = useTelefono();
+  const corsieMax = telefono ? Math.min(maxLanes, CORSIE_MOBILE) : maxLanes;
   const griglia = React.useRef<HTMLDivElement>(null);
   // Il giorno che riceve il Tab: lo scelto se è nel mese, altrimenti il primo.
   const [focusDay, setFocusDay] = React.useState(() => (selected && monthOf(selected) === month ? selected : `${month}-01`));
@@ -211,10 +234,10 @@ export function EventCalendar({
 
         {weeks.map((week) => {
           const piazzati = placeWeek(week, events);
-          const visibili = piazzati.filter((p) => p.lane < maxLanes);
+          const visibili = piazzati.filter((p) => p.lane < corsieMax);
           // Tutte le settimane alte uguali, come in Google Calendar: lo spazio
           // per le barre c'è sempre, così il mese non cambia forma da riga a riga.
-          const corsie = maxLanes;
+          const corsie = corsieMax;
           return (
             <div
               key={week[0]}
@@ -227,7 +250,7 @@ export function EventCalendar({
             >
               {week.map((d, c) => {
                 const delGiorno = events.filter((e) => e.start <= d && e.end >= d);
-                const nascosti = piazzati.filter((p) => p.lane >= maxLanes && p.from <= c && p.to >= c).length;
+                const nascosti = piazzati.filter((p) => p.lane >= corsieMax && p.from <= c && p.to >= c).length;
                 const fuori = monthOf(d) !== month;
                 const scelto = d === selected;
                 const spento = isDayDisabled?.(d) ?? false;

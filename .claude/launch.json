@@ -6,6 +6,12 @@
       "runtimeExecutable": "bun",
       "runtimeArgs": ["run", "dev"],
       "port": 5173
+    },
+    {
+      "name": "tds-storybook",
+      "runtimeExecutable": "bun",
+      "runtimeArgs": ["run", "storybook", "--", "--no-open", "--ci"],
+      "port": 6006
     }
   ]
 }
