@@ -2,6 +2,12 @@
 
 Schema descritto in [agent_docs/versioning.md](agent_docs/versioning.md).
 
+## v0.32.2 — 2026-11-16
+
+### 🐛 Bug fixing
+
+- **`EventCalendar` troppo alto da telefono** (#154, ft40#384). Sotto il breakpoint `sm` (phone, <640px) si riservano al massimo **2 corsie** per settimana invece di `maxLanes` (default 3): la griglia si accorcia di una corsia per riga e il mese sta nello schermo, senza che gli ultimi giorni finiscano sotto lo scroll. Il numero di corsie resta **fisso** (non dipende dagli eventi), così l'altezza non cambia al cambio mese (ft40#269). Da tablet e desktop nulla cambia; i giorni affollati mostrano "+N" una corsia prima. `maxLanes = 1` (calendario dei festivi) resta 1.
+
 ## v0.32.1 — 2026-11-15
 
 ### 🐛 Bug fixing
