@@ -2,6 +2,22 @@
 
 Schema descritto in [agent_docs/versioning.md](agent_docs/versioning.md).
 
+## v0.33.0
+
+### Evolutive
+
+- Nuovo tema **stamp** (blu elettrico `#0055FF` del logo STAMP40) come colore
+  primario, al posto del teal. Attivato con `data-theme="stamp"` sul root, come
+  gli altri temi d'app. Testo bianco sul primary (5.62:1), link blu; il
+  `--destructive` resta rosso (il blu è lontano dal rosso di pericolo). Scala
+  `--primary-50…900` del blu con contrasti verificati.
+
+### Per le app
+
+- `:root` (teal) resta il **default**: gt40, ast40 e ft40 **non cambiano**.
+- stamp40 attiva il tema con `data-theme="stamp"` sul root e bumpa il pin a
+  `v0.33.0`.
+
 ## v0.32.3
 
 ### Migliorative
