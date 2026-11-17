@@ -1,4 +1,7 @@
 import type { ReactNode } from "react";
+import { X } from "lucide-react";
+import { cn } from "../../lib/utils";
+import { Button } from "../atoms/button";
 import {
   Dialog,
   DialogContent,
@@ -29,20 +32,28 @@ export function ResponsivePanel({
   title,
   description,
   children,
+  dismissOnOutsideClick = true,
+  showCloseButton = false,
+  dialogClassName,
 }: {
   open: boolean;
   onClose: () => void;
   title: ReactNode;
   description?: ReactNode;
   children: ReactNode;
+  /** Disattiva la chiusura con un clic esterno su computer, per esempio nei moduli. */
+  dismissOnOutsideClick?: boolean;
+  /** Mostra sul telefono la X di chiusura già presente nella finestra su computer. */
+  showCloseButton?: boolean;
+  /** Classi della finestra su computer, per contenuti che richiedono più spazio. */
+  dialogClassName?: string;
 }) {
   const largo = useWideScreen();
 
   if (largo) {
     return (
       <Dialog open={open} onOpenChange={(o) => !o && onClose()}>
-        {/* Si sceglie e basta: niente da perdere, toccare fuori può chiudere. */}
-        <DialogContent dismissOnOutsideClick className="max-w-md" {...(!description && { "aria-describedby": undefined })}>
+        <DialogContent dismissOnOutsideClick={dismissOnOutsideClick} className={cn("max-w-md", dialogClassName)} {...(!description && { "aria-describedby": undefined })}>
           <DialogHeader>
             <DialogTitle>{title}</DialogTitle>
             {description && <DialogDescription>{description}</DialogDescription>}
@@ -55,9 +66,14 @@ export function ResponsivePanel({
 
   return (
     <Drawer open={open} onOpenChange={(o) => !o && onClose()}>
-      <DrawerContent {...(!description && { "aria-describedby": undefined })}>
-        <div className="mx-auto w-full max-w-md px-4 pb-[calc(1rem+env(safe-area-inset-bottom))]">
-          <DrawerHeader className="px-0 text-left">
+      <DrawerContent className="max-h-[90dvh]" {...(!description && { "aria-describedby": undefined })}>
+        {showCloseButton && (
+          <Button type="button" variant="ghost" size="icon" className="absolute right-2 top-7 z-10" aria-label="Chiudi" onClick={onClose}>
+            <X aria-hidden="true" size={16} />
+          </Button>
+        )}
+        <div className="mx-auto min-h-0 w-full max-w-md overflow-y-auto px-4 pb-[calc(1rem+env(safe-area-inset-bottom))]">
+          <DrawerHeader className={cn("px-0 text-left", showCloseButton && "pr-12")}>
             <DrawerTitle>{title}</DrawerTitle>
             {description && <DrawerDescription>{description}</DrawerDescription>}
           </DrawerHeader>

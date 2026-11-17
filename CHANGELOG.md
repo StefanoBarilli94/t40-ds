@@ -2,6 +2,20 @@
 
 Schema descritto in [agent_docs/versioning.md](agent_docs/versioning.md).
 
+## v0.32.3
+
+### Migliorative
+
+- Il pannello responsive può mantenere il modulo aperto dopo un clic fuori su
+  computer, mostrare la X sul telefono e usare una finestra più ampia su computer.
+  I pannelli lunghi scorrono all’interno del drawer.
+
+### Per le app
+
+- Per i moduli, usa `dismissOnOutsideClick={false}` e `showCloseButton`.
+  `dialogClassName` regola la larghezza della finestra su computer. Il nuovo export
+  `useWideScreen` usa lo stesso breakpoint a 1024 px del pannello.
+
 ## v0.32.2 — 2026-11-16
 
 ### 🐛 Bug fixing

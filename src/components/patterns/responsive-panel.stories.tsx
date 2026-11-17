@@ -1,6 +1,8 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import { useEffect, useState } from "react";
 import { Button } from "../atoms/button";
+import { Input } from "../form/input";
+import { Label } from "../form/label";
 import { ResponsivePanel } from "./responsive-panel";
 
 const TELEFONO = {
@@ -53,4 +55,32 @@ export const TemaScuro: Story = {
   name: "Tema scuro",
   parameters: { docs: { story: { inline: false } } },
   render: () => <Esempio scuro />,
+};
+
+function Modulo() {
+  const [aperto, setAperto] = useState(false);
+  return (
+    <>
+      <Button onClick={() => setAperto(true)}>Modifica</Button>
+      <ResponsivePanel
+        open={aperto}
+        onClose={() => setAperto(false)}
+        title="Modifica nota"
+        dismissOnOutsideClick={false}
+        showCloseButton
+        dialogClassName="max-w-xl"
+      >
+        <div className="space-y-3">
+          <Label htmlFor="nota-pannello">Nota</Label>
+          <Input id="nota-pannello" />
+          <Button onClick={() => setAperto(false)}>Salva</Button>
+        </div>
+      </ResponsivePanel>
+    </>
+  );
+}
+
+export const Modifica: Story = { render: () => <Modulo /> };
+export const ModificaTelefono: Story = {
+  ...TELEFONO, name: "Modifica su telefono (360 px)", render: () => <div className="p-4"><Modulo /></div>,
 };
