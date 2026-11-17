@@ -385,7 +385,7 @@
  * - `--primary`: il blu del logo, oklch(0.533 0.26 262.6) = #0055FF, con testo
  *   **bianco** sopra (5.62:1, oltre AA). Il blu è scuro: il foreground chiaro è
  *   necessario, a differenza del teal che ha foreground scuro.
- * - `--primary-text`: blu per testo su fondo chiaro (link, numeri): 5.63:1.
+ * - `--primary-text`: blu per testo su fondo chiaro (link, numeri): 5.67:1.
  * - `--destructive`: NON spostato. Il blu (hue 262) è lontano dal rosso di
  *   pericolo (hue 27): nessun rischio di confusione, resta quello di :root — a
  *   differenza di AST40/FT40, dove il brand rosso/rosa toccava il rosso.
@@ -394,27 +394,30 @@
 [data-theme="stamp"] {
   --primary: oklch(0.533 0.26 262.6);
   --primary-foreground: oklch(1 0 0);
-  --primary-text: oklch(0.52 0.24 262.6);
+  --primary-text: oklch(0.52 0.253 262.6);
   --accent: oklch(0.533 0.26 262.6);
   --accent-foreground: oklch(1 0 0);
-  --ring: oklch(0.52 0.24 262.6);
+  --ring: oklch(0.52 0.253 262.6);
   --sidebar-primary: oklch(0.533 0.26 262.6);
   --sidebar-primary-foreground: oklch(1 0 0);
-  --sidebar-ring: oklch(0.52 0.24 262.6);
+  --sidebar-ring: oklch(0.52 0.253 262.6);
 
-  /* Scala tint/shade del blu, stessa logica di :root/AST40/FT40 (50-300 come
-     sfondo con --foreground sopra, >=8:1; 600-900 come testo su --background,
-     >=4.5:1 — verificato 5.63 / 7.97 / 10.97 / 15.39). Hue 262.6. */
-  --primary-50: oklch(0.97 0.013 262.6);
-  --primary-100: oklch(0.93 0.03 262.6);
-  --primary-200: oklch(0.86 0.08 262.6);
-  --primary-300: oklch(0.77 0.13 262.6);
-  --primary-400: oklch(0.68 0.18 262.6);
-  --primary-500: oklch(0.6 0.22 262.6);
-  --primary-600: oklch(0.52 0.24 262.6);
-  --primary-700: oklch(0.44 0.23 262.6);
-  --primary-800: oklch(0.36 0.19 262.6);
-  --primary-900: oklch(0.26 0.15 262.6);
+  /* Scala tint/shade del blu, derivata dall'oklch del logo: hue 262.6 costante e
+     chroma al MASSIMO in-gamut sRGB a ogni lightness. Il logo #0055FF è già un
+     blu alla saturazione massima per la sua L (OKHSL ~1.0), quindi la scala
+     "sua" è quella a chroma pieno. 50-300 come sfondo con --foreground sopra
+     (>=9:1); 600-900 come testo su --background (>=4.5:1 — verificato
+     5.67 / 7.91 / 10.91 / 15.27). */
+  --primary-50: oklch(0.97 0.014 262.6);
+  --primary-100: oklch(0.93 0.033 262.6);
+  --primary-200: oklch(0.86 0.069 262.6);
+  --primary-300: oklch(0.77 0.117 262.6);
+  --primary-400: oklch(0.68 0.168 262.6);
+  --primary-500: oklch(0.6 0.217 262.6);
+  --primary-600: oklch(0.52 0.253 262.6);
+  --primary-700: oklch(0.44 0.214 262.6);
+  --primary-800: oklch(0.36 0.176 262.6);
+  --primary-900: oklch(0.26 0.128 262.6);
 }
 
 .dark {

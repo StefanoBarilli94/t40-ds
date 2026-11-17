@@ -2,6 +2,16 @@
 
 Schema descritto in [agent_docs/versioning.md](agent_docs/versioning.md).
 
+## v0.33.1
+
+### Migliorative
+
+- Scala `--primary-50…900` del tema **stamp** ri-derivata dall'oklch del logo:
+  hue 262.6 costante e chroma al massimo in-gamut sRGB a ogni lightness (il
+  logo `#0055FF` è già saturo al massimo per la sua L, OKHSL ~1.0), invece della
+  curva presa in prestito da ast40/ft40. `--primary-text`/`--ring` allineati al
+  nuovo 600. Contrasti verificati (AA su tutte le superfici).
+
 ## v0.33.0
 
 ### Evolutive
