@@ -54,6 +54,7 @@ export * from "./components/atoms/tooltip";
 
 export { cn } from "./lib/utils";
 export { useIsMobile } from "./hooks/use-mobile";
+export { useWideScreen } from "./hooks/use-wide-screen";
 
 // I design token (colori, radius) sono in ./index.css — non un modulo JS.
 // L'app consumer li importa direttamente, es. in main.tsx:
